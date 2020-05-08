@@ -1,0 +1,6 @@
+---
+source: tests/health.rs
+expression: response.headers()
+---
+HTTP/1.1 200 OK
+content-type: application/json
