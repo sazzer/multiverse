@@ -40,7 +40,7 @@ impl HealthcheckConfig {
             let healthchecker = builder.clone().build();
 
             config.data(healthchecker);
-            config.route("/health", web::get().to(super::endpoints::check_health));
+            config.service(super::endpoints::check_health);
         })
     }
 }
