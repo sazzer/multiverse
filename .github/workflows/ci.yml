@@ -1,0 +1,69 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build-service:
+    runs-on: ubuntu-latest
+    env:
+      RUST_LOG: "debug"
+      RUST_BACKTRACE: "1"
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          components: rustfmt, clippy
+
+      - name: Cache cargo registry
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/registry
+          key: cargo-registry-${{ runner.os }}-${{ hashFiles('service/Cargo.lock') }}
+      - name: Cache cargo index
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/git
+          key: cargo-index-${{ runner.os }}-${{ hashFiles('service/Cargo.lock') }}
+      - name: Cache cargo build
+        uses: actions/cache@v1
+        with:
+          path: service/target
+          key: cargo-build-target-${{ runner.os }}-${{ hashFiles('service/Cargo.lock') }}
+
+      - name: Cargo Check
+        run: |
+          cd service
+          cargo check
+
+      - name: Cargo Clippy
+        run: |
+          cd service
+          cargo clippy --lib --all-features -- -D clippy::pedantic
+
+      - name: Cargo Test
+        run: |
+          cd service
+          cargo test
+
+  build-service-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Get the git tag
+        run: |
+          echo ::set-env name=GIT_TAG::$(echo ${GITHUB_REF} | sed -e "s/refs\/.*\///g")
+
+      - uses: whoan/docker-build-with-cache-action@v5
+        with:
+          registry: docker.pkg.github.com
+          username: "publisher"
+          password: "${{ secrets.GITHUB_TOKEN }}"
+          image_name: "${{ format('{0}/multiverse-service', github.repository) }}"
+          image_tag: "${{ env.GIT_TAG }}"
+          push_git_tag: true
+          context: service
