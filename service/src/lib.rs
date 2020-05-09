@@ -5,6 +5,7 @@
 
 mod infrastructure;
 mod testing;
+mod users;
 
 pub use infrastructure::server::testing::TestResponse;
 pub use infrastructure::service::Service;

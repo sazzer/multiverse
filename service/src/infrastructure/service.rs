@@ -1,5 +1,8 @@
 use super::server::{testing::TestResponse, Server};
-use crate::infrastructure::{database, healthchecker::configure::HealthcheckConfig};
+use crate::{
+    infrastructure::{database, healthchecker::configure::HealthcheckConfig},
+    users::configure::UsersConfig,
+};
 use std::sync::Arc;
 
 /// The actual service that represents the entire system.
@@ -23,10 +26,12 @@ impl Service {
             .await
             .unwrap();
 
+        let users = UsersConfig::default();
+
         let healthchecks = HealthcheckConfig::default().with_component("db", Arc::new(database));
 
         Service {
-            server: Server::new(vec![healthchecks.configure()]),
+            server: Server::new(vec![healthchecks.configure(), users.configure()]),
         }
     }
 
