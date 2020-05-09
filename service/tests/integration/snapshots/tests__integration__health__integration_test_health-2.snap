@@ -1,5 +1,5 @@
 ---
-source: tests/health.rs
+source: tests/integration/health.rs
 expression: response.to_json().unwrap()
 ---
 {
