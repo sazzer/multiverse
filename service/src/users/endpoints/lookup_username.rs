@@ -1,5 +1,24 @@
-use actix_web::{get, web, Either, HttpResponse, Responder};
+use crate::http::problem::{Problem, ProblemType};
+use actix_web::{get, http::StatusCode, web, Either, HttpResponse, Responder};
 
+#[derive(Debug, thiserror::Error)]
+pub enum LookupUsernameProblemType {
+    #[error("The requested username was unknown")]
+    UnknownUsername,
+}
+
+impl ProblemType for LookupUsernameProblemType {
+    /// Generate a Type value for the `ProblemType` values.
+    ///
+    /// These are used in the `type` field in the RFC-7807 Problem Response
+    fn error_code(&self) -> &'static str {
+        match self {
+            LookupUsernameProblemType::UnknownUsername => {
+                "tag:multiverse,2020:users/problems/unknown_username"
+            }
+        }
+    }
+}
 /// Actix handler to see if a username is already registered or not
 ///
 /// # Parameters
@@ -10,11 +29,19 @@ use actix_web::{get, web, Either, HttpResponse, Responder};
 /// If the username is not registered then an RFC-7807 problem response indicating this.
 #[tracing::instrument(name = "GET /usernames/{username}", skip())]
 #[get("/usernames/{username}")]
-pub async fn lookup_username(path: web::Path<(String,)>) -> Either<impl Responder, String> {
+pub async fn lookup_username(
+    path: web::Path<(String,)>,
+) -> Either<impl Responder, Problem<LookupUsernameProblemType>> {
     tracing::info!("Hello");
 
-    match path.0.as_ref() {
-        "sazzer" => Either::A(HttpResponse::NoContent()),
-        _ => Either::B("Oops".to_owned()),
+    let found = path.0 == "sazzer";
+
+    if found {
+        Either::A(HttpResponse::NoContent())
+    } else {
+        Either::B(Problem::new(
+            LookupUsernameProblemType::UnknownUsername,
+            StatusCode::NOT_FOUND,
+        ))
     }
 }
