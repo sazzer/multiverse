@@ -12,6 +12,8 @@ impl UsersConfig {
     /// # Returns
     /// The callback to provide to the HTTP Server to configure up the Users endpoints
     pub fn configure(&self) -> Arc<dyn Fn(&mut web::ServiceConfig) + Send + Sync> {
-        Arc::new(move |_config| {})
+        Arc::new(move |config| {
+            config.service(super::endpoints::lookup_username);
+        })
     }
 }
