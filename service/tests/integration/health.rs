@@ -3,7 +3,7 @@ use insta::{assert_display_snapshot, assert_json_snapshot};
 use crate::integration::service::TestService;
 
 #[actix_rt::test]
-async fn integration_test_health() {
+async fn health() {
     let service = TestService::new().await;
 
     let response = service

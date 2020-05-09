@@ -34,7 +34,7 @@ pub async fn lookup_username(
 ) -> Either<impl Responder, Problem<LookupUsernameProblemType>> {
     tracing::info!("Hello");
 
-    let found = path.0 == "sazzer";
+    let found = path.0 == "known";
 
     if found {
         Either::A(HttpResponse::NoContent())
