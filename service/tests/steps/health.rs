@@ -1,5 +1,10 @@
 use actix_web::http::StatusCode;
 use cucumber_rust::steps;
+use galvanic_assert::{
+    assert_that,
+    matchers::{variant::*, *},
+};
+use serde_json::json;
 
 steps!(crate::World => {
     when "I check the health of the system" |world, _step| {
@@ -8,9 +13,12 @@ steps!(crate::World => {
 
     then "the system is healthy" |world, _step| {
         let response = world.last_response();
-        assert!(response.is_some());
+        assert_that!(&response.map(|r| r.status), maybe_some(eq(StatusCode::OK)));
+    };
 
-        let response = response.unwrap();
-        assert_eq!(StatusCode::OK, response.status);
+    then regex r"^the component '(.*)' is healthy" (String) |world, component, _step| {
+        let value = world.extract_response_value(format!("$.components.{}.healthy", component));
+
+        assert_that!(&value, maybe_some(eq(json!(true))));
     };
 });
