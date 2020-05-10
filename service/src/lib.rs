@@ -5,6 +5,7 @@
 
 mod http;
 mod infrastructure;
+mod model;
 mod testing;
 mod users;
 
