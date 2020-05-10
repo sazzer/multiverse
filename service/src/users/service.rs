@@ -1,9 +1,11 @@
 use super::repository::UserRepository;
 
+mod lookup_username;
+
 /// Service Layer for dealing with Users
 #[derive(Clone)]
 pub struct UsersService {
-    pub(super) repository: UserRepository,
+    repository: UserRepository,
 }
 
 impl UsersService {
