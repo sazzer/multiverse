@@ -7,6 +7,7 @@ use serde_json::Value;
 use std::ops::Deref;
 
 /// The response from a test request to the server
+#[derive(Clone)]
 pub struct TestResponse {
     /// The status code from the response
     pub status: StatusCode,

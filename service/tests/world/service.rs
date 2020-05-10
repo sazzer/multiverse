@@ -5,19 +5,17 @@ use multiverse_lib::{TestDatabase, TestResponse, Service, Settings};
 /// This will start up the service including a database that it works with, and allow us to send
 /// queries to the database and HTTP requests to the server, including the ability to seed data into
 /// the database.
-pub struct TestService<'d> {
-    _database: TestDatabase<'d>,
+pub struct TestService {
+    _database: TestDatabase,
     service: Service
 }
 
-impl<'d> TestService<'d> {
+impl TestService {
     /// Create a Test Service ready for us to test against
     ///
     /// # Returns
     /// A constructed service ready for us to test against
-    pub async fn new() -> TestService<'d> {
-        let _ = tracing_subscriber::fmt::try_init();
-
+    pub async fn new() -> TestService {
         let database = TestDatabase::default();
         let settings = Settings {
             database_url: database.url.clone()
@@ -39,7 +37,6 @@ impl<'d> TestService<'d> {
     /// # Returns
     /// The HTTP Response
     pub async fn request(&self, request: actix_http::Request) -> TestResponse {
-        tracing::debug!(request = ?request, "Making test request");
         self.service.test_request(request).await
     }
 }

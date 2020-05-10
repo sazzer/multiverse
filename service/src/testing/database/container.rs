@@ -7,21 +7,21 @@ lazy_static! {
 }
 
 /// Wrapper around a Docker container that runs Postgres for our tests
-pub struct TestDatabase<'d> {
+pub struct TestDatabase {
     #[allow(dead_code)]
-    node: Container<'d, Cli, Postgres>,
+    node: Container<'static, Cli, Postgres>,
     pub host: String,
     pub port: u16,
     pub url: String,
 }
 
-impl<'d> Default for TestDatabase<'d> {
+impl Default for TestDatabase {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl<'d> TestDatabase<'d> {
+impl TestDatabase {
     #[must_use]
     pub fn new() -> Self {
         log::info!("Starting Postgres database");
