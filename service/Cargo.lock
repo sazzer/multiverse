@@ -640,9 +640,9 @@ dependencies = [
 
 [[package]]
 name = "cucumber_rust"
-version = "0.6.7"
+version = "0.6.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "21f0cfa902cc2cf50c971f983ca5bf740a6a3a8109799abf7404a597168b2863"
+checksum = "dcfc3cfa79845de10304701e8a5b6d1b4d8b7e89b27e7d3a57f4b762e6a9f6dd"
 dependencies = [
  "clap",
  "gherkin_rust",

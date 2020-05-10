@@ -1,5 +1,6 @@
-mod service;
+mod assertions;
 mod json;
+mod service;
 
 use multiverse_lib::TestResponse;
 use service::TestService;

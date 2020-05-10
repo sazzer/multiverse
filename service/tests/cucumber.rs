@@ -13,7 +13,8 @@ cucumber! {
     features: "./tests/features",
     world: World,
     steps: &[
-        steps::health::steps
+        steps::health::steps,
+        steps::users::steps
     ],
     setup: setup
 }
