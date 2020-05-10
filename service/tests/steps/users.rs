@@ -1,9 +1,12 @@
 use actix_web::http::StatusCode;
 use cucumber_rust::steps;
+use uritemplate::UriTemplate;
 
 steps!(crate::World => {
     when regex r"^I look up the username '(.+)'" (String) |world, username, _step| {
-        let url = format!("/usernames/{}", username);
+        let url = UriTemplate::new("/usernames/{username}")
+            .set("username", username)
+            .build();
         world.request(actix_web::test::TestRequest::get().uri(&url).to_request());
     };
 

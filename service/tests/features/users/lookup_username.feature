@@ -5,8 +5,10 @@ Feature: Users: Look up a username to see if it exists
         Then the username does not exist
 
         Examples:
-            | Username |
-            | unknown  |
+            | Username      |
+            | unknown       |
+            | !@$%^&*()-=_+ |
+            | <>?,./:";[]{} |
 
     Scenario Outline: Look up a known username: <Username>
         # Given a user exists with details:
