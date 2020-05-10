@@ -42,7 +42,7 @@ cucumber_rust = "0.6.7"
 jsonpath = "0.1.1"
 galvanic-assert = "0.8.7"
 uritemplate = "0.1.2"
-uuid = { version = "0.8.1", features = ["v4"] }
+uuid = { version = "0.8.1", features = ["v4", "serde"] }
 
 [[test]]
 name = "cucumber"
