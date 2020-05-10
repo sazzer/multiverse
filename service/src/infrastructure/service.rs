@@ -26,7 +26,7 @@ impl Service {
             .await
             .unwrap();
 
-        let users = UsersConfig::new();
+        let users = UsersConfig::new(database.clone());
 
         let healthchecks = HealthcheckConfig::default().with_component("db", Arc::new(database));
 

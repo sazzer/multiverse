@@ -1,4 +1,5 @@
-use super::UsersService;
+use super::{repository::UserRepository, UsersService};
+use crate::infrastructure::database::Database;
 use actix_web::web;
 use std::sync::Arc;
 
@@ -12,9 +13,10 @@ impl UsersConfig {
     ///
     /// # Returns
     /// The Users Config object
-    pub fn new() -> Self {
+    pub fn new(database: Database) -> Self {
+        let repository = UserRepository::new(database);
         Self {
-            users_service: UsersService::new(),
+            users_service: UsersService::new(repository),
         }
     }
     /// Generate the configuration callback needed for the HTTP Server to actually add the Users endpoints

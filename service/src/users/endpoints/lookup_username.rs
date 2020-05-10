@@ -34,10 +34,9 @@ pub async fn lookup_username(
     users_service: web::Data<UsersService>,
     path: web::Path<(Username,)>,
 ) -> Either<impl Responder, Problem<LookupUsernameProblemType>> {
-    tracing::info!("Hello");
+    let found = users_service.lookup_username(&path.0).await;
 
-    let found = users_service.lookup_username(&path.0);
-
+    tracing::debug!(found = ?found, username = ?path.0, "Looking up username");
     if found {
         Either::A(HttpResponse::NoContent())
     } else {
