@@ -10,4 +10,8 @@ steps!(crate::World => {
     then "the username does not exist" |world, _step| {
         world.assert_problem(StatusCode::NOT_FOUND, "tag:multiverse,2020:users/problems/unknown_username");
     };
+
+    then "the username does exist" |world, _step| {
+        world.assert_status_code(StatusCode::NO_CONTENT);
+    };
 });
