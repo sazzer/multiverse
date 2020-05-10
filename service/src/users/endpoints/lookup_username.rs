@@ -1,4 +1,5 @@
 use crate::http::problem::{Problem, ProblemType};
+use crate::users::{Username, UsersService};
 use actix_web::{get, http::StatusCode, web, Either, HttpResponse, Responder};
 
 #[derive(Debug, thiserror::Error)]
@@ -27,14 +28,15 @@ impl ProblemType for LookupUsernameProblemType {
 /// # Returns
 /// If the username is known then an empty response.
 /// If the username is not registered then an RFC-7807 problem response indicating this.
-#[tracing::instrument(name = "GET /usernames/{username}", skip())]
+#[tracing::instrument(name = "GET /usernames/{username}", skip(users_service))]
 #[get("/usernames/{username}")]
 pub async fn lookup_username(
-    path: web::Path<(String,)>,
+    users_service: web::Data<UsersService>,
+    path: web::Path<(Username,)>,
 ) -> Either<impl Responder, Problem<LookupUsernameProblemType>> {
     tracing::info!("Hello");
 
-    let found = path.0 == "known";
+    let found = users_service.lookup_username(&path.0);
 
     if found {
         Either::A(HttpResponse::NoContent())

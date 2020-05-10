@@ -26,7 +26,7 @@ impl Service {
             .await
             .unwrap();
 
-        let users = UsersConfig::default();
+        let users = UsersConfig::new();
 
         let healthchecks = HealthcheckConfig::default().with_component("db", Arc::new(database));
 
