@@ -44,9 +44,9 @@ impl Server {
 
         HttpServer::new(builder)
             .bind(listen_address)
-            .unwrap()
+            .expect("Failed to bind to address")
             .run()
             .await
-            .unwrap();
+            .expect("Failed to start server");
     }
 }

@@ -24,7 +24,7 @@ impl Service {
         let database = database::Database::new(settings.database_url).await;
         database::migrate::migrate_database(&database)
             .await
-            .unwrap();
+            .expect("Failed to migrate database");
 
         let users = UsersConfig::new(database.clone());
 

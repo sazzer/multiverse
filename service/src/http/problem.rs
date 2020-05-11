@@ -68,7 +68,10 @@ where
         V: Serialize,
     {
         let mut extra = self.extra;
-        extra.insert(key.into(), serde_json::to_value(value).unwrap());
+        extra.insert(
+            key.into(),
+            serde_json::to_value(value).expect("Failed to serialize extra detail"),
+        );
 
         Self { extra, ..self }
     }

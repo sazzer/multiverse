@@ -129,7 +129,7 @@ async fn apply_migrations(
             tracing::debug!(migration = ?migration, "Migration already applied");
         } else {
             tracing::debug!(migration = ?migration, "Applying migration");
-            let contents = Migrations::get(migration).unwrap();
+            let contents = Migrations::get(migration).expect("Failed to load migration");
 
             transaction
                 .batch_execute(std::str::from_utf8(&contents)?)

@@ -24,16 +24,16 @@ impl Database {
         let url = url.into();
         tracing::info!(url = ?url, "Connecting to database");
 
-        let config = tokio_postgres::config::Config::from_str(&url).unwrap();
+        let config = tokio_postgres::config::Config::from_str(&url).expect("Failed to parse URL");
         let manager = PostgresConnectionManager::new(config, tokio_postgres::NoTls);
 
         let pool = Pool::builder()
             .connection_timeout(std::time::Duration::from_secs(10))
             .build(manager)
             .await
-            .unwrap();
+            .expect("Failed to create connection pool");
 
-        pool.get().await.unwrap();
+        pool.get().await.expect("Failed to check out connection");
         Self { pool }
     }
 
