@@ -3,6 +3,8 @@ FROM rustlang/rust:nightly-slim AS builder
 
 WORKDIR /multiverse
 
+RUN apt-get update && apt-get install -y libclang-dev build-essential
+
 # We do a non-code build to get all the dependencies. This allows us to benefit from layer caching
 COPY Cargo.lock Cargo.toml docker/pre-build.sh /multiverse/
 RUN ./pre-build.sh
@@ -29,6 +31,8 @@ ENV PORT=8000
 ENV DATABASE_URL=
 
 COPY --from=builder /multiverse/target/release/multiverse /multiverse/multiverse
+
+RUN /multiverse/multiverse test
 
 CMD ["/multiverse/multiverse"]
 

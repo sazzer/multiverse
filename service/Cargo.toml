@@ -43,6 +43,7 @@ jsonpath = "0.1.1"
 galvanic-assert = "0.8.7"
 uritemplate = "0.1.2"
 uuid = { version = "0.8.1", features = ["v4", "serde"] }
+argonautica = "0.2.0"
 
 [[test]]
 name = "cucumber"

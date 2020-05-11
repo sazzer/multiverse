@@ -44,6 +44,13 @@ async fn main() {
 
     tracing_subscriber::fmt::init();
 
+    let args: Vec<String> = std::env::args().collect();
+
+    if args.get(1).cloned() == Some("test".to_owned()) {
+        tracing::info!("Testing application startup");
+        return;
+    }
+
     let settings = Settings::default();
 
     let service = multiverse_lib::Service::new(settings.build()).await;
