@@ -7,5 +7,6 @@ CREATE TABLE users(
     username TEXT NOT NULL UNIQUE,
     display_name TEXT NOT NULL,
     email_address TEXT NOT NULL,
-    avatar_url TEXT NULL
+    avatar_url TEXT NULL,
+    password TEXT NOT NULL
 );

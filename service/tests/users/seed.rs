@@ -23,6 +23,8 @@ pub struct SeedUser {
     pub email_address: String,
     /// The URL of the users avatar
     pub avatar_url: Option<String>,
+    /// The users hashed password
+    pub password: String,
 }
 
 impl Default for SeedUser {
@@ -39,6 +41,7 @@ impl Default for SeedUser {
             display_name: format!("Display Name {}", Uuid::new_v4()),
             email_address: format!("{}@example.com", Uuid::new_v4()),
             avatar_url: None,
+            password: "".to_owned(),
         }
     }
 }
@@ -49,8 +52,8 @@ impl Seedable for SeedUser {
     /// # Returns
     /// The SQL
     fn sql(&self) -> &str {
-        "INSERT INTO users(user_id, version, created, updated, username, display_name, email_address, avatar_url)
-        VALUES($1, $2, $3, $4, $5, $6, $7, $8)"
+        "INSERT INTO users(user_id, version, created, updated, username, display_name, email_address, avatar_url, password)
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)"
     }
 
     /// Generate the binds needed to insert the seeded record into the database
@@ -67,6 +70,7 @@ impl Seedable for SeedUser {
             &self.display_name,
             &self.email_address,
             &self.avatar_url,
+            &self.password,
         ]
     }
 }

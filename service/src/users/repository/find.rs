@@ -30,6 +30,7 @@ impl UserRepository {
                 display_name: user.try_get("display_name").unwrap(),
                 email_address: user.try_get("email_address").unwrap(),
                 avatar_url: user.try_get("avatar_url").unwrap(),
+                password: user.try_get("password").unwrap(),
             },
         })
     }

@@ -1,4 +1,4 @@
-use super::{EmailAddress, UserID, Username};
+use super::{EmailAddress, Password, UserID, Username};
 use crate::model::Model;
 
 /// Data to represent a user record
@@ -12,6 +12,8 @@ pub struct UserData {
     pub email_address: EmailAddress,
     /// The Avatar to use for the User
     pub avatar_url: Option<String>,
+    /// The hashed password for the User
+    pub password: Password,
 }
 
 /// Model representation of a USer
