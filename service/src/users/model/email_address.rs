@@ -6,22 +6,6 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, FromSql)]
 pub struct EmailAddress(String);
 
-impl EmailAddress {
-    /// Construct a new EmailAddress from the given input value
-    ///
-    /// # Parameters
-    /// - `email` - The Email address to wrap
-    ///
-    /// # Returns
-    /// The wrapper EmailAddress
-    pub fn new<S>(email: S) -> Self
-    where
-        S: Into<String>,
-    {
-        Self(email.into().trim().to_owned())
-    }
-}
-
 impl ToSql for EmailAddress {
     fn to_sql(
         &self,

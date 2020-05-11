@@ -7,22 +7,6 @@ use uuid::Uuid;
 #[derive(Debug, PartialEq, Default, Clone, Serialize, Deserialize, FromSql)]
 pub struct UserID(Uuid);
 
-impl UserID {
-    /// Construct a new UserID from the given input value
-    ///
-    /// # Parameters
-    /// - `user_id` - The ID to wrap
-    ///
-    /// # Returns
-    /// The wrapper UserID
-    pub fn new<S>(user_id: S) -> Self
-    where
-        S: Into<Uuid>,
-    {
-        Self(user_id.into())
-    }
-}
-
 impl ToSql for UserID {
     fn to_sql(
         &self,
