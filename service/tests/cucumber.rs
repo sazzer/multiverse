@@ -1,7 +1,8 @@
 use cucumber_rust::cucumber;
 
-mod steps;
-mod world;
+mod health;
+mod users;
+pub mod world;
 
 pub use world::World;
 
@@ -13,8 +14,8 @@ cucumber! {
     features: "./tests/features",
     world: World,
     steps: &[
-        steps::health::steps,
-        steps::users::steps
+        health::steps,
+        users::steps
     ],
     setup: setup
 }

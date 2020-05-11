@@ -1,5 +1,6 @@
 mod assertions;
 mod json;
+pub mod seed;
 mod service;
 
 use multiverse_lib::TestResponse;
@@ -21,11 +22,12 @@ impl Default for World {
     fn default() -> Self {
         let mut rt = actix_rt::Runtime::new().unwrap();
 
-        let service = rt.block_on(async {
-            TestService::new().await
-        });
+        let service = rt.block_on(async { TestService::new().await });
 
-        Self { service: Arc::new(service), last_response: None }
+        Self {
+            service: Arc::new(service),
+            last_response: None,
+        }
     }
 }
 
@@ -42,11 +44,7 @@ impl World {
 
         let mut rt = actix_rt::Runtime::new().unwrap();
         let service = self.service.clone();
-        let response = rt.block_on(async move {
-            service
-                .request(request)
-                .await
-        });
+        let response = rt.block_on(async move { service.request(request).await });
 
         tracing::debug!(response = ?response.status, "Received response");
         self.last_response = Some(response);

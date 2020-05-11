@@ -1,8 +1,17 @@
+use super::seed::SeedUser;
 use actix_web::http::StatusCode;
 use cucumber_rust::steps;
+use std::sync::Arc;
 use uritemplate::UriTemplate;
 
 steps!(crate::World => {
+    given "a user exists with details:" |world, _step| {
+        let mut user = SeedUser::default();
+        user.username = "known".to_owned();
+
+        world.seed(Arc::new(user));
+    };
+
     when regex r"^I look up the username '(.+)'" (String) |world, username, _step| {
         let url = UriTemplate::new("/usernames/{username}")
             .set("username", username)
