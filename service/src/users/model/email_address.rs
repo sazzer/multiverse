@@ -2,27 +2,27 @@ use bytes::BytesMut;
 use postgres_types::{accepts, to_sql_checked, FromSql, IsNull, ToSql, Type};
 use serde::{Deserialize, Serialize};
 
-/// Typesafe representation of the Username of some user
+/// Typesafe representation of the Email Address of some user
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, FromSql)]
-pub struct Username(String);
+pub struct EmailAddress(String);
 
-impl Username {
-    /// Construct a new Username from the given input value
+impl EmailAddress {
+    /// Construct a new EmailAddress from the given input value
     ///
     /// # Parameters
-    /// - `username` - The username to wrap
+    /// - `email` - The Email address to wrap
     ///
     /// # Returns
-    /// The wrapper Username
-    pub fn new<S>(username: S) -> Self
+    /// The wrapper EmailAddress
+    pub fn new<S>(email: S) -> Self
     where
         S: Into<String>,
     {
-        Self(username.into().trim().to_owned())
+        Self(email.into().trim().to_owned())
     }
 }
 
-impl ToSql for Username {
+impl ToSql for EmailAddress {
     fn to_sql(
         &self,
         t: &Type,

@@ -1,4 +1,4 @@
-use super::{UserID, Username};
+use super::{EmailAddress, UserID, Username};
 use crate::model::Model;
 
 /// Data to represent a user record
@@ -8,6 +8,8 @@ pub struct UserData {
     pub username: Username,
     /// The Display Name of the User
     pub display_name: String,
+    /// The Email address of the User
+    pub email_address: EmailAddress,
     /// The Avatar to use for the User
     pub avatar_url: Option<String>,
 }
