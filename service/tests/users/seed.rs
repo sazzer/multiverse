@@ -38,7 +38,7 @@ impl Default for SeedUser {
             username: format!("username_{}", Uuid::new_v4()),
             display_name: format!("Display Name {}", Uuid::new_v4()),
             email_address: format!("{}@example.com", Uuid::new_v4()),
-            avatar_url: Some(format!("http://example.com/{}.png", Uuid::new_v4())),
+            avatar_url: None,
         }
     }
 }

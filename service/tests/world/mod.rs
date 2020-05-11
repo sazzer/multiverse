@@ -2,10 +2,12 @@ mod assertions;
 mod json;
 pub mod seed;
 mod service;
+mod table;
 
 use multiverse_lib::TestResponse;
 use service::TestService;
 use std::sync::Arc;
+pub use table::*;
 
 pub struct World {
     service: Arc<TestService>,

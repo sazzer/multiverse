@@ -1,13 +1,19 @@
 use super::seed::SeedUser;
+use crate::world::VerticalTable;
 use actix_web::http::StatusCode;
 use cucumber_rust::steps;
 use std::sync::Arc;
 use uritemplate::UriTemplate;
 
 steps!(crate::World => {
-    given "a user exists with details:" |world, _step| {
+    given "a user exists with details:" |world, step| {
+        let table = VerticalTable::from(step);
+
         let mut user = SeedUser::default();
-        user.username = "known".to_owned();
+        table.if_present("Username", |value| user.username = value.clone());
+        table.if_present("Display Name", |value| user.display_name = value.clone());
+        table.if_present("Email Address", |value| user.email_address = value.clone());
+        table.if_present("Avatar URL", |value| user.avatar_url = Some(value.clone()));
 
         world.seed(Arc::new(user));
     };
