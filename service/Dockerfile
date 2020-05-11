@@ -3,7 +3,7 @@ FROM rustlang/rust:nightly-slim AS builder
 
 WORKDIR /multiverse
 
-RUN apt-get update && apt-get install -y libclang-dev build-essential
+RUN apt-get update && apt-get install -y libclang-dev build-essential clang
 
 # We do a non-code build to get all the dependencies. This allows us to benefit from layer caching
 COPY Cargo.lock Cargo.toml docker/pre-build.sh /multiverse/
