@@ -3,8 +3,10 @@ use serde::Serialize;
 use serde_json::Value;
 use std::collections::HashMap;
 use std::fmt::{Debug, Display, Formatter};
+pub use validation::*;
 
 mod response;
+mod validation;
 
 /// Trait to represent the type of a problem
 pub trait ProblemType: Display + Debug {

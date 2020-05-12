@@ -1,10 +1,41 @@
 use bytes::BytesMut;
 use postgres_types::{accepts, to_sql_checked, FromSql, IsNull, ToSql, Type};
 use serde::{Deserialize, Serialize};
+use std::str::FromStr;
 
 /// Typesafe representation of the Username of some user
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, FromSql)]
 pub struct Username(String);
+
+/// Errors that can occur when parsing a username
+#[derive(Debug, PartialEq, thiserror::Error)]
+pub enum UsernameParseError {
+    /// The username was blank
+    #[error("The username was blank")]
+    Blank,
+}
+
+impl FromStr for Username {
+    type Err = UsernameParseError;
+
+    /// Parse a string into a Username object.
+    ///
+    /// # Parameters
+    /// - `s` - The input string to parse
+    ///
+    /// # Returns
+    /// The username object
+    ///
+    /// # Errors
+    /// - `UsernameParseError::Blank` - If the input string was blank - i.e. it was entirely whitespace
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        if s.trim().is_empty() {
+            Err(UsernameParseError::Blank)
+        } else {
+            Ok(Username(s.to_owned()))
+        }
+    }
+}
 
 impl ToSql for Username {
     fn to_sql(
