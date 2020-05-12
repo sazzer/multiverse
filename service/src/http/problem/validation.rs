@@ -10,15 +10,32 @@ pub trait ValidationProblemType: Display + Debug {
     fn error_code(&self) -> &'static str;
 }
 
+#[derive(Debug, thiserror::Error)]
+pub enum GenericUserValidationProblem {
+    /// The required field was missing
+    #[error("The required field was missing")]
+    Missing,
+}
+
+impl ValidationProblemType for GenericUserValidationProblem {
+    /// Generate a Type value for the `ValidationProblemType` values.
+    fn error_code(&self) -> &'static str {
+        match self {
+            GenericUserValidationProblem::Missing => {
+                "tag:multiverse,2020:problems/validation_error/missing"
+            }
+        }
+    }
+}
+
 /// Builder to help build an RFC-7807 Problem response representing a Validation error
 #[derive(Debug)]
-pub struct ValidationProblem<P, V>
+pub struct ValidationProblem<P>
 where
     P: ProblemType,
-    V: ValidationProblemType,
 {
     problem_type: P,
-    fields: HashMap<String, V>,
+    fields: HashMap<String, Box<dyn ValidationProblemType>>,
 }
 
 #[derive(Serialize)]
@@ -29,10 +46,9 @@ pub struct ValidationProblemModel {
     title: String,
 }
 
-impl<P, V> ValidationProblem<P, V>
+impl<P> ValidationProblem<P>
 where
     P: ProblemType,
-    V: ValidationProblemType,
 {
     /// Construct a Validation Problem
     ///
@@ -56,11 +72,12 @@ where
     ///
     /// # Returns
     /// Self, for chaining if needed
-    pub fn with_field_error<S>(&mut self, field: S, error: V) -> &mut Self
+    pub fn with_field_error<S, V>(&mut self, field: S, error: V) -> &mut Self
     where
         S: Into<String>,
+        V: ValidationProblemType + 'static,
     {
-        self.fields.insert(field.into(), error);
+        self.fields.insert(field.into(), Box::new(error));
         self
     }
 

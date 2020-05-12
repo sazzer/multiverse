@@ -66,19 +66,19 @@ pub async fn register_user(
             let mut problem = ValidationProblem::new(RegisterUserProblemType::Validation);
 
             if let Err(err) = username.map_err(|e| match e {
-                UsernameParseError::Blank => RegisterUserValidationProblem::Missing,
+                UsernameParseError::Blank => GenericUserValidationProblem::Missing,
             }) {
                 problem.with_field_error("username", err);
             }
 
             if let Err(err) = email_address.map_err(|e| match e {
-                EmailAddressParseError::Blank => RegisterUserValidationProblem::Missing,
+                EmailAddressParseError::Blank => GenericUserValidationProblem::Missing,
             }) {
                 problem.with_field_error("email_address", err);
             }
 
             if password.is_none() {
-                problem.with_field_error("password", RegisterUserValidationProblem::Missing);
+                problem.with_field_error("password", GenericUserValidationProblem::Missing);
             }
 
             Err(problem.build())
@@ -101,24 +101,6 @@ impl ProblemType for RegisterUserProblemType {
     fn error_code(&self) -> &'static str {
         match self {
             RegisterUserProblemType::Validation => "tag:multiverse,2020:problems/validation_error",
-        }
-    }
-}
-
-#[derive(Debug, thiserror::Error)]
-pub enum RegisterUserValidationProblem {
-    /// The required field was missing
-    #[error("The required field was missing")]
-    Missing,
-}
-
-impl ValidationProblemType for RegisterUserValidationProblem {
-    /// Generate a Type value for the `ValidationProblemType` values.
-    fn error_code(&self) -> &'static str {
-        match self {
-            RegisterUserValidationProblem::Missing => {
-                "tag:multiverse,2020:problems/validation_error/missing"
-            }
         }
     }
 }
