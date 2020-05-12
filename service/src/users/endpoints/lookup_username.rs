@@ -16,7 +16,7 @@ use actix_web::{get, http::StatusCode, web, Either, HttpResponse, Responder};
 pub async fn lookup_username(
     users_service: web::Data<UsersService>,
     path: web::Path<(Username,)>,
-) -> Either<impl Responder, Problem<LookupUsernameProblemType>> {
+) -> Either<impl Responder, Problem> {
     let found = users_service.lookup_username(&path.0).await;
 
     tracing::debug!(found = ?found, username = ?path.0, "Looking up username");

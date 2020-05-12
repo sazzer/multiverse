@@ -5,39 +5,34 @@ use std::collections::HashMap;
 use std::fmt::{Debug, Display};
 
 /// Trait to represent the type of validation error
-pub trait ValidationProblemType: Display + Debug {
-    /// Generate a Type value for the `ValidationProblemType` values.
+pub trait ValidationType: Display + Debug {
+    /// Generate a Type value for the `ValidationType` values.
     fn error_code(&self) -> &'static str;
 }
 
 #[derive(Debug, thiserror::Error)]
-pub enum GenericUserValidationProblem {
+pub enum GenericValidation {
     /// The required field was missing
     #[error("The required field was missing")]
     Missing,
 }
 
-impl ValidationProblemType for GenericUserValidationProblem {
-    /// Generate a Type value for the `ValidationProblemType` values.
+impl ValidationType for GenericValidation {
+    /// Generate a Type value for the `ValidationType` values.
     fn error_code(&self) -> &'static str {
         match self {
-            GenericUserValidationProblem::Missing => {
-                "tag:multiverse,2020:problems/validation_error/missing"
-            }
+            GenericValidation::Missing => "tag:multiverse,2020:problems/validation_error/missing",
         }
     }
 }
 
 /// Builder to help build an RFC-7807 Problem response representing a Validation error
 #[derive(Debug)]
-pub struct ValidationProblem<P>
-where
-    P: ProblemType,
-{
-    problem_type: P,
-    fields: HashMap<String, Box<dyn ValidationProblemType>>,
+pub struct ValidationProblem {
+    fields: HashMap<String, Box<dyn ValidationType>>,
 }
 
+/// API Model to represent any Validation Problem details
 #[derive(Serialize)]
 pub struct ValidationProblemModel {
     /// The Type field in the response
@@ -46,10 +41,7 @@ pub struct ValidationProblemModel {
     title: String,
 }
 
-impl<P> ValidationProblem<P>
-where
-    P: ProblemType,
-{
+impl ValidationProblem {
     /// Construct a Validation Problem
     ///
     /// # Parameters
@@ -57,9 +49,8 @@ where
     ///
     /// # Returns
     /// The Validation Problem used to build the actual RFC-7807 Problem response
-    pub fn new(problem_type: P) -> Self {
+    pub fn new() -> Self {
         ValidationProblem {
-            problem_type,
             fields: HashMap::new(),
         }
     }
@@ -75,7 +66,7 @@ where
     pub fn with_field_error<S, V>(&mut self, field: S, error: V) -> &mut Self
     where
         S: Into<String>,
-        V: ValidationProblemType + 'static,
+        V: ValidationType + 'static,
     {
         self.fields.insert(field.into(), Box::new(error));
         self
@@ -85,7 +76,7 @@ where
     ///
     /// # Returns
     /// The RFC-7807 Problem to send to the client
-    pub fn build(self) -> Problem<P> {
+    pub fn build(self) -> Problem {
         let fields: HashMap<String, ValidationProblemModel> = self
             .fields
             .into_iter()
@@ -98,7 +89,25 @@ where
             })
             .collect();
 
-        Problem::new(self.problem_type, StatusCode::UNPROCESSABLE_ENTITY)
+        Problem::new(ValidationProblemType {}, StatusCode::UNPROCESSABLE_ENTITY)
             .with_extra("fields", fields)
+    }
+}
+
+#[derive(Debug)]
+struct ValidationProblemType {}
+
+impl Display for ValidationProblemType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "A validation error occurred")
+    }
+}
+
+impl ProblemType for ValidationProblemType {
+    /// Generate a Type value for the `ProblemType` values.
+    ///
+    /// These are used in the `type` field in the RFC-7807 Problem Response
+    fn error_code(&self) -> &'static str {
+        "tag:multiverse,2020:problems/validation_error"
     }
 }

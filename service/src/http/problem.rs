@@ -18,22 +18,22 @@ pub trait ProblemType: Display + Debug {
 
 /// Representation of a Problem expressed in terms of RFC-7807
 #[derive(Debug)]
-pub struct Problem<T> {
-    pub error: T,
+pub struct Problem {
+    pub error: Box<dyn ProblemType>,
     pub status: StatusCode,
     pub detail: Option<String>,
     pub instance: Option<String>,
     pub extra: HashMap<String, Value>,
 }
 
-impl<T> Problem<T>
-where
-    T: ProblemType,
-{
+impl Problem {
     /// Create a new Problem instance
-    pub fn new(error: T, status: StatusCode) -> Self {
+    pub fn new<T>(error: T, status: StatusCode) -> Self
+    where
+        T: ProblemType + 'static,
+    {
         Self {
-            error,
+            error: Box::new(error),
             status,
             detail: None,
             instance: None,
@@ -79,10 +79,7 @@ where
     }
 }
 
-impl<T> Display for Problem<T>
-where
-    T: ProblemType,
-{
+impl Display for Problem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.error)
     }
@@ -109,7 +106,7 @@ mod tests {
         let problem = Problem::new(ProblemDetails::SomeProblem, StatusCode::BAD_REQUEST);
 
         assert_eq!(StatusCode::BAD_REQUEST, problem.status);
-        assert_eq!(ProblemDetails::SomeProblem, problem.error);
+        // TODO: assert_matches!(*problem.error, ProblemDetails::SomeProblem);
         assert_eq!(None, problem.detail);
         assert_eq!(None, problem.instance);
         assert_eq!(0, problem.extra.len());
@@ -124,7 +121,7 @@ mod tests {
             .with_extra("other_key", 42);
 
         assert_eq!(StatusCode::BAD_REQUEST, problem.status);
-        assert_eq!(ProblemDetails::SomeProblem, problem.error);
+        // TODO: assert_matches!(*problem.error, ProblemDetails::SomeProblem);
         assert_eq!(Some("Some Detail".to_owned()), problem.detail);
         assert_eq!(Some("Some Instance".to_owned()), problem.instance);
         assert_eq!(2, problem.extra.len());

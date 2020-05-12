@@ -1,4 +1,4 @@
-use super::{Problem, ProblemType};
+use super::Problem;
 use actix_web::{
     http::{header, StatusCode},
     Error, HttpRequest, HttpResponse, Responder, ResponseError,
@@ -28,11 +28,8 @@ struct ProblemModel {
     extra: HashMap<String, Value>,
 }
 
-impl<T> From<&Problem<T>> for HttpResponse
-where
-    T: ProblemType,
-{
-    fn from(problem: &Problem<T>) -> HttpResponse {
+impl From<&Problem> for HttpResponse {
+    fn from(problem: &Problem) -> HttpResponse {
         let problem_details = ProblemModel {
             r#type: problem.error.error_code(),
             title: format!("{}", problem.error),
@@ -48,19 +45,13 @@ where
     }
 }
 
-impl<T> From<Problem<T>> for HttpResponse
-where
-    T: ProblemType,
-{
-    fn from(problem: Problem<T>) -> HttpResponse {
+impl From<Problem> for HttpResponse {
+    fn from(problem: Problem) -> HttpResponse {
         HttpResponse::from(&problem)
     }
 }
 
-impl<T> Responder for Problem<T>
-where
-    T: ProblemType,
-{
+impl Responder for Problem {
     type Error = Error;
     type Future = Ready<Result<HttpResponse, Error>>;
 
@@ -70,10 +61,7 @@ where
     }
 }
 
-impl<T> ResponseError for Problem<T>
-where
-    T: ProblemType,
-{
+impl ResponseError for Problem {
     fn status_code(&self) -> StatusCode {
         self.status
     }
@@ -85,6 +73,7 @@ where
 
 #[cfg(test)]
 mod tests {
+    use super::super::ProblemType;
     use super::*;
 
     #[derive(thiserror::Error, Debug, PartialEq)]

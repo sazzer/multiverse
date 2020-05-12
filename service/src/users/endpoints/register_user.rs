@@ -16,7 +16,7 @@ use serde_json::Value;
 pub async fn register_user(
     _users_service: web::Data<UsersService>,
     body: web::Json<Value>,
-) -> Result<impl Responder, Problem<RegisterUserProblemType>> {
+) -> Result<impl Responder, Problem> {
     let username = body
         .get("username")
         .and_then(|v| v.as_str())
@@ -63,44 +63,25 @@ pub async fn register_user(
         _ => {
             tracing::warn!("Validation error registering user");
 
-            let mut problem = ValidationProblem::new(RegisterUserProblemType::Validation);
+            let mut problem = ValidationProblem::new();
 
             if let Err(err) = username.map_err(|e| match e {
-                UsernameParseError::Blank => GenericUserValidationProblem::Missing,
+                UsernameParseError::Blank => GenericValidation::Missing,
             }) {
                 problem.with_field_error("username", err);
             }
 
             if let Err(err) = email_address.map_err(|e| match e {
-                EmailAddressParseError::Blank => GenericUserValidationProblem::Missing,
+                EmailAddressParseError::Blank => GenericValidation::Missing,
             }) {
                 problem.with_field_error("email_address", err);
             }
 
             if password.is_none() {
-                problem.with_field_error("password", GenericUserValidationProblem::Missing);
+                problem.with_field_error("password", GenericValidation::Missing);
             }
 
             Err(problem.build())
-        }
-    }
-}
-
-/// Problem Types that can happen when registering a user
-#[derive(Debug, thiserror::Error)]
-pub enum RegisterUserProblemType {
-    /// The provided user details were invalid
-    #[error("The provided details were invalid")]
-    Validation,
-}
-
-impl ProblemType for RegisterUserProblemType {
-    /// Generate a Type value for the `ProblemType` values.
-    ///
-    /// These are used in the `type` field in the RFC-7807 Problem Response
-    fn error_code(&self) -> &'static str {
-        match self {
-            RegisterUserProblemType::Validation => "tag:multiverse,2020:problems/validation_error",
         }
     }
 }
