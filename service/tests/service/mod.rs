@@ -1,9 +1,8 @@
-use super::seed::Seedable;
 use bb8::Pool;
 use bb8_postgres::PostgresConnectionManager;
 use multiverse_lib::{Service, Settings, TestDatabase, TestResponse};
 use std::str::FromStr;
-use std::sync::Arc;
+use tokio_postgres::types::ToSql;
 
 /// Wrapper around the service that we are testing, allowing us to interact with it as needed.
 ///
@@ -19,12 +18,29 @@ pub struct TestService {
     service: Service,
 }
 
+/// Trait that represents a type that can be seeded into the database
+pub trait Seedable: std::fmt::Debug + Send + Sync {
+    /// Generate the SQL needed to insert the seeded record into the database
+    ///
+    /// # Returns
+    /// The SQL
+    fn sql(&self) -> &str;
+
+    /// Generate the binds needed to insert the seeded record into the database
+    ///
+    /// # Returns
+    /// The binds
+    fn binds(&self) -> Vec<&(dyn ToSql + Sync)>;
+}
+
 impl TestService {
     /// Create a Test Service ready for us to test against
     ///
     /// # Returns
     /// A constructed service ready for us to test against
     pub async fn new() -> TestService {
+        let _ = tracing_subscriber::fmt::try_init();
+
         // Build the database container
         let database = TestDatabase::default();
         let database_url = database.url.clone();
@@ -67,8 +83,8 @@ impl TestService {
     ///
     /// # Parameters
     /// - `data` - The data to seed into the database
-    pub async fn seed(&self, data: Arc<dyn Seedable>) {
-        tracing::debug!("Inserting seed data into database");
+    pub async fn seed<D>(&self, data: D) where D: Seedable {
+        tracing::debug!(data = ?data, "Inserting seed data into database");
 
         let connection = self.pool.get().await.unwrap();
         let sql = data.sql();

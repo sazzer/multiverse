@@ -1,4 +1,4 @@
-use crate::world::seed::Seedable;
+use crate::service::Seedable;
 use chrono::{DateTime, Utc};
 use tokio_postgres::types::ToSql;
 use uuid::Uuid;
