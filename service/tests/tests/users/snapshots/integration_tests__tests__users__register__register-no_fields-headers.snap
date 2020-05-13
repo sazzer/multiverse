@@ -1,0 +1,5 @@
+---
+source: tests/tests/users/register.rs
+expression: response.headers()
+---
+"HTTP/1.1 422 Unprocessable Entity\ncontent-type: application/problem+json"

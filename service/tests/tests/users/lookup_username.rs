@@ -23,7 +23,7 @@ async fn integration_test_lookup_known_username(username: &str) {
         .build();
     let response = service.request(actix_web::test::TestRequest::get().uri(&url).to_request()).await;
 
-    assert_debug_snapshot!(response.headers(), @r###""HTTP/1.1 204 No Content\n""###);
+    assert_debug_snapshot!(format!("lookup_known_username-{}-headers", username), response.headers());
 }
 
 
@@ -41,13 +41,7 @@ async fn integration_test_lookup_unknown_username(username: &str) {
         .build();
     let response = service.request(actix_web::test::TestRequest::get().uri(&url).to_request()).await;
 
-    assert_debug_snapshot!(response.headers(), @r###""HTTP/1.1 404 Not Found\ncontent-type: application/problem+json""###);
-    assert_json_snapshot!(response.to_json().unwrap(), @r###"
-    {
-      "status": 404,
-      "title": "The requested username was unknown",
-      "type": "tag:multiverse,2020:users/problems/unknown_username"
-    }
-    "###);
+    assert_debug_snapshot!(format!("lookup_unknown_username-{}-headers", username), response.headers());
+    assert_json_snapshot!(format!("lookup_unknown_username-{}-body", username), response.to_json().unwrap());
 
 }

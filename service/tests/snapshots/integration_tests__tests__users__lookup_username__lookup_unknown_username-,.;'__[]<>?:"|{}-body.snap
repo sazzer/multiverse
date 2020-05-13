@@ -1,0 +1,9 @@
+---
+source: tests/integration_tests.rs
+expression: response.to_json().unwrap()
+---
+{
+  "status": 404,
+  "title": "The requested username was unknown",
+  "type": "tag:multiverse,2020:users/problems/unknown_username"
+}
