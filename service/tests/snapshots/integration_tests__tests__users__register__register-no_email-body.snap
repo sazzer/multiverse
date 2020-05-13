@@ -1,0 +1,15 @@
+---
+source: tests/integration_tests.rs
+expression: response.to_json().unwrap()
+---
+{
+  "fields": {
+    "email_address": {
+      "title": "The required field was missing",
+      "type": "tag:multiverse,2020:problems/validation_error/missing"
+    }
+  },
+  "status": 422,
+  "title": "A validation error occurred",
+  "type": "tag:multiverse,2020:problems/validation_error"
+}
