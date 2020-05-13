@@ -84,7 +84,7 @@ impl TestService {
     /// # Parameters
     /// - `data` - The data to seed into the database
     pub async fn seed<D>(&self, data: D) where D: Seedable {
-        tracing::debug!("Inserting seed data into database");
+        tracing::debug!(data = ?data, "Inserting seed data into database");
 
         let connection = self.pool.get().await.unwrap();
         let sql = data.sql();

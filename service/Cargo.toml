@@ -43,4 +43,5 @@ uuid = { version = "0.8.1", features = ["v4", "serde"] }
 [dev-dependencies]
 galvanic-assert = "0.8.7"
 insta = "0.16.0"
+rstest = "0.6.3"
 uritemplate = "0.1.2"
