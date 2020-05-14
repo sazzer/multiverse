@@ -1,4 +1,4 @@
-pub mod configure;
+pub(crate) mod configure;
 mod endpoints;
 mod model;
 mod repository;

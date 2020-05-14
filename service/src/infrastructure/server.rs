@@ -1,4 +1,4 @@
-pub mod testing;
+pub(crate) mod testing;
 
 use actix_cors::Cors;
 use actix_web::{middleware::Logger, web, App, HttpServer};

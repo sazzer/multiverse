@@ -1,5 +1,5 @@
-pub mod check_health;
-pub mod configure;
+pub(crate) mod check_health;
+pub(crate) mod configure;
 mod endpoints;
 mod model;
 mod service;

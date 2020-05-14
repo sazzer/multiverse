@@ -1,5 +1,5 @@
 mod health;
-pub mod migrate;
+pub(crate) mod migrate;
 mod postgres;
 
 pub use postgres::*;

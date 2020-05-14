@@ -1,1 +1,1 @@
-pub mod problem;
+pub(crate) mod problem;
