@@ -1,3 +1,5 @@
+mod register_user;
+
 use crate::users::UsersService;
 
 /// Service for authenticating a user

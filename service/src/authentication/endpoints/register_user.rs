@@ -1,20 +1,20 @@
 use crate::http::problem::*;
-use crate::users::*;
+use crate::{authentication::AuthenticationService, users::*};
 use actix_web::{post, web, HttpResponse, Responder};
 use serde_json::Value;
 
 /// Actix handler to register a new user
 ///
 /// # Parameters
-/// - `user_service` - The user service to use to register the new user
+/// - `authentication_service` - The authentication service to use to register the new user
 /// - `body` - The incoming JSON body to work with
 ///
 /// # Returns
 /// TODO: Unknown
-#[tracing::instrument(name = "POST /register", skip(_users_service, body))]
+#[tracing::instrument(name = "POST /register", skip(authentication_service, body))]
 #[post("/register")]
 pub async fn register_user(
-    _users_service: web::Data<UsersService>,
+    authentication_service: web::Data<AuthenticationService>,
     body: web::Json<Value>,
 ) -> Result<impl Responder, Problem> {
     let username = body
@@ -57,6 +57,7 @@ pub async fn register_user(
                 password: password.clone(),
             };
             tracing::info!(user = ?user, "Registering user");
+            authentication_service.register_user(user).await.unwrap();
 
             Ok(HttpResponse::NoContent())
         }
