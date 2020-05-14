@@ -1,0 +1,47 @@
+use super::UserRepository;
+use crate::users::{UserModel};
+
+/// Errors that can occur when saving a user record
+#[derive(Debug, thiserror::Error)]
+pub enum SaveUserError {
+    /// An unknown error occurred
+    #[error("An unknown error occurred")]
+    UnknownError,
+}
+
+impl UserRepository {
+    /// Insert the given user model into the database as a new record
+    ///
+    /// # Parameters
+    /// - `user` - The details to insert into the database
+    ///
+    /// # Returns
+    /// The newly created user
+    ///
+    /// # Errors
+    /// Any errors that occurred creating the new user
+    pub async fn create(&self, user: UserModel) -> Result<UserModel, SaveUserError> {
+        let connection = self
+            .database
+            .checkout()
+            .await
+            .expect("Failed to get database connection");
+        let new_user = connection.query_one("INSERT INTO users(user_id, version, created, updated, username, display_name, email_address, avatar_url, password) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *", 
+            &[
+                &user.identity.id,
+                &user.identity.version,
+                &user.identity.created,
+                &user.identity.updated,
+                &user.data.username,
+                &user.data.display_name,
+                &user.data.email_address,
+                &user.data.avatar_url,
+                &user.data.password,    
+            ])
+            .await
+            .map(|row| self.parse_row(&row))
+            .expect("Failed to insert user record");
+
+        Ok(new_user)
+    }
+}

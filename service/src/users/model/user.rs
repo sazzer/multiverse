@@ -16,5 +16,5 @@ pub struct UserData {
     pub password: Password,
 }
 
-/// Model representation of a USer
+/// Model representation of a User
 pub type UserModel = Model<UserID, UserData>;

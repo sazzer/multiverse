@@ -1,6 +1,5 @@
 use super::UserRepository;
-use crate::model::Identity;
-use crate::users::model::*;
+use crate::users::{UserModel, Username};
 
 impl UserRepository {
     /// Look up the user record that has the provided Username
@@ -22,20 +21,6 @@ impl UserRepository {
             .await
             .expect("Failed to query for user by username");
 
-        users.get(0).map(|user| UserModel {
-            identity: Identity {
-                id: user.get("user_id"),
-                version: user.get("version"),
-                created: user.get("created"),
-                updated: user.get("updated"),
-            },
-            data: UserData {
-                username: user.get("username"),
-                display_name: user.get("display_name"),
-                email_address: user.get("email_address"),
-                avatar_url: user.get("avatar_url"),
-                password: user.get("password"),
-            },
-        })
+        users.get(0).map(|user| self.parse_row(user))
     }
 }

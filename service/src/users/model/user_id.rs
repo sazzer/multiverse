@@ -4,8 +4,14 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 /// The ID of a User
-#[derive(Debug, PartialEq, Default, Clone, Serialize, Deserialize, FromSql)]
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize, FromSql)]
 pub struct UserID(Uuid);
+
+impl Default for UserID {
+    fn default() -> Self {
+        Self(Uuid::new_v4())
+    }
+}
 
 impl ToSql for UserID {
     fn to_sql(

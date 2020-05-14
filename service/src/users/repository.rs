@@ -1,6 +1,8 @@
-use crate::infrastructure::database::Database;
-
+mod create;
 mod find;
+mod parse;
+
+use crate::infrastructure::database::Database;
 
 /// Repository used to access User data from the database
 #[derive(Clone)]

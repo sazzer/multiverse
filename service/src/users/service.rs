@@ -1,6 +1,7 @@
-use super::repository::UserRepository;
-
+mod create_user;
 mod lookup_username;
+
+use super::repository::UserRepository;
 
 /// Service Layer for dealing with Users
 #[derive(Clone)]

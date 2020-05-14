@@ -6,7 +6,7 @@ use crate::users::UsersService;
 #[derive(Clone)]
 pub struct AuthenticationService {
     /// The Users Service, to create and retrieve user records
-    _users_service: UsersService,
+    users_service: UsersService,
 }
 
 impl AuthenticationService {
@@ -18,8 +18,6 @@ impl AuthenticationService {
     /// # Returns
     /// The Authentication Service ready to use
     pub fn new(users_service: UsersService) -> Self {
-        AuthenticationService {
-            _users_service: users_service,
-        }
+        AuthenticationService { users_service }
     }
 }
