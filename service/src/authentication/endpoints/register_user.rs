@@ -11,8 +11,8 @@ use serde_json::Value;
 ///
 /// # Returns
 /// TODO: Unknown
-#[tracing::instrument(name = "POST /users", skip(_users_service, body))]
-#[post("/users")]
+#[tracing::instrument(name = "POST /register", skip(_users_service, body))]
+#[post("/register")]
 pub async fn register_user(
     _users_service: web::Data<UsersService>,
     body: web::Json<Value>,

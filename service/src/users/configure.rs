@@ -29,7 +29,6 @@ impl UsersConfig {
         Arc::new(move |config| {
             config.data(users_service.clone());
             config.service(super::endpoints::lookup_username);
-            config.service(super::endpoints::register_user);
         })
     }
 }

@@ -1,5 +1,6 @@
 use super::server::{testing::TestResponse, Server};
 use crate::{
+    authentication::configure::AuthenticationConfig,
     infrastructure::{database, healthchecker::configure::HealthcheckConfig},
     users::configure::UsersConfig,
 };
@@ -27,11 +28,16 @@ impl Service {
             .expect("Failed to migrate database");
 
         let users = UsersConfig::new(database.clone());
+        let authentication = AuthenticationConfig::new();
 
         let healthchecks = HealthcheckConfig::default().with_component("db", Arc::new(database));
 
         Service {
-            server: Server::new(vec![healthchecks.configure(), users.configure()]),
+            server: Server::new(vec![
+                healthchecks.configure(),
+                users.configure(),
+                authentication.configure(),
+            ]),
         }
     }
 

@@ -3,6 +3,7 @@
     allow(clippy::module_name_repetitions, clippy::wildcard_imports)
 )]
 
+mod authentication;
 mod http;
 mod infrastructure;
 mod model;
