@@ -5,7 +5,7 @@ use std::sync::Arc;
 
 /// Application Configuration for the Users module
 pub struct UsersConfig {
-    users_service: UsersService,
+    pub users_service: UsersService,
 }
 
 impl UsersConfig {

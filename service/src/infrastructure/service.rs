@@ -28,7 +28,7 @@ impl Service {
             .expect("Failed to migrate database");
 
         let users = UsersConfig::new(database.clone());
-        let authentication = AuthenticationConfig::new();
+        let authentication = AuthenticationConfig::new(users.users_service.clone());
 
         let healthchecks = HealthcheckConfig::default().with_component("db", Arc::new(database));
 
