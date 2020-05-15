@@ -18,7 +18,7 @@ impl AuthenticationService {
     ///
     /// # Returns
     /// The Authentication Service ready to use
-    pub fn new(users_service: UsersService) -> Self {
+    pub(super) fn new(users_service: UsersService) -> Self {
         AuthenticationService { users_service }
     }
 }

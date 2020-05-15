@@ -28,6 +28,7 @@ impl Service {
             .expect("Failed to migrate database");
 
         let users = UsersConfig::new(database.clone());
+        let authorization = crate::authorization::configure::AuthorizationConfig::new();
         let authentication = AuthenticationConfig::new(users.users_service.clone());
 
         let healthchecks = HealthcheckConfig::default().with_component("db", Arc::new(database));
@@ -36,6 +37,7 @@ impl Service {
             server: Server::new(vec![
                 healthchecks.configure(),
                 users.configure(),
+                authorization.configure(),
                 authentication.configure(),
             ]),
         }

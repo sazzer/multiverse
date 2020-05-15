@@ -8,7 +8,7 @@ pub use errors::*;
 
 /// Repository used to access User data from the database
 #[derive(Clone)]
-pub struct UserRepository {
+pub(super) struct UserRepository {
     /// The database with which to access user records
     database: Database,
 }
@@ -21,7 +21,7 @@ impl UserRepository {
     ///
     /// # Returns
     /// The User Repository to use
-    pub fn new(database: Database) -> Self {
+    pub(super) fn new(database: Database) -> Self {
         Self { database: database }
     }
 }

@@ -15,7 +15,7 @@ impl UsersService {
     ///
     /// # Returns
     /// The Users Service ready to use
-    pub fn new(repository: UserRepository) -> Self {
+    pub(super) fn new(repository: UserRepository) -> Self {
         Self { repository }
     }
 }
