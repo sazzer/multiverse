@@ -4,6 +4,7 @@
 )]
 
 mod authentication;
+mod authorization;
 mod http;
 mod infrastructure;
 mod model;
