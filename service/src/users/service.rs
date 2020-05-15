@@ -2,6 +2,7 @@ mod create_user;
 mod lookup_username;
 
 use super::repository::UserRepository;
+pub use create_user::CreateUserError;
 
 /// Service Layer for dealing with Users
 #[derive(Clone)]

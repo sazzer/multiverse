@@ -1,5 +1,5 @@
 use crate::authentication::{AuthenticatedUser, AuthenticationService};
-use crate::users::UserData;
+use crate::users::{CreateUserError, UserData};
 
 /// Errors that can occur when registering a new user
 #[derive(Debug, thiserror::Error)]
@@ -7,6 +7,9 @@ pub enum RegisterError {
     /// An unknown error occurred
     #[error("An unknown error occurred")]
     UnknownError,
+
+    #[error("The username is already registered")]
+    DuplicateUsername,
 }
 
 impl AuthenticationService {
@@ -22,11 +25,23 @@ impl AuthenticationService {
     /// Any errors that happen from registering a user
     pub async fn register_user(&self, user: UserData) -> Result<AuthenticatedUser, RegisterError> {
         // Call the User Service to create a new User record with the given data
-        let _user_model = self.users_service.create_user(user).await;
+        let _user_model = self.users_service.create_user(user).await.map_err(|e| {
+            tracing::warn!("Failed to create user: {:?}", e);
+            e
+        })?;
 
         // Call the Authorization Service to create a new Token for the User
 
         // Return the Authenticated User
         todo!()
+    }
+}
+
+impl From<CreateUserError> for RegisterError {
+    fn from(e: CreateUserError) -> Self {
+        match e {
+            CreateUserError::DuplicateUsername => RegisterError::DuplicateUsername,
+            _ => RegisterError::UnknownError,
+        }
     }
 }

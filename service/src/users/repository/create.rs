@@ -1,13 +1,5 @@
-use super::UserRepository;
-use crate::users::{UserModel};
-
-/// Errors that can occur when saving a user record
-#[derive(Debug, thiserror::Error)]
-pub enum SaveUserError {
-    /// An unknown error occurred
-    #[error("An unknown error occurred")]
-    UnknownError,
-}
+use super::{SaveUserError, UserRepository};
+use crate::users::UserModel;
 
 impl UserRepository {
     /// Insert the given user model into the database as a new record
@@ -39,8 +31,7 @@ impl UserRepository {
                 &user.data.password,    
             ])
             .await
-            .map(|row| self.parse_row(&row))
-            .expect("Failed to insert user record");
+            .map(|row| self.parse_row(&row))?;
 
         Ok(new_user)
     }

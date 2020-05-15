@@ -16,11 +16,10 @@ impl UserRepository {
             .checkout()
             .await
             .expect("Failed to get database connection");
-        let users = connection
-            .query("SELECT * FROM users WHERE username = $1", &[username])
+        connection
+            .query_opt("SELECT * FROM users WHERE username = $1", &[username])
             .await
-            .expect("Failed to query for user by username");
-
-        users.get(0).map(|user| self.parse_row(user))
+            .expect("Failed to query for user by username")
+            .map(|row| self.parse_row(&row))
     }
 }

@@ -1,6 +1,9 @@
 use crate::http::problem::*;
-use crate::{authentication::AuthenticationService, users::*};
-use actix_web::{post, web, HttpResponse, Responder};
+use crate::{
+    authentication::{AuthenticationService, RegisterError},
+    users::*,
+};
+use actix_web::{http::StatusCode, post, web, HttpResponse, Responder};
 use serde_json::Value;
 
 /// Actix handler to register a new user
@@ -57,7 +60,7 @@ pub async fn register_user(
                 password: password.clone(),
             };
             tracing::info!(user = ?user, "Registering user");
-            authentication_service.register_user(user).await.unwrap();
+            authentication_service.register_user(user).await?;
 
             Ok(HttpResponse::NoContent())
         }
@@ -83,6 +86,48 @@ pub async fn register_user(
             }
 
             Err(problem.build())
+        }
+    }
+}
+
+/// Problem Types that can happen when registering a user
+#[derive(Debug, thiserror::Error)]
+pub enum RegisterUserProblemType {
+    /// An unknown error occurred
+    #[error("An unknown error occurred")]
+    UnknownError,
+
+    #[error("The username is already registered")]
+    DuplicateUsername,
+}
+
+impl ProblemType for RegisterUserProblemType {
+    /// Generate a Type value for the `ProblemType` values.
+    ///
+    /// These are used in the `type` field in the RFC-7807 Problem Response
+    fn error_code(&self) -> &'static str {
+        match self {
+            RegisterUserProblemType::UnknownError => {
+                "tag:multiverse,2020:users/problems/unknown_error"
+            }
+            RegisterUserProblemType::DuplicateUsername => {
+                "tag:multiverse,2020:users/problems/duplicate_username"
+            }
+        }
+    }
+}
+
+impl From<RegisterError> for Problem {
+    fn from(e: RegisterError) -> Self {
+        match e {
+            RegisterError::DuplicateUsername => Problem::new(
+                RegisterUserProblemType::DuplicateUsername,
+                StatusCode::UNPROCESSABLE_ENTITY,
+            ),
+            _ => Problem::new(
+                RegisterUserProblemType::UnknownError,
+                StatusCode::INTERNAL_SERVER_ERROR,
+            ),
         }
     }
 }

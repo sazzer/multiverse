@@ -1,3 +1,4 @@
+use crate::users::repository::SaveUserError;
 use crate::users::*;
 
 /// Errors that can occur when creating a new user record
@@ -6,6 +7,9 @@ pub enum CreateUserError {
     /// An unknown error occurred
     #[error("An unknown error occurred")]
     UnknownError,
+
+    #[error("The username is already registered")]
+    DuplicateUsername,
 }
 
 impl UsersService {
@@ -24,8 +28,17 @@ impl UsersService {
             identity: Default::default(),
             data,
         };
-        let user = self.repository.create(user).await.unwrap();
+        let user = self.repository.create(user).await?;
 
         Ok(user)
+    }
+}
+
+impl From<SaveUserError> for CreateUserError {
+    fn from(e: SaveUserError) -> Self {
+        match e {
+            SaveUserError::DuplicateUsername => CreateUserError::DuplicateUsername,
+            _ => CreateUserError::UnknownError,
+        }
     }
 }

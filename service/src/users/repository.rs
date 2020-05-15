@@ -1,8 +1,10 @@
 mod create;
+mod errors;
 mod find;
 mod parse;
 
 use crate::infrastructure::database::Database;
+pub use errors::*;
 
 /// Repository used to access User data from the database
 #[derive(Clone)]

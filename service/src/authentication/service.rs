@@ -1,6 +1,7 @@
 mod register_user;
 
 use crate::users::UsersService;
+pub use register_user::RegisterError;
 
 /// Service for authenticating a user
 #[derive(Clone)]
