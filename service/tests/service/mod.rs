@@ -1,6 +1,6 @@
-use bb8::Pool;
-use bb8_postgres::PostgresConnectionManager;
 use multiverse_lib::{Service, Settings, TestDatabase, TestResponse};
+use r2d2::Pool;
+use r2d2_postgres::PostgresConnectionManager;
 use std::str::FromStr;
 use tokio_postgres::types::ToSql;
 
@@ -38,7 +38,7 @@ impl TestService {
     ///
     /// # Returns
     /// A constructed service ready for us to test against
-    pub async fn new() -> TestService {
+    pub fn new() -> TestService {
         let _ = tracing_subscriber::fmt::try_init();
 
         // Build the database container
@@ -46,20 +46,19 @@ impl TestService {
         let database_url = database.url.clone();
 
         // Open a connection pool to the database for seeding records
-        let config = tokio_postgres::config::Config::from_str(&database_url).unwrap();
+        let config = postgres::config::Config::from_str(&database_url).unwrap();
         let manager = PostgresConnectionManager::new(config, tokio_postgres::NoTls);
 
         let pool = Pool::builder()
             .connection_timeout(std::time::Duration::from_secs(10))
             .build(manager)
-            .await
             .unwrap();
 
         // Actually build the service to test
         let settings = Settings {
             database_url: database_url.clone(),
         };
-        let service = multiverse_lib::Service::new(settings).await;
+        let service = multiverse_lib::Service::new(settings);
 
         TestService {
             _database: database,
@@ -75,21 +74,24 @@ impl TestService {
     ///
     /// # Returns
     /// The HTTP Response
-    pub async fn request(&self, request: actix_http::Request) -> TestResponse {
-        self.service.test_request(request).await
+    pub fn request(&self, request: actix_http::Request) -> TestResponse {
+        self.service.test_request(request)
     }
 
     /// Insert some seed data into the database
     ///
     /// # Parameters
     /// - `data` - The data to seed into the database
-    pub async fn seed<D>(&self, data: D) where D: Seedable {
+    pub fn seed<D>(&self, data: D)
+    where
+        D: Seedable,
+    {
         tracing::debug!(data = ?data, "Inserting seed data into database");
 
-        let connection = self.pool.get().await.unwrap();
+        let mut connection = self.pool.get().unwrap();
         let sql = data.sql();
         let binds = data.binds();
-        let updates = connection.execute(sql, binds.as_slice()).await.unwrap();
+        let updates = connection.execute(sql, binds.as_slice()).unwrap();
 
         tracing::debug!(rows = ?updates, "Inserted seed data into database");
     }

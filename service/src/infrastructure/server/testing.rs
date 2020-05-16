@@ -1,10 +1,7 @@
 use super::Server;
-use actix_cors::Cors;
 use actix_web::http::{HeaderMap, StatusCode};
-use actix_web::{middleware::Logger, App};
 use bytes::Bytes;
 use serde_json::Value;
-use std::ops::Deref;
 
 /// The response from a test request to the server
 #[derive(Clone)]
@@ -53,24 +50,7 @@ impl Server {
     ///
     /// # Returns
     /// The HTTP Response
-    pub async fn test_request(&self, request: actix_http::Request) -> TestResponse {
-        let mut app = App::new()
-            .wrap(Logger::default())
-            .wrap(Cors::new().finish());
-        for config in &self.configs {
-            app = app.configure(config.deref());
-        }
-
-        let mut app = actix_web::test::init_service(app).await;
-        let response = actix_web::test::call_service(&mut app, request).await;
-
-        let status = response.status();
-        let headers = response.headers().clone();
-        let body = actix_web::test::read_body(response).await;
-        TestResponse {
-            status,
-            headers,
-            body,
-        }
+    pub fn test_request(&self, request: actix_http::Request) -> TestResponse {
+        todo!()
     }
 }

@@ -45,8 +45,8 @@ use serde_json::json;
         None
     )
 )]
-#[actix_rt::test]
-async fn integration_test_register_validation_failure(
+#[test]
+fn integration_test_register_validation_failure(
     name: &str,
     username: Option<&str>,
     display_name: Option<&str>,
@@ -54,7 +54,7 @@ async fn integration_test_register_validation_failure(
     avatar_url: Option<&str>,
     password: Option<&str>,
 ) {
-    let service = TestService::new().await;
+    let service = TestService::new();
 
     let body = json!({
         "username": username,
@@ -63,14 +63,12 @@ async fn integration_test_register_validation_failure(
         "avatar_url": avatar_url,
         "password": password
     });
-    let response = service
-        .request(
-            actix_web::test::TestRequest::post()
-                .uri("/register")
-                .set_json(&body)
-                .to_request(),
-        )
-        .await;
+    let response = service.request(
+        actix_web::test::TestRequest::post()
+            .uri("/register")
+            .set_json(&body)
+            .to_request(),
+    );
 
     assert_debug_snapshot!(
         format!("register_validation_failure-{}-headers", name),
@@ -82,16 +80,14 @@ async fn integration_test_register_validation_failure(
     );
 }
 
-#[actix_rt::test]
-async fn integration_test_register_duplicate_username() {
-    let service = TestService::new().await;
+#[test]
+fn integration_test_register_duplicate_username() {
+    let service = TestService::new();
 
-    service
-        .seed(SeedUser {
-            username: "username".to_owned(),
-            ..Default::default()
-        })
-        .await;
+    service.seed(SeedUser {
+        username: "username".to_owned(),
+        ..Default::default()
+    });
 
     let body = json!({
         "username": "username",
@@ -99,14 +95,12 @@ async fn integration_test_register_duplicate_username() {
         "email_address": "test@example.com",
         "password": "password"
     });
-    let response = service
-        .request(
-            actix_web::test::TestRequest::post()
-                .uri("/register")
-                .set_json(&body)
-                .to_request(),
-        )
-        .await;
+    let response = service.request(
+        actix_web::test::TestRequest::post()
+            .uri("/register")
+            .set_json(&body)
+            .to_request(),
+    );
 
     assert_debug_snapshot!("register_duplicate_username-headers", response.headers());
     assert_json_snapshot!(

@@ -1,47 +1,56 @@
-use crate::{service::TestService, data::SeedUser};
+use crate::{data::SeedUser, service::TestService};
 use insta::{assert_debug_snapshot, assert_json_snapshot};
-use uritemplate::UriTemplate;
 use rstest::rstest;
+use uritemplate::UriTemplate;
 
-#[rstest(username,
+#[rstest(
+    username,
     case("known"),
     case("!@#$%^&*()_"),
-    case(",.;'\\[]<>?:\"|{}"),
+    case(",.;'\\[]<>?:\"|{}")
 )]
-#[actix_rt::test]
-async fn integration_test_lookup_known_username(username: &str) {
-    let service = TestService::new().await;
+#[test]
+fn integration_test_lookup_known_username(username: &str) {
+    let service = TestService::new();
 
     let user = SeedUser {
         username: username.to_owned(),
         ..Default::default()
     };
-    service.seed(user).await;
+    service.seed(user);
 
     let url = UriTemplate::new("/usernames/{username}")
         .set("username", username)
         .build();
-    let response = service.request(actix_web::test::TestRequest::get().uri(&url).to_request()).await;
+    let response = service.request(actix_web::test::TestRequest::get().uri(&url).to_request());
 
-    assert_debug_snapshot!(format!("lookup_known_username-{}-headers", username), response.headers());
+    assert_debug_snapshot!(
+        format!("lookup_known_username-{}-headers", username),
+        response.headers()
+    );
 }
 
-
-#[rstest(username,
+#[rstest(
+    username,
     case("unknown"),
     case("!@#$%^&*()_"),
-    case(",.;'\\[]<>?:\"|{}"),
+    case(",.;'\\[]<>?:\"|{}")
 )]
-#[actix_rt::test]
-async fn integration_test_lookup_unknown_username(username: &str) {
-    let service = TestService::new().await;
+#[test]
+fn integration_test_lookup_unknown_username(username: &str) {
+    let service = TestService::new();
 
     let url = UriTemplate::new("/usernames/{username}")
         .set("username", username)
         .build();
-    let response = service.request(actix_web::test::TestRequest::get().uri(&url).to_request()).await;
+    let response = service.request(actix_web::test::TestRequest::get().uri(&url).to_request());
 
-    assert_debug_snapshot!(format!("lookup_unknown_username-{}-headers", username), response.headers());
-    assert_json_snapshot!(format!("lookup_unknown_username-{}-body", username), response.to_json().unwrap());
-
+    assert_debug_snapshot!(
+        format!("lookup_unknown_username-{}-headers", username),
+        response.headers()
+    );
+    assert_json_snapshot!(
+        format!("lookup_unknown_username-{}-body", username),
+        response.to_json().unwrap()
+    );
 }

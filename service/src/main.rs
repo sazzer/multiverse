@@ -38,8 +38,7 @@ impl Settings {
     }
 }
 
-#[actix_rt::main]
-async fn main() {
+fn main() {
     dotenv().ok();
 
     tracing_subscriber::fmt::init();
@@ -53,6 +52,6 @@ async fn main() {
 
     let settings = Settings::default();
 
-    let service = multiverse_lib::Service::new(settings.build()).await;
-    service.start(settings.port.unwrap_or(8000)).await;
+    let service = multiverse_lib::Service::new(settings.build());
+    service.start(settings.port.unwrap_or(8000));
 }

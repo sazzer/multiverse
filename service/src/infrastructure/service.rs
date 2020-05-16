@@ -19,7 +19,7 @@ impl Service {
     ///
     /// # Returns
     /// The built service, ready to work with
-    pub async fn new(settings: crate::Settings) -> Self {
+    pub fn new(settings: crate::Settings) -> Self {
         tracing::info!(settings = ?settings, "Building service");
 
         let database = database::Database::new(settings.database_url);
@@ -45,9 +45,9 @@ impl Service {
     ///
     /// # Parameters
     /// - `port` - The port to listen on
-    pub async fn start(&self, port: u16) {
+    pub fn start(&self, port: u16) {
         tracing::info!(port = port, "Starting service");
-        self.server.start(port).await;
+        self.server.start(port);
     }
 
     /// Send an HTTP Request in to the service and return the response
@@ -57,7 +57,7 @@ impl Service {
     ///
     /// # Returns
     /// The HTTP Response
-    pub async fn test_request(&self, request: actix_http::Request) -> TestResponse {
-        self.server.test_request(request).await
+    pub fn test_request(&self, request: actix_http::Request) -> TestResponse {
+        self.server.test_request(request)
     }
 }
