@@ -1,5 +1,3 @@
-pub(crate) mod testing;
-
 use std::sync::Arc;
 
 /// A function that is able to contribute configuration to the Actix server when it is being constructed
@@ -24,6 +22,19 @@ impl Server {
     /// # Parameters
     /// - `port` - The port to listen on
     pub fn start(&self, port: u16) {
+        self.build(port).launch();
+    }
+
+    /// Build the Rocket instance to work with.
+    ///
+    /// This method exists so that the exact same instance can be used with both the live server and testing
+    ///
+    /// # Parameters
+    /// - `port` - The port to listen on
+    ///
+    /// # Returns
+    /// The rocket instance
+    fn build(&self, port: u16) -> rocket::Rocket {
         let config = rocket::Config::build(
             rocket::config::Environment::active().expect("Invalid rocket environment specified"),
         )
@@ -37,6 +48,15 @@ impl Server {
             rocket = config(rocket);
         }
 
-        rocket.launch();
+        rocket
+    }
+    /// Get a test client used to test the server
+    ///
+    /// # Returns
+    /// The test client
+    pub fn test_client(&self) -> rocket::local::Client {
+        let rocket = self.build(0);
+
+        rocket::local::Client::new(rocket).expect("valid rocket instance")
     }
 }

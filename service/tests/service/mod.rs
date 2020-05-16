@@ -1,4 +1,4 @@
-use multiverse_lib::{Service, Settings, TestDatabase, TestResponse};
+use multiverse_lib::{Service, Settings, TestDatabase};
 use r2d2::Pool;
 use r2d2_postgres::PostgresConnectionManager;
 use std::str::FromStr;
@@ -16,6 +16,46 @@ pub struct TestService {
     pool: Pool<PostgresConnectionManager<tokio_postgres::tls::NoTls>>,
     /// The service under test
     service: Service,
+}
+
+/// The response from a test request to the server
+pub struct TestResponse<'r> {
+    response: rocket::local::LocalResponse<'r>,
+}
+
+impl<'r> TestResponse<'r> {
+    /// Build the headers of the response
+    ///
+    /// # Returns
+    /// A string representing the header section of the response
+    pub fn headers(&self) -> String {
+        let headers = self
+            .response
+            .headers()
+            .iter()
+            .map(|header| format!("{}: {}", header.name(), header.value()))
+            .collect::<Vec<String>>()
+            .join("\n");
+
+        format!("HTTP/1.1 {}\n{}", self.response.status(), headers)
+    }
+
+    /// Convert the response body to JSON
+    ///
+    /// # Returns
+    /// The body of the response, converted to a Serde JSON object
+    ///
+    /// # Errors
+    /// Any errors from deserializing the response
+    pub fn to_json(&mut self) -> Result<serde_json::Value, serde_json::error::Error> {
+        serde_json::from_str(&self.response.body_string().unwrap())
+    }
+}
+
+impl<'r> From<rocket::local::LocalResponse<'r>> for TestResponse<'r> {
+    fn from(response: rocket::local::LocalResponse<'r>) -> TestResponse<'r> {
+        Self { response }
+    }
 }
 
 /// Trait that represents a type that can be seeded into the database
@@ -67,15 +107,12 @@ impl TestService {
         }
     }
 
-    /// Send an HTTP Request in to the service and return the response
-    ///
-    /// # Parameters
-    /// - `request` - The request to send to the service
+    /// Get a test client used to test the server
     ///
     /// # Returns
-    /// The HTTP Response
-    pub fn request(&self, request: actix_http::Request) -> TestResponse {
-        self.service.test_request(request)
+    /// The test client
+    pub fn test_client(&self) -> rocket::local::Client {
+        self.service.test_client()
     }
 
     /// Insert some seed data into the database

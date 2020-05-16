@@ -1,4 +1,4 @@
-use super::server::{testing::TestResponse, Server};
+use super::server::Server;
 use crate::{
     authentication::configure::AuthenticationConfig,
     infrastructure::{database, healthchecker::configure::HealthcheckConfig},
@@ -50,14 +50,11 @@ impl Service {
         self.server.start(port);
     }
 
-    /// Send an HTTP Request in to the service and return the response
-    ///
-    /// # Parameters
-    /// - `request` - The request to send to the service
+    /// Get a test client used to test the server
     ///
     /// # Returns
-    /// The HTTP Response
-    pub fn test_request(&self, request: actix_http::Request) -> TestResponse {
-        self.server.test_request(request)
+    /// The test client
+    pub fn test_client(&self) -> rocket::local::Client {
+        self.server.test_client()
     }
 }

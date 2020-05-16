@@ -22,7 +22,7 @@ fn integration_test_lookup_known_username(username: &str) {
     let url = UriTemplate::new("/usernames/{username}")
         .set("username", username)
         .build();
-    let response = service.request(actix_web::test::TestRequest::get().uri(&url).to_request());
+    let response = service.test_client().get(url).dispatch();
 
     assert_debug_snapshot!(
         format!("lookup_known_username-{}-headers", username),
@@ -43,7 +43,7 @@ fn integration_test_lookup_unknown_username(username: &str) {
     let url = UriTemplate::new("/usernames/{username}")
         .set("username", username)
         .build();
-    let response = service.request(actix_web::test::TestRequest::get().uri(&url).to_request());
+    let response = service.test_client().get(url).dispatch();
 
     assert_debug_snapshot!(
         format!("lookup_unknown_username-{}-headers", username),
