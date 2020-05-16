@@ -1,5 +1,5 @@
-use bb8::{Pool, PooledConnection};
-use bb8_postgres::PostgresConnectionManager;
+use r2d2::{Pool, PooledConnection};
+use r2d2_postgres::PostgresConnectionManager;
 use std::str::FromStr;
 
 /// Wrapper around the database connection, allowing us to communicate with the database
@@ -17,23 +17,22 @@ impl Database {
     ///
     /// # Returns
     /// The wrapper connecting to the database
-    pub async fn new<S>(url: S) -> Self
+    pub fn new<S>(url: S) -> Self
     where
         S: Into<String>,
     {
         let url = url.into();
         tracing::info!(url = ?url, "Connecting to database");
 
-        let config = tokio_postgres::config::Config::from_str(&url).expect("Failed to parse URL");
+        let config = postgres::config::Config::from_str(&url).expect("Failed to parse URL");
         let manager = PostgresConnectionManager::new(config, tokio_postgres::NoTls);
 
         let pool = Pool::builder()
             .connection_timeout(std::time::Duration::from_secs(10))
             .build(manager)
-            .await
             .expect("Failed to create connection pool");
 
-        pool.get().await.expect("Failed to check out connection");
+        pool.get().expect("Failed to check out connection");
         Self { pool }
     }
 
@@ -41,15 +40,14 @@ impl Database {
     ///
     /// # Returns
     /// A Postgres connection that can be used to communicate with the database
-    pub async fn checkout(
+    pub fn checkout(
         &self,
     ) -> Result<
-        PooledConnection<'_, PostgresConnectionManager<tokio_postgres::tls::NoTls>>,
+        PooledConnection<PostgresConnectionManager<tokio_postgres::tls::NoTls>>,
         DatabaseError,
     > {
         self.pool
             .get()
-            .await
             .map_err(|e| DatabaseError::Checkout(format!("{}", e)))
     }
 }

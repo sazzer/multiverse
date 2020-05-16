@@ -22,10 +22,8 @@ impl Service {
     pub async fn new(settings: crate::Settings) -> Self {
         tracing::info!(settings = ?settings, "Building service");
 
-        let database = database::Database::new(settings.database_url).await;
-        database::migrate::migrate_database(&database)
-            .await
-            .expect("Failed to migrate database");
+        let database = database::Database::new(settings.database_url);
+        database::migrate::migrate_database(&database).expect("Failed to migrate database");
 
         let users = UsersConfig::new(database.clone());
         let authorization = crate::authorization::configure::AuthorizationConfig::new();

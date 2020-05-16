@@ -13,10 +13,9 @@ impl UserRepository {
     /// # Errors
     /// Any errors that occurred creating the new user
     pub async fn create(&self, user: UserModel) -> Result<UserModel, SaveUserError> {
-        let connection = self
+        let mut connection = self
             .database
             .checkout()
-            .await
             .expect("Failed to get database connection");
         let new_user = connection.query_one("INSERT INTO users(user_id, version, created, updated, username, display_name, email_address, avatar_url, password) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *", 
             &[
@@ -30,7 +29,6 @@ impl UserRepository {
                 &user.data.avatar_url,
                 &user.data.password,    
             ])
-            .await
             .map(|row| self.parse_row(&row))?;
 
         Ok(new_user)

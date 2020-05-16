@@ -39,6 +39,9 @@ tracing-futures = "0.2.4"
 tracing-log = "0.1.1"
 tracing-subscriber = "0.2.5"
 uuid = { version = "0.8.1", features = ["v4", "serde"] }
+r2d2 = "0.8.8"
+r2d2_postgres = "0.16.0"
+postgres = "0.17.3"
 
 [dev-dependencies]
 galvanic-assert = "0.8.7"

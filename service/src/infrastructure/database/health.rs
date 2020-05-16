@@ -18,8 +18,8 @@ impl CheckHealth for Database {
     /// If either a connection can not be checked out, or the trivial query fails for some reason then
     /// an error is returned to indicate that the database connection is unhealthy.
     async fn check_health(&self) -> Result<(), Box<dyn Error>> {
-        let connection = self.checkout().await?;
-        connection.query("SELECT 1", &[]).await?;
+        let mut connection = self.checkout()?;
+        connection.query("SELECT 1", &[])?;
 
         Ok(())
     }
@@ -33,7 +33,7 @@ mod tests {
     #[actix_rt::test]
     async fn test_check_health() {
         let container = TestDatabase::default();
-        let sut = Database::new(container.url).await;
+        let sut = Database::new(container.url);
 
         let health = sut.check_health().await;
         assert!(health.is_ok());

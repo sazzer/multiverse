@@ -17,15 +17,15 @@ struct Migrations;
 ///
 /// # Errors
 /// If the migration is unsuccessful then an error is returned indicating why
-pub async fn migrate_database(database: &Database) -> Result<(), MigrationError> {
+pub fn migrate_database(database: &Database) -> Result<(), MigrationError> {
     tracing::info!("Migrating database");
-    let mut connection = database.checkout().await?;
-    let transaction = connection.transaction().await?;
+    let mut connection = database.checkout()?;
+    let mut transaction = connection.transaction()?;
 
-    ensure_migrations_table(&transaction).await?;
-    apply_migrations(&transaction).await?;
+    ensure_migrations_table(&mut transaction)?;
+    apply_migrations(&mut transaction)?;
 
-    transaction.commit().await?;
+    transaction.commit()?;
 
     Ok(())
 }
@@ -55,26 +55,22 @@ fn list_all_migrations() -> Vec<String> {
 ///
 /// # Errors
 /// If an error occurs executing the SQL to either create or lock the table then return an error
-async fn ensure_migrations_table(
-    transaction: &tokio_postgres::Transaction<'_>,
+fn ensure_migrations_table(
+    transaction: &mut postgres::Transaction<'_>,
 ) -> Result<(), MigrationError> {
     tracing::trace!("Ensuring the migrations table exists");
-    transaction
-        .execute(
-            "CREATE TABLE IF NOT EXISTS __migrations(
+    transaction.execute(
+        "CREATE TABLE IF NOT EXISTS __migrations(
             migration_file TEXT PRIMARY KEY,
             sequence SERIAL NOT NULL,
             executed TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
             executed_from TEXT NOT NULL DEFAULT inet_client_addr()
         )",
-            &[],
-        )
-        .await?;
+        &[],
+    )?;
 
     tracing::trace!("Locking the migrations table");
-    transaction
-        .execute("LOCK TABLE __migrations IN EXCLUSIVE MODE", &[])
-        .await?;
+    transaction.execute("LOCK TABLE __migrations IN EXCLUSIVE MODE", &[])?;
 
     Ok(())
 }
@@ -91,14 +87,13 @@ async fn ensure_migrations_table(
 ///
 /// # Errors
 /// If an error occurs executing the SQL then return an error
-async fn list_applied_migrations(
-    transaction: &tokio_postgres::Transaction<'_>,
+fn list_applied_migrations(
+    transaction: &mut postgres::Transaction<'_>,
 ) -> Result<Vec<String>, MigrationError> {
     tracing::trace!("Listing the applied migrations");
 
     let migrations = transaction
-        .query("SELECT migration_file FROM __migrations", &[])
-        .await?
+        .query("SELECT migration_file FROM __migrations", &[])?
         .iter()
         .map(|row| row.get::<&str, String>("migration_file"))
         .collect::<Vec<String>>();
@@ -117,11 +112,9 @@ async fn list_applied_migrations(
 ///
 /// # Errors
 /// If an error occurs applying the migrations then return an error
-async fn apply_migrations(
-    transaction: &tokio_postgres::Transaction<'_>,
-) -> Result<(), MigrationError> {
+fn apply_migrations(transaction: &mut postgres::Transaction<'_>) -> Result<(), MigrationError> {
     let all_migrations = list_all_migrations();
-    let applied_migrations = list_applied_migrations(&transaction).await?;
+    let applied_migrations = list_applied_migrations(transaction)?;
 
     let mut count: u32 = 0;
     for migration in &all_migrations {
@@ -131,15 +124,11 @@ async fn apply_migrations(
             tracing::debug!(migration = ?migration, "Applying migration");
             let contents = Migrations::get(migration).expect("Failed to load migration");
 
-            transaction
-                .batch_execute(std::str::from_utf8(&contents)?)
-                .await?;
-            transaction
-                .execute(
-                    "INSERT INTO __migrations(migration_file) VALUES ($1)",
-                    &[migration],
-                )
-                .await?;
+            transaction.batch_execute(std::str::from_utf8(&contents)?)?;
+            transaction.execute(
+                "INSERT INTO __migrations(migration_file) VALUES ($1)",
+                &[migration],
+            )?;
             count += 1;
         }
     }
@@ -157,7 +146,7 @@ pub enum MigrationError {
 
     /// An error occurred executing a query against the database
     #[error("Failed to execute query against database: {0}")]
-    Database(#[from] tokio_postgres::Error),
+    Database(#[from] postgres::Error),
 
     /// An error occurred loading a file from the embedded files
     #[error("Failed to parse migration file: {0}")]
@@ -169,12 +158,12 @@ mod tests {
     use super::*;
     use crate::testing::database::TestDatabase;
 
-    #[actix_rt::test]
-    async fn test_migrate() {
+    #[test]
+    fn test_migrate() {
         let container = TestDatabase::default();
-        let sut = Database::new(container.url).await;
+        let sut = Database::new(container.url);
 
-        let result = migrate_database(&sut).await;
+        let result = migrate_database(&sut);
         assert!(result.is_ok());
     }
 }
