@@ -1,6 +1,5 @@
 use super::{repository::UserRepository, UsersService};
 use crate::infrastructure::database::Database;
-use actix_web::web;
 use std::sync::Arc;
 
 /// Application Configuration for the Users module
@@ -24,11 +23,11 @@ impl UsersConfig {
     ///
     /// # Returns
     /// The callback to provide to the HTTP Server to configure up the Users endpoints
-    pub fn configure(&self) -> Arc<dyn Fn(&mut web::ServiceConfig) + Send + Sync> {
+    pub fn configure(&self) -> Arc<dyn Fn(rocket::Rocket) -> rocket::Rocket + Send + Sync> {
         let users_service = self.users_service.clone();
         Arc::new(move |config| {
-            config.data(users_service.clone());
-            config.service(super::endpoints::lookup_username);
+            config.manage(users_service.clone())
+            // config.service(super::endpoints::lookup_username);
         })
     }
 }

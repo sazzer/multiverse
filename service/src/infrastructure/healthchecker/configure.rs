@@ -1,5 +1,4 @@
 use super::{CheckHealth, HealthcheckerBuilder};
-use actix_web::web;
 use std::sync::Arc;
 
 /// Application Configuration for the Healthchecks, allowing us to use them with other parts of the system
@@ -34,13 +33,13 @@ impl HealthcheckConfig {
     ///
     /// # Returns
     /// The callback to provide to the HTTP Server to configure up the healthchecks
-    pub fn configure(&self) -> Arc<dyn Fn(&mut web::ServiceConfig) + Send + Sync> {
+    pub fn configure(&self) -> Arc<dyn Fn(rocket::Rocket) -> rocket::Rocket + Send + Sync> {
         let builder = self.builder.clone();
         Arc::new(move |config| {
             let healthchecker = builder.clone().build();
 
-            config.data(healthchecker);
-            config.service(super::endpoints::check_health);
+            config.manage(healthchecker)
+            // config.service(super::endpoints::check_health);
         })
     }
 }

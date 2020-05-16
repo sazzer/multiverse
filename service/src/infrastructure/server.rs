@@ -1,10 +1,9 @@
 pub(crate) mod testing;
 
-use actix_web::web;
 use std::sync::Arc;
 
 /// A function that is able to contribute configuration to the Actix server when it is being constructed
-pub type FnConfig = Arc<dyn Fn(&mut web::ServiceConfig) + Send + Sync>;
+pub type FnConfig = Arc<dyn Fn(rocket::Rocket) -> rocket::Rocket + Send + Sync>;
 
 /// The actual HTTP Server that will be handling all of the web traffic
 pub struct Server {
@@ -25,10 +24,6 @@ impl Server {
     /// # Parameters
     /// - `port` - The port to listen on
     pub fn start(&self, port: u16) {
-        let listen_address = format!("0.0.0.0:{}", port);
-
-        tracing::info!(address = ?listen_address, "Starting web server");
-
         let config = rocket::Config::build(
             rocket::config::Environment::active().expect("Invalid rocket environment specified"),
         )
@@ -36,6 +31,12 @@ impl Server {
         .finalize()
         .expect("Failed to create rocket config");
 
-        rocket::custom(config).launch();
+        let mut rocket = rocket::custom(config);
+
+        for config in &self.configs {
+            rocket = config(rocket);
+        }
+
+        rocket.launch();
     }
 }

@@ -1,6 +1,5 @@
 use super::AuthenticationService;
 use crate::users::UsersService;
-use actix_web::web;
 use std::sync::Arc;
 
 /// Application Configuration for the Authentication module
@@ -24,11 +23,11 @@ impl AuthenticationConfig {
     ///
     /// # Returns
     /// The callback to provide to the HTTP Server to configure up the Authentication endpoints
-    pub fn configure(&self) -> Arc<dyn Fn(&mut web::ServiceConfig) + Send + Sync> {
+    pub fn configure(&self) -> Arc<dyn Fn(rocket::Rocket) -> rocket::Rocket + Send + Sync> {
         let authentication_service = self.authentication_service.clone();
         Arc::new(move |config| {
-            config.data(authentication_service.clone());
-            config.service(super::endpoints::register_user);
+            config.manage(authentication_service.clone())
+            // config.service(super::endpoints::register_user);
         })
     }
 }
