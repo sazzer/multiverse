@@ -6,7 +6,7 @@ use std::str::FromStr;
 #[derive(Clone)]
 pub struct Database {
     /// The actual connection pool connecting to the database
-    pool: Pool<PostgresConnectionManager<tokio_postgres::tls::NoTls>>,
+    pool: Pool<PostgresConnectionManager<postgres::tls::NoTls>>,
 }
 
 impl Database {
@@ -25,7 +25,7 @@ impl Database {
         tracing::info!(url = ?url, "Connecting to database");
 
         let config = postgres::config::Config::from_str(&url).expect("Failed to parse URL");
-        let manager = PostgresConnectionManager::new(config, tokio_postgres::NoTls);
+        let manager = PostgresConnectionManager::new(config, postgres::NoTls);
 
         let pool = Pool::builder()
             .connection_timeout(std::time::Duration::from_secs(10))
@@ -42,10 +42,8 @@ impl Database {
     /// A Postgres connection that can be used to communicate with the database
     pub fn checkout(
         &self,
-    ) -> Result<
-        PooledConnection<PostgresConnectionManager<tokio_postgres::tls::NoTls>>,
-        DatabaseError,
-    > {
+    ) -> Result<PooledConnection<PostgresConnectionManager<postgres::tls::NoTls>>, DatabaseError>
+    {
         self.pool
             .get()
             .map_err(|e| DatabaseError::Checkout(format!("{}", e)))

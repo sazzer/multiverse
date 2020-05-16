@@ -1,6 +1,6 @@
 use crate::service::Seedable;
 use chrono::{DateTime, Utc};
-use tokio_postgres::types::ToSql;
+use postgres::types::ToSql;
 use uuid::Uuid;
 
 /// A user that can be seeded into the database

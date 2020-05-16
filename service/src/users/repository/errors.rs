@@ -1,4 +1,4 @@
-use tokio_postgres::error::{DbError, SqlState};
+use postgres::error::{DbError, SqlState};
 
 /// Errors that can occur when saving a user record
 #[derive(Debug, thiserror::Error)]
@@ -12,7 +12,7 @@ pub enum SaveUserError {
     DuplicateUsername,
 }
 
-impl From<tokio_postgres::Error> for SaveUserError {
+impl From<postgres::Error> for SaveUserError {
     /// Convert a database error into a SaveUserError.
     ///
     /// The conversion returns a `DuplicateUsername` iff the error is a `UNIQUE_VIOLATION` and the constraint is
@@ -23,7 +23,7 @@ impl From<tokio_postgres::Error> for SaveUserError {
     ///
     /// # Returns
     /// The new error code
-    fn from(e: tokio_postgres::Error) -> Self {
+    fn from(e: postgres::Error) -> Self {
         let mut result = None;
 
         if e.code() == Some(&SqlState::UNIQUE_VIOLATION) {

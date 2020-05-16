@@ -1,8 +1,8 @@
 use multiverse_lib::{Service, Settings, TestDatabase};
+use postgres::types::ToSql;
 use r2d2::Pool;
 use r2d2_postgres::PostgresConnectionManager;
 use std::str::FromStr;
-use tokio_postgres::types::ToSql;
 
 /// Wrapper around the service that we are testing, allowing us to interact with it as needed.
 ///
@@ -13,7 +13,7 @@ pub struct TestService {
     /// The wrapper around the Docker container for the database
     _database: TestDatabase,
     /// The actual connection pool connecting to the database
-    pool: Pool<PostgresConnectionManager<tokio_postgres::tls::NoTls>>,
+    pool: Pool<PostgresConnectionManager<postgres::tls::NoTls>>,
     /// The service under test
     service: Service,
 }
@@ -87,7 +87,7 @@ impl TestService {
 
         // Open a connection pool to the database for seeding records
         let config = postgres::config::Config::from_str(&database_url).unwrap();
-        let manager = PostgresConnectionManager::new(config, tokio_postgres::NoTls);
+        let manager = PostgresConnectionManager::new(config, postgres::NoTls);
 
         let pool = Pool::builder()
             .connection_timeout(std::time::Duration::from_secs(10))
