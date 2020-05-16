@@ -1,5 +1,5 @@
 use super::{Problem, ProblemType};
-use actix_web::http::StatusCode;
+use rocket::http::Status;
 use serde::Serialize;
 use std::collections::HashMap;
 use std::fmt::{Debug, Display};
@@ -89,7 +89,7 @@ impl ValidationProblem {
             })
             .collect();
 
-        Problem::new(ValidationProblemType {}, StatusCode::UNPROCESSABLE_ENTITY)
+        Problem::new(ValidationProblemType {}, Status::UnprocessableEntity)
             .with_extra("fields", fields)
     }
 }

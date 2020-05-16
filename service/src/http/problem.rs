@@ -1,4 +1,4 @@
-use actix_web::http::StatusCode;
+use rocket::http::Status;
 use serde::Serialize;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -20,7 +20,7 @@ pub trait ProblemType: Display + Debug {
 #[derive(Debug)]
 pub struct Problem {
     pub error: Box<dyn ProblemType>,
-    pub status: StatusCode,
+    pub status: Status,
     pub detail: Option<String>,
     pub instance: Option<String>,
     pub extra: HashMap<String, Value>,
@@ -28,7 +28,7 @@ pub struct Problem {
 
 impl Problem {
     /// Create a new Problem instance
-    pub fn new<T>(error: T, status: StatusCode) -> Self
+    pub fn new<T>(error: T, status: Status) -> Self
     where
         T: ProblemType + 'static,
     {
@@ -103,9 +103,9 @@ mod tests {
 
     #[test]
     fn test_basic_problem() {
-        let problem = Problem::new(ProblemDetails::SomeProblem, StatusCode::BAD_REQUEST);
+        let problem = Problem::new(ProblemDetails::SomeProblem, Status::BadRequest);
 
-        assert_eq!(StatusCode::BAD_REQUEST, problem.status);
+        assert_eq!(Status::BadRequest, problem.status);
         // TODO: assert_matches!(*problem.error, ProblemDetails::SomeProblem);
         assert_eq!(None, problem.detail);
         assert_eq!(None, problem.instance);
@@ -114,13 +114,13 @@ mod tests {
 
     #[test]
     fn test_full_problem() {
-        let problem = Problem::new(ProblemDetails::SomeProblem, StatusCode::BAD_REQUEST)
+        let problem = Problem::new(ProblemDetails::SomeProblem, Status::BadRequest)
             .with_detail("Some Detail")
             .with_instance("Some Instance")
             .with_extra("some_key", "Some Value")
             .with_extra("other_key", 42);
 
-        assert_eq!(StatusCode::BAD_REQUEST, problem.status);
+        assert_eq!(Status::BadRequest, problem.status);
         // TODO: assert_matches!(*problem.error, ProblemDetails::SomeProblem);
         assert_eq!(Some("Some Detail".to_owned()), problem.detail);
         assert_eq!(Some("Some Instance".to_owned()), problem.instance);
@@ -137,7 +137,7 @@ mod tests {
 
     #[test]
     fn test_problem_display() {
-        let problem = Problem::new(ProblemDetails::SomeProblem, StatusCode::BAD_REQUEST);
+        let problem = Problem::new(ProblemDetails::SomeProblem, Status::BadRequest);
 
         assert_eq!("Something Happened".to_owned(), format!("{}", problem));
     }

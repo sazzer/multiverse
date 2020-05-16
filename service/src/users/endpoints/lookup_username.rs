@@ -1,6 +1,6 @@
 use crate::http::problem::{Problem, ProblemType};
 use crate::users::{Username, UsersService};
-use actix_web::{get, http::StatusCode, web, Either, HttpResponse, Responder};
+use rocket::{get, http::Status, State};
 
 /// Actix handler to see if a username is already registered or not
 ///
@@ -12,20 +12,20 @@ use actix_web::{get, http::StatusCode, web, Either, HttpResponse, Responder};
 /// If the username is known then an empty response.
 /// If the username is not registered then an RFC-7807 problem response indicating this.
 #[tracing::instrument(name = "GET /usernames/{username}", skip(users_service))]
-#[get("/usernames/{username}")]
-pub async fn lookup_username(
-    users_service: web::Data<UsersService>,
-    path: web::Path<(Username,)>,
-) -> Either<impl Responder, Problem> {
-    let found = users_service.lookup_username(&path.0);
+#[get("/usernames/<username>")]
+pub fn lookup_username(
+    users_service: State<UsersService>,
+    username: Username,
+) -> Result<Status, Problem> {
+    let found = users_service.lookup_username(&username);
 
-    tracing::debug!(found = ?found, username = ?path.0, "Looking up username");
+    tracing::debug!(found = ?found, username = ?username, "Looking up username");
     if found {
-        Either::A(HttpResponse::NoContent())
+        Ok(Status::NoContent)
     } else {
-        Either::B(Problem::new(
+        Err(Problem::new(
             LookupUsernameProblemType::UnknownUsername,
-            StatusCode::NOT_FOUND,
+            Status::NotFound,
         ))
     }
 }

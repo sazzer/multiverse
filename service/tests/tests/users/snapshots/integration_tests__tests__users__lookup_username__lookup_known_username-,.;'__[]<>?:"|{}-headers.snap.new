@@ -1,0 +1,5 @@
+---
+source: tests/tests/users/lookup_username.rs
+expression: response.headers()
+---
+"HTTP/1.1 204 No Content\nServer: Rocket"

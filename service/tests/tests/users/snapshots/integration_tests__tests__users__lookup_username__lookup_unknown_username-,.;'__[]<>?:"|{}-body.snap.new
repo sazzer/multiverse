@@ -1,5 +1,5 @@
 ---
-source: tests/integration_tests.rs
+source: tests/tests/users/lookup_username.rs
 expression: response.to_json().unwrap()
 ---
 {

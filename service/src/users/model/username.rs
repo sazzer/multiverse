@@ -49,3 +49,15 @@ impl ToSql for Username {
     accepts!(TEXT, VARCHAR);
     to_sql_checked!();
 }
+
+impl<'r> rocket::request::FromParam<'r> for Username {
+    type Error = &'r rocket::http::RawStr;
+
+    fn from_param(param: &'r rocket::http::RawStr) -> Result<Self, Self::Error> {
+        param
+            .percent_decode()
+            .map(|cow| cow.into_owned())
+            .map(|username| Username(username))
+            .map_err(|_| param)
+    }
+}
