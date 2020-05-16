@@ -1,3 +1,3 @@
-// mod register_user;
+mod register_user;
 
-// pub use register_user::*;
+pub use register_user::*;

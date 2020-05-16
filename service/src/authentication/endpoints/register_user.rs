@@ -3,7 +3,7 @@ use crate::{
     authentication::{AuthenticationService, RegisterError},
     users::*,
 };
-use actix_web::{http::StatusCode, post, web, HttpResponse, Responder};
+use rocket::{http::Status, post, State};
 use serde_json::Value;
 
 /// Actix handler to register a new user
@@ -15,11 +15,11 @@ use serde_json::Value;
 /// # Returns
 /// TODO: Unknown
 #[tracing::instrument(name = "POST /register", skip(authentication_service, body))]
-#[post("/register")]
-pub async fn register_user(
-    authentication_service: web::Data<AuthenticationService>,
-    body: web::Json<Value>,
-) -> Result<impl Responder, Problem> {
+#[post("/register", data = "<body>")]
+pub fn register_user(
+    authentication_service: State<AuthenticationService>,
+    body: rocket_contrib::json::Json<Value>,
+) -> Result<Status, Problem> {
     let username = body
         .get("username")
         .and_then(|v| v.as_str())
@@ -62,7 +62,7 @@ pub async fn register_user(
             tracing::info!(user = ?user, "Registering user");
             authentication_service.register_user(user)?;
 
-            Ok(HttpResponse::NoContent())
+            Ok(Status::NoContent)
         }
         _ => {
             tracing::warn!("Validation error registering user");
@@ -122,11 +122,11 @@ impl From<RegisterError> for Problem {
         match e {
             RegisterError::DuplicateUsername => Problem::new(
                 RegisterUserProblemType::DuplicateUsername,
-                StatusCode::UNPROCESSABLE_ENTITY,
+                Status::UnprocessableEntity,
             ),
             _ => Problem::new(
                 RegisterUserProblemType::UnknownError,
-                StatusCode::INTERNAL_SERVER_ERROR,
+                Status::InternalServerError,
             ),
         }
     }
