@@ -1,6 +1,4 @@
 use crate::infrastructure::healthchecker::{ComponentHealth, SystemHealth};
-use actix_web::{http::StatusCode, Error, HttpRequest, HttpResponse, Responder};
-use futures::future::{ready, Ready};
 use serde::Serialize;
 use std::collections::HashMap;
 
@@ -81,17 +79,17 @@ impl From<SystemHealth> for SystemHealthModel {
     }
 }
 
-impl Responder for SystemHealthModel {
-    type Error = Error;
-    type Future = Ready<Result<HttpResponse, Error>>;
-
-    fn respond_to(self, _req: &HttpRequest) -> Self::Future {
+impl<'r> rocket::response::Responder<'r> for SystemHealthModel {
+    fn respond_to(self, req: &rocket::Request) -> rocket::response::Result<'r> {
         let status_code = if self.healthy {
-            StatusCode::OK
+            rocket::http::Status::Ok
         } else {
-            StatusCode::SERVICE_UNAVAILABLE
+            rocket::http::Status::ServiceUnavailable
         };
 
-        ready(Ok(HttpResponse::build(status_code).json(self)))
+        rocket::response::Response::build()
+            .merge(rocket_contrib::json::Json(self).respond_to(req).unwrap())
+            .status(status_code)
+            .ok()
     }
 }

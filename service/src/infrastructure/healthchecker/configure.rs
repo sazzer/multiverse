@@ -38,8 +38,9 @@ impl HealthcheckConfig {
         Arc::new(move |config| {
             let healthchecker = builder.clone().build();
 
-            config.manage(healthchecker)
-            // config.service(super::endpoints::check_health);
+            config
+                .manage(healthchecker)
+                .mount("/", rocket::routes![super::endpoints::check_health])
         })
     }
 }
