@@ -60,7 +60,7 @@ pub async fn register_user(
                 password: password.clone(),
             };
             tracing::info!(user = ?user, "Registering user");
-            authentication_service.register_user(user).await?;
+            authentication_service.register_user(user)?;
 
             Ok(HttpResponse::NoContent())
         }

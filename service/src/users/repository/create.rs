@@ -12,7 +12,7 @@ impl UserRepository {
     ///
     /// # Errors
     /// Any errors that occurred creating the new user
-    pub async fn create(&self, user: UserModel) -> Result<UserModel, SaveUserError> {
+    pub fn create(&self, user: UserModel) -> Result<UserModel, SaveUserError> {
         let mut connection = self
             .database
             .checkout()

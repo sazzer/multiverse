@@ -1,7 +1,7 @@
 use super::UserRepository;
 use crate::model::Identity;
 use crate::users::model::*;
-use tokio_postgres::row::Row;
+use postgres::row::Row;
 
 impl UserRepository {
     /// Parse a row from the database into a User Model

@@ -27,11 +27,11 @@ impl Healthchecker {
     ///
     /// # Returns
     /// The health of the system as a whole
-    pub async fn check_health(&self) -> SystemHealth {
+    pub fn check_health(&self) -> SystemHealth {
         let mut result = HashMap::new();
 
         for (name, component) in &self.components {
-            let component_health = component.check_health().await;
+            let component_health = component.check_health();
             tracing::debug!(component = ?name, health = ?component_health, "Component health");
             result.insert(
                 name.clone(),
@@ -87,24 +87,24 @@ impl HealthcheckerBuilder {
 mod tests {
     use super::*;
 
-    #[actix_rt::test]
-    async fn test_no_components() {
+    #[test]
+    fn test_no_components() {
         let builder = HealthcheckerBuilder::default();
         // builder.with_component("passing", Arc::new(Ok(())));
         let sut = builder.build();
 
-        let result = sut.check_health().await;
+        let result = sut.check_health();
         assert_eq!(true, result.is_healthy());
         assert_eq!(true, result.components.is_empty());
     }
 
-    #[actix_rt::test]
-    async fn test_passing_components() {
+    #[test]
+    fn test_passing_components() {
         let mut builder = HealthcheckerBuilder::default();
         builder.with_component("passing", Arc::new(Ok(())));
         let sut = builder.build();
 
-        let result = sut.check_health().await;
+        let result = sut.check_health();
         assert_eq!(true, result.is_healthy());
         assert_eq!(1, result.components.len());
         assert_eq!(
@@ -113,13 +113,13 @@ mod tests {
         );
     }
 
-    #[actix_rt::test]
-    async fn test_failing_components() {
+    #[test]
+    fn test_failing_components() {
         let mut builder = HealthcheckerBuilder::default();
         builder.with_component("failing", Arc::new(Err("Oops")));
         let sut = builder.build();
 
-        let result = sut.check_health().await;
+        let result = sut.check_health();
         assert_eq!(false, result.is_healthy());
         assert_eq!(1, result.components.len());
         assert_eq!(
@@ -128,14 +128,14 @@ mod tests {
         );
     }
 
-    #[actix_rt::test]
-    async fn test_mixed_components() {
+    #[test]
+    fn test_mixed_components() {
         let mut builder = HealthcheckerBuilder::default();
         builder.with_component("passing", Arc::new(Ok(())));
         builder.with_component("failing", Arc::new(Err("Oops")));
         let sut = builder.build();
 
-        let result = sut.check_health().await;
+        let result = sut.check_health();
         assert_eq!(false, result.is_healthy());
         assert_eq!(2, result.components.len());
         assert_eq!(

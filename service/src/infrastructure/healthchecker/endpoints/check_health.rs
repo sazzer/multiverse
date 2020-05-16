@@ -12,7 +12,7 @@ use actix_web::{get, web};
 #[tracing::instrument(name = "GET /health", skip(healthchecker))]
 #[get("/health")]
 pub async fn check_health(healthchecker: web::Data<Healthchecker>) -> SystemHealthModel {
-    let health = healthchecker.check_health().await;
+    let health = healthchecker.check_health();
 
     health.into()
 }

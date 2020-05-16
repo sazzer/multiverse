@@ -23,12 +23,12 @@ impl UsersService {
     ///
     /// # Errors
     /// Any errors that occurred creating the new user
-    pub async fn create_user(&self, data: UserData) -> Result<UserModel, CreateUserError> {
+    pub fn create_user(&self, data: UserData) -> Result<UserModel, CreateUserError> {
         let user = UserModel {
             identity: Default::default(),
             data,
         };
-        let user = self.repository.create(user).await?;
+        let user = self.repository.create(user)?;
 
         Ok(user)
     }
