@@ -1,4 +1,7 @@
-use crate::{data::SeedUser, service::TestService};
+use crate::{
+    data::SeedUser,
+    service::{TestResponse, TestService},
+};
 use insta::{assert_debug_snapshot, assert_json_snapshot};
 use rstest::rstest;
 use serde_json::json;
@@ -56,19 +59,16 @@ fn integration_test_register_validation_failure(
 ) {
     let service = TestService::new();
 
-    let body = json!({
+    let body = serde_json::to_string(&json!({
         "username": username,
         "display_name": display_name,
         "email_address": email_address,
         "avatar_url": avatar_url,
         "password": password
-    });
-    let response = service.request(
-        actix_web::test::TestRequest::post()
-            .uri("/register")
-            .set_json(&body)
-            .to_request(),
-    );
+    }))
+    .unwrap();
+    let client = service.test_client();
+    let mut response: TestResponse = client.post("/register").body(&body).dispatch().into();
 
     assert_debug_snapshot!(
         format!("register_validation_failure-{}-headers", name),
@@ -89,18 +89,15 @@ fn integration_test_register_duplicate_username() {
         ..Default::default()
     });
 
-    let body = json!({
+    let body = serde_json::to_string(&json!({
         "username": "username",
         "display_name": "display_name",
         "email_address": "test@example.com",
         "password": "password"
-    });
-    let response = service.request(
-        actix_web::test::TestRequest::post()
-            .uri("/register")
-            .set_json(&body)
-            .to_request(),
-    );
+    }))
+    .unwrap();
+    let client = service.test_client();
+    let mut response: TestResponse = client.post("/register").body(&body).dispatch().into();
 
     assert_debug_snapshot!("register_duplicate_username-headers", response.headers());
     assert_json_snapshot!(

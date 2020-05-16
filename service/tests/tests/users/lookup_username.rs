@@ -1,4 +1,7 @@
-use crate::{data::SeedUser, service::TestService};
+use crate::{
+    data::SeedUser,
+    service::{TestResponse, TestService},
+};
 use insta::{assert_debug_snapshot, assert_json_snapshot};
 use rstest::rstest;
 use uritemplate::UriTemplate;
@@ -22,7 +25,8 @@ fn integration_test_lookup_known_username(username: &str) {
     let url = UriTemplate::new("/usernames/{username}")
         .set("username", username)
         .build();
-    let response = service.test_client().get(url).dispatch();
+    let client = service.test_client();
+    let response: TestResponse = client.get(url).dispatch().into();
 
     assert_debug_snapshot!(
         format!("lookup_known_username-{}-headers", username),
@@ -43,7 +47,8 @@ fn integration_test_lookup_unknown_username(username: &str) {
     let url = UriTemplate::new("/usernames/{username}")
         .set("username", username)
         .build();
-    let response = service.test_client().get(url).dispatch();
+    let client = service.test_client();
+    let mut response: TestResponse = client.get(url).dispatch().into();
 
     assert_debug_snapshot!(
         format!("lookup_unknown_username-{}-headers", username),
