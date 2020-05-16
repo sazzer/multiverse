@@ -42,6 +42,7 @@ impl Problem {
     }
 
     /// Set the Detail of the Problem instance
+    #[allow(dead_code)]
     pub fn with_detail<S>(self, detail: S) -> Self
     where
         S: Into<String>,
@@ -53,6 +54,7 @@ impl Problem {
     }
 
     /// Set the Instance of the Problem instance
+    #[allow(dead_code)]
     pub fn with_instance<S>(self, instance: S) -> Self
     where
         S: Into<String>,
