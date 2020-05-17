@@ -8,6 +8,8 @@ mod token;
 pub struct AuthorizationService {
     /// The duration of time that a generated authorization is valid for
     duration: Duration,
+    /// The secret key used for the JWT generation
+    secret: String,
 }
 
 impl AuthorizationService {
@@ -15,10 +17,11 @@ impl AuthorizationService {
     ///
     /// # Parameters
     /// - `duration` - The duration of time that a generated authorization is valid for
+    /// - `secret` - The secret key used for the JWT
     ///
     /// # Returns
     /// The Authorization Service ready to use
-    pub(super) fn new(duration: Duration) -> Self {
-        AuthorizationService { duration }
+    pub(super) fn new(duration: Duration, secret: String) -> Self {
+        AuthorizationService { duration, secret }
     }
 }

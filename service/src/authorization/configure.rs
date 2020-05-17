@@ -15,7 +15,10 @@ impl AuthorizationConfig {
     /// The Authorization Config object
     pub fn new() -> Self {
         Self {
-            authorization_service: AuthorizationService::new(Duration::days(100)),
+            authorization_service: AuthorizationService::new(
+                Duration::days(100),      // TODO: Configure this
+                "SuperSecret".to_owned(), // TODO: Configure this
+            ),
         }
     }
 

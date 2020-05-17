@@ -1,4 +1,4 @@
-use crate::authorization::{Authorization, AuthorizationService};
+use crate::authorization::{Authorization, AuthorizationDetails, AuthorizationService};
 use crate::users::UserModel;
 use chrono::Utc;
 
@@ -14,13 +14,14 @@ impl AuthorizationService {
         let valid_from = Utc::now();
         let valid_until = valid_from + self.duration;
 
-        let token = self.generate_token(&user.identity.id, &valid_from, &valid_until);
-
-        Authorization {
+        let details = AuthorizationDetails {
             user_id: user.identity.id.clone(),
             valid_from,
             valid_until,
-            token,
-        }
+        };
+
+        let token = self.generate_token(&details);
+
+        Authorization { details, token }
     }
 }
