@@ -1,6 +1,7 @@
 use chrono::Duration;
 
 mod generate_authorization;
+mod token;
 
 /// The Authorization Service to work with
 #[derive(Clone)]

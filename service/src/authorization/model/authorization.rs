@@ -1,3 +1,4 @@
+use super::Token;
 use crate::users::UserID;
 use chrono::{DateTime, Utc};
 
@@ -10,4 +11,6 @@ pub struct Authorization {
     pub valid_from: DateTime<Utc>,
     /// When the authorization details are valid until
     pub valid_until: DateTime<Utc>,
+    /// The actual authorization token, encapsulating all of the above
+    pub token: Token,
 }
