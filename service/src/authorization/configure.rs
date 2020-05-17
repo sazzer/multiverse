@@ -1,4 +1,5 @@
 use super::AuthorizationService;
+use chrono::Duration;
 use rocket::Rocket;
 use std::sync::Arc;
 
@@ -14,9 +15,10 @@ impl AuthorizationConfig {
     /// The Authorization Config object
     pub fn new() -> Self {
         Self {
-            authorization_service: AuthorizationService::new(),
+            authorization_service: AuthorizationService::new(Duration::days(100)),
         }
     }
+
     /// Generate the configuration callback needed for the HTTP Server to actually add the Authorization endpoints
     /// to the server
     ///
