@@ -1,4 +1,5 @@
 use super::{CheckHealth, HealthcheckerBuilder};
+use rocket::Rocket;
 use std::sync::Arc;
 
 /// Application Configuration for the Healthchecks, allowing us to use them with other parts of the system
@@ -33,7 +34,7 @@ impl HealthcheckConfig {
     ///
     /// # Returns
     /// The callback to provide to the HTTP Server to configure up the healthchecks
-    pub fn configure(&self) -> Arc<dyn Fn(rocket::Rocket) -> rocket::Rocket + Send + Sync> {
+    pub fn configure(&self) -> Arc<dyn Fn(Rocket) -> Rocket + Send + Sync> {
         let builder = self.builder.clone();
         Arc::new(move |config| {
             let healthchecker = builder.clone().build();

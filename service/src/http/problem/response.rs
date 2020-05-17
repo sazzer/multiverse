@@ -1,4 +1,6 @@
 use super::Problem;
+use rocket::{http::ContentType, response, Request};
+use rocket_contrib::json::Json;
 use serde::Serialize;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -23,8 +25,8 @@ struct ProblemModel {
     extra: HashMap<String, Value>,
 }
 
-impl<'r> rocket::response::Responder<'r> for Problem {
-    fn respond_to(self, req: &rocket::Request) -> rocket::response::Result<'r> {
+impl<'r> response::Responder<'r> for Problem {
+    fn respond_to(self, req: &Request) -> response::Result<'r> {
         let problem_details = ProblemModel {
             r#type: self.error.error_code(),
             title: format!("{}", self.error),
@@ -34,17 +36,10 @@ impl<'r> rocket::response::Responder<'r> for Problem {
             extra: self.extra.clone(),
         };
 
-        rocket::response::Response::build()
-            .merge(
-                rocket_contrib::json::Json(problem_details)
-                    .respond_to(req)
-                    .unwrap(),
-            )
+        response::Response::build()
+            .merge(Json(problem_details).respond_to(req).unwrap())
             .status(self.status)
-            .header(rocket::http::ContentType::new(
-                "application",
-                "problem+json",
-            ))
+            .header(ContentType::new("application", "problem+json"))
             .ok()
     }
 }

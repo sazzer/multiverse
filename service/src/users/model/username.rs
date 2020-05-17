@@ -1,5 +1,6 @@
 use bytes::BytesMut;
 use postgres_types::{accepts, to_sql_checked, FromSql, IsNull, ToSql, Type};
+use rocket::{http::RawStr, request};
 use serde::{Deserialize, Serialize};
 use std::str::FromStr;
 
@@ -50,14 +51,14 @@ impl ToSql for Username {
     to_sql_checked!();
 }
 
-impl<'r> rocket::request::FromParam<'r> for Username {
-    type Error = &'r rocket::http::RawStr;
+impl<'r> request::FromParam<'r> for Username {
+    type Error = &'r RawStr;
 
-    fn from_param(param: &'r rocket::http::RawStr) -> Result<Self, Self::Error> {
+    fn from_param(param: &'r RawStr) -> Result<Self, Self::Error> {
         param
             .percent_decode()
             .map(|cow| cow.into_owned())
-            .map(|username| Username(username))
             .map_err(|_| param)
+            .and_then(|username| Username::from_str(&username).map_err(|_| param))
     }
 }

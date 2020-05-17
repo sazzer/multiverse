@@ -4,6 +4,7 @@ use crate::{
     users::*,
 };
 use rocket::{http::Status, post, State};
+use rocket_contrib::json::Json;
 use serde_json::Value;
 
 /// Actix handler to register a new user
@@ -18,7 +19,7 @@ use serde_json::Value;
 #[post("/register", data = "<body>")]
 pub fn register_user(
     authentication_service: State<AuthenticationService>,
-    body: rocket_contrib::json::Json<Value>,
+    body: Json<Value>,
 ) -> Result<Status, Problem> {
     let username = body
         .get("username")

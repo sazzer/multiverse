@@ -1,4 +1,5 @@
 use super::AuthorizationService;
+use rocket::Rocket;
 use std::sync::Arc;
 
 /// Application Configuration for the Authorization module
@@ -21,7 +22,7 @@ impl AuthorizationConfig {
     ///
     /// # Returns
     /// The callback to provide to the HTTP Server to configure up the Authorization endpoints
-    pub fn configure(&self) -> Arc<dyn Fn(rocket::Rocket) -> rocket::Rocket + Send + Sync> {
+    pub fn configure(&self) -> Arc<dyn Fn(Rocket) -> Rocket + Send + Sync> {
         let authorization_service = self.authorization_service.clone();
         Arc::new(move |config| config.manage(authorization_service.clone()))
     }

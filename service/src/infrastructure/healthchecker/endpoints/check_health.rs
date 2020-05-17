@@ -1,6 +1,6 @@
 use super::model::SystemHealthModel;
 use crate::infrastructure::healthchecker::Healthchecker;
-use rocket::get;
+use rocket::{get, State};
 
 /// Actix handler to check the health of the system
 ///
@@ -11,7 +11,7 @@ use rocket::get;
 /// The API model representing the health of the system
 #[tracing::instrument(name = "GET /health", skip(healthchecker))]
 #[get("/health")]
-pub fn check_health(healthchecker: rocket::State<Healthchecker>) -> SystemHealthModel {
+pub fn check_health(healthchecker: State<Healthchecker>) -> SystemHealthModel {
     let health = healthchecker.check_health();
 
     health.into()

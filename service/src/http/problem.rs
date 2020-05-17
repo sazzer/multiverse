@@ -19,15 +19,27 @@ pub trait ProblemType: Display + Debug {
 /// Representation of a Problem expressed in terms of RFC-7807
 #[derive(Debug)]
 pub struct Problem {
+    /// The actual error that occurred
     pub error: Box<dyn ProblemType>,
+    /// The HTTP Status code to use
     pub status: Status,
+    /// An additional detail message
     pub detail: Option<String>,
+    /// An additional instance subtype
     pub instance: Option<String>,
+    /// Any extra details
     pub extra: HashMap<String, Value>,
 }
 
 impl Problem {
     /// Create a new Problem instance
+    ///
+    /// # Parameters
+    /// - `error` - The error code
+    /// - `status` - The HTTP Status code
+    ///
+    /// # Returns
+    /// The problem
     pub fn new<T>(error: T, status: Status) -> Self
     where
         T: ProblemType + 'static,

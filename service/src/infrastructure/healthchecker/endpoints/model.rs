@@ -1,4 +1,6 @@
 use crate::infrastructure::healthchecker::{ComponentHealth, SystemHealth};
+use rocket::{http::Status, response};
+use rocket_contrib::json::Json;
 use serde::Serialize;
 use std::collections::HashMap;
 
@@ -79,16 +81,16 @@ impl From<SystemHealth> for SystemHealthModel {
     }
 }
 
-impl<'r> rocket::response::Responder<'r> for SystemHealthModel {
-    fn respond_to(self, req: &rocket::Request) -> rocket::response::Result<'r> {
+impl<'r> response::Responder<'r> for SystemHealthModel {
+    fn respond_to(self, req: &rocket::Request) -> response::Result<'r> {
         let status_code = if self.healthy {
-            rocket::http::Status::Ok
+            Status::Ok
         } else {
-            rocket::http::Status::ServiceUnavailable
+            Status::ServiceUnavailable
         };
 
-        rocket::response::Response::build()
-            .merge(rocket_contrib::json::Json(self).respond_to(req).unwrap())
+        response::Response::build()
+            .merge(Json(self).respond_to(req).unwrap())
             .status(status_code)
             .ok()
     }

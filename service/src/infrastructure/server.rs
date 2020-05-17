@@ -1,7 +1,8 @@
+use rocket::{config::Environment, local::Client, Config, Rocket};
 use std::sync::Arc;
 
 /// A function that is able to contribute configuration to the Actix server when it is being constructed
-pub type FnConfig = Arc<dyn Fn(rocket::Rocket) -> rocket::Rocket + Send + Sync>;
+pub type FnConfig = Arc<dyn Fn(Rocket) -> Rocket + Send + Sync>;
 
 /// The actual HTTP Server that will be handling all of the web traffic
 pub struct Server {
@@ -34,13 +35,12 @@ impl Server {
     ///
     /// # Returns
     /// The rocket instance
-    fn build(&self, port: u16) -> rocket::Rocket {
-        let config = rocket::Config::build(
-            rocket::config::Environment::active().expect("Invalid rocket environment specified"),
-        )
-        .port(port)
-        .finalize()
-        .expect("Failed to create rocket config");
+    fn build(&self, port: u16) -> Rocket {
+        let config =
+            Config::build(Environment::active().expect("Invalid rocket environment specified"))
+                .port(port)
+                .finalize()
+                .expect("Failed to create rocket config");
 
         let mut rocket = rocket::custom(config);
 
@@ -54,9 +54,9 @@ impl Server {
     ///
     /// # Returns
     /// The test client
-    pub fn test_client(&self) -> rocket::local::Client {
+    pub fn test_client(&self) -> Client {
         let rocket = self.build(0);
 
-        rocket::local::Client::new(rocket).expect("valid rocket instance")
+        Client::new(rocket).expect("valid rocket instance")
     }
 }

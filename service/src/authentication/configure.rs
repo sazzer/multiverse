@@ -1,5 +1,6 @@
 use super::AuthenticationService;
 use crate::users::UsersService;
+use rocket::Rocket;
 use std::sync::Arc;
 
 /// Application Configuration for the Authentication module
@@ -23,7 +24,7 @@ impl AuthenticationConfig {
     ///
     /// # Returns
     /// The callback to provide to the HTTP Server to configure up the Authentication endpoints
-    pub fn configure(&self) -> Arc<dyn Fn(rocket::Rocket) -> rocket::Rocket + Send + Sync> {
+    pub fn configure(&self) -> Arc<dyn Fn(Rocket) -> Rocket + Send + Sync> {
         let authentication_service = self.authentication_service.clone();
         Arc::new(move |config| {
             config
