@@ -60,8 +60,10 @@ pub fn register_user(
                 avatar_url,
                 password: password.clone(),
             };
-            tracing::info!(user = ?user, "Registering user");
-            authentication_service.register_user(user)?;
+            tracing::debug!(user = ?user, "Registering user");
+            let authenticated_user = authentication_service.register_user(user)?;
+
+            tracing::debug!(authenticated_user = ?authenticated_user, "Registered user");
 
             Ok(Status::NoContent)
         }

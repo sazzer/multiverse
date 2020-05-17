@@ -31,10 +31,14 @@ impl AuthenticationService {
         })?;
 
         // Call the Authorization Service to create a new Token for the User
+        let authorization = self.authorization_service.generate_authorization(&user);
 
         // Return the Authenticated User
         // todo!()
-        Ok(AuthenticatedUser { user })
+        Ok(AuthenticatedUser {
+            user,
+            authorization,
+        })
     }
 }
 
