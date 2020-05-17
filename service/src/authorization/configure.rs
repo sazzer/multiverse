@@ -5,7 +5,7 @@ use std::sync::Arc;
 
 /// Application Configuration for the Authorization module
 pub struct AuthorizationConfig {
-    authorization_service: AuthorizationService,
+    pub authorization_service: AuthorizationService,
 }
 
 impl AuthorizationConfig {

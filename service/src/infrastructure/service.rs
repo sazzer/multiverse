@@ -27,7 +27,10 @@ impl Service {
 
         let users = UsersConfig::new(database.clone());
         let authorization = crate::authorization::configure::AuthorizationConfig::new();
-        let authentication = AuthenticationConfig::new(users.users_service.clone());
+        let authentication = AuthenticationConfig::new(
+            users.users_service.clone(),
+            authorization.authorization_service.clone(),
+        );
 
         let healthchecks = HealthcheckConfig::default().with_component("db", Arc::new(database));
 

@@ -1,5 +1,6 @@
 mod register_user;
 
+use crate::authorization::AuthorizationService;
 use crate::users::UsersService;
 pub use register_user::RegisterError;
 
@@ -8,6 +9,8 @@ pub use register_user::RegisterError;
 pub struct AuthenticationService {
     /// The Users Service, to create and retrieve user records
     users_service: UsersService,
+    /// The Authorization Service, to generate authorization records for users
+    authorization_service: AuthorizationService,
 }
 
 impl AuthenticationService {
@@ -15,10 +18,17 @@ impl AuthenticationService {
     ///
     /// # Parameters
     /// - `users_service` - The users service
+    /// - `authorization_service` - The authorization service
     ///
     /// # Returns
     /// The Authentication Service ready to use
-    pub(super) fn new(users_service: UsersService) -> Self {
-        AuthenticationService { users_service }
+    pub(super) fn new(
+        users_service: UsersService,
+        authorization_service: AuthorizationService,
+    ) -> Self {
+        AuthenticationService {
+            users_service,
+            authorization_service,
+        }
     }
 }

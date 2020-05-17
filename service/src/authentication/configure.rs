@@ -1,4 +1,5 @@
 use super::AuthenticationService;
+use crate::authorization::AuthorizationService;
 use crate::users::UsersService;
 use rocket::Rocket;
 use std::sync::Arc;
@@ -11,10 +12,15 @@ pub struct AuthenticationConfig {
 impl AuthenticationConfig {
     /// Create the Configuration for the Authentication Module
     ///
+    /// # Parameters
+    /// - `users_service` - The users service
+    /// - `authorization_service` - The authorization service
+    ///
     /// # Returns
     /// The Authentication Config object
-    pub fn new(users_service: UsersService) -> Self {
-        let authentication_service = AuthenticationService::new(users_service);
+    pub fn new(users_service: UsersService, authorization_service: AuthorizationService) -> Self {
+        let authentication_service =
+            AuthenticationService::new(users_service, authorization_service);
         Self {
             authentication_service,
         }
