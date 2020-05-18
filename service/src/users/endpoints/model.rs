@@ -3,7 +3,7 @@ use serde::Serialize;
 
 /// API Model representing a User
 #[derive(Debug, Serialize)]
-pub struct User {
+pub struct UserResponse {
     /// The Username of the User
     pub username: Username,
     /// The Display Name of the User
@@ -16,7 +16,7 @@ pub struct User {
     pub avatar_url: Option<String>,
 }
 
-impl From<UserModel> for User {
+impl From<UserModel> for UserResponse {
     fn from(user: UserModel) -> Self {
         Self {
             username: user.data.username,

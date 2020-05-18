@@ -1,4 +1,4 @@
-use super::model::AuthenticatedUser;
+use super::model::AuthenticatedUserResponse;
 use crate::http::problem::*;
 use crate::{
     authentication::{AuthenticationService, RegisterError},
@@ -23,8 +23,8 @@ use serde::Deserialize;
 #[post("/register", data = "<body>")]
 pub fn register_user(
     authentication_service: State<AuthenticationService>,
-    body: Json<Registration>,
-) -> Result<AuthenticatedUser, Problem> {
+    body: Json<RegistrationRequest>,
+) -> Result<AuthenticatedUserResponse, Problem> {
     let username = body.username();
     let display_name = body.display_name();
     let email_address = body.email_address();
@@ -77,7 +77,7 @@ pub fn register_user(
 
 /// Incoming details representing a registration request
 #[derive(Debug, Deserialize)]
-pub struct Registration {
+pub struct RegistrationRequest {
     /// The username to register as
     username: Option<String>,
     /// The display name to register with
@@ -90,7 +90,7 @@ pub struct Registration {
     password: Option<String>,
 }
 
-impl Registration {
+impl RegistrationRequest {
     /// Extract the username to use
     fn username(&self) -> Result<Username, UsernameParseError> {
         self.username

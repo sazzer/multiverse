@@ -19,7 +19,7 @@ use std::collections::HashMap;
 ///   "message": "Connection reset by peer"
 /// }
 #[derive(Serialize)]
-pub struct ComponentHealthModel {
+pub struct ComponentHealthResponse {
     /// Whether this component is healthy or not
     pub healthy: bool,
     /// The error message if the component is unhealthy
@@ -52,22 +52,22 @@ pub struct ComponentHealthModel {
 ///   ]
 /// }
 #[derive(Serialize)]
-pub struct SystemHealthModel {
+pub struct SystemHealthResponse {
     /// Whether the system as a whole is healthy or not
     pub healthy: bool,
     /// The health of the individual components in the system
-    pub components: HashMap<String, ComponentHealthModel>,
+    pub components: HashMap<String, ComponentHealthResponse>,
 }
 
-impl From<SystemHealth> for SystemHealthModel {
+impl From<SystemHealth> for SystemHealthResponse {
     fn from(health: SystemHealth) -> Self {
-        SystemHealthModel {
+        SystemHealthResponse {
             healthy: health.is_healthy(),
             components: health
                 .components
                 .into_iter()
                 .map(|(name, component)| {
-                    let health = ComponentHealthModel {
+                    let health = ComponentHealthResponse {
                         healthy: component.is_healthy(),
                         message: match component {
                             ComponentHealth::Healthy => None,
@@ -81,7 +81,7 @@ impl From<SystemHealth> for SystemHealthModel {
     }
 }
 
-impl<'r> response::Responder<'r> for SystemHealthModel {
+impl<'r> response::Responder<'r> for SystemHealthResponse {
     fn respond_to(self, req: &rocket::Request) -> response::Result<'r> {
         let status_code = if self.healthy {
             Status::Ok
