@@ -41,7 +41,10 @@ impl Settings {
 fn main() {
     dotenv().ok();
 
-    tracing_subscriber::fmt::init();
+    #[cfg(not(debug_assertions))]
+    tracing_subscriber::fmt().json().flatten_event(false).init();
+    #[cfg(debug_assertions)]
+    tracing_subscriber::fmt().init();
 
     let args: Vec<String> = std::env::args().collect();
 
