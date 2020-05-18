@@ -34,7 +34,6 @@ impl AuthenticationService {
         let authorization = self.authorization_service.generate_authorization(&user);
 
         // Return the Authenticated User
-        // todo!()
         Ok(AuthenticatedUserModel {
             user,
             authorization,

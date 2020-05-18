@@ -6,7 +6,7 @@ use crate::{
 };
 use rocket::{http::Status, post, State};
 use rocket_contrib::json::Json;
-use serde_json::Value;
+use serde::Deserialize;
 
 /// Actix handler to register a new user
 ///
@@ -15,41 +15,21 @@ use serde_json::Value;
 /// - `body` - The incoming JSON body to work with
 ///
 /// # Returns
-/// TODO: Unknown
+/// The details of the newly authenticated user
+///
+/// # Error
+/// An RFC-7807 Problem if the incoming details are invalid, or the registration fails for any reason
 #[tracing::instrument(name = "POST /register", skip(authentication_service, body))]
 #[post("/register", data = "<body>")]
 pub fn register_user(
     authentication_service: State<AuthenticationService>,
-    body: Json<Value>,
+    body: Json<Registration>,
 ) -> Result<AuthenticatedUser, Problem> {
-    /// TODO: Tidy
-    let username = body
-        .get("username")
-        .and_then(|v| v.as_str())
-        .unwrap_or("")
-        .parse::<Username>();
-    let display_name = body
-        .get("display_name")
-        .and_then(|v| v.as_str())
-        .filter(|v| !v.trim().is_empty())
-        .or_else(|| body.get("username").and_then(|v| v.as_str()))
-        .unwrap_or("")
-        .to_owned();
-    let email_address = body
-        .get("email_address")
-        .and_then(|v| v.as_str())
-        .unwrap_or("")
-        .parse::<EmailAddress>();
-    let avatar_url = body
-        .get("avatar_url")
-        .and_then(|v| v.as_str())
-        .filter(|v| !v.trim().is_empty())
-        .map(|v| v.to_owned());
-    let password = body
-        .get("password")
-        .and_then(|v| v.as_str())
-        .filter(|v| !v.trim().is_empty())
-        .map(Password::from_plaintext);
+    let username = body.username();
+    let display_name = body.display_name();
+    let email_address = body.email_address();
+    let avatar_url = body.avatar_url();
+    let password = body.password();
 
     tracing::debug!(username = ?username, display_name = ?display_name, email_address = ?email_address, avatar_url = ?avatar_url, password = ?password, "Registering new user");
 
@@ -92,6 +72,64 @@ pub fn register_user(
 
             Err(problem.build())
         }
+    }
+}
+
+/// Incoming details representing a registration request
+#[derive(Debug, Deserialize)]
+pub struct Registration {
+    /// The username to register as
+    username: Option<String>,
+    /// The display name to register with
+    display_name: Option<String>,
+    /// The email address to register with
+    email_address: Option<String>,
+    /// The avatar URL to register with
+    avatar_url: Option<String>,
+    /// The password to register with
+    password: Option<String>,
+}
+
+impl Registration {
+    /// Extract the username to use
+    fn username(&self) -> Result<Username, UsernameParseError> {
+        self.username
+            .clone()
+            .unwrap_or("".to_owned())
+            .parse::<Username>()
+    }
+
+    /// Extract the display name to use
+    fn display_name(&self) -> String {
+        self.display_name
+            .clone()
+            .filter(|v| !v.trim().is_empty())
+            .or_else(|| self.username.clone())
+            .unwrap_or_else(|| "".to_owned())
+    }
+
+    /// Extract the email address to use
+    fn email_address(&self) -> Result<EmailAddress, EmailAddressParseError> {
+        self.email_address
+            .clone()
+            .unwrap_or("".to_owned())
+            .parse::<EmailAddress>()
+    }
+
+    /// Extract the avatar URL to use
+    fn avatar_url(&self) -> Option<String> {
+        self.avatar_url
+            .clone()
+            .filter(|v| !v.trim().is_empty())
+            .map(|v| v.to_owned())
+    }
+
+    /// Extract the password to use
+    fn password(&self) -> Option<Password> {
+        self.password
+            .clone()
+            .filter(|v| !v.trim().is_empty())
+            .map(Password::from_plaintext)
     }
 }
 
