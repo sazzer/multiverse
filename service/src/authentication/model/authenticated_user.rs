@@ -4,7 +4,7 @@ use crate::users::UserModel;
 ///
 /// This wrapper contains both the user and the authentication details
 #[derive(Debug)]
-pub struct AuthenticatedUser {
+pub struct AuthenticatedUserModel {
     /// The user that we authenticated as
     pub user: UserModel,
     /// The authorization details for this user

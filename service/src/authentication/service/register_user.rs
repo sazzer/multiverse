@@ -1,4 +1,4 @@
-use crate::authentication::{AuthenticatedUser, AuthenticationService};
+use crate::authentication::{AuthenticatedUserModel, AuthenticationService};
 use crate::users::{CreateUserError, UserData};
 
 /// Errors that can occur when registering a new user
@@ -23,7 +23,7 @@ impl AuthenticationService {
     ///
     /// # Errors
     /// Any errors that happen from registering a user
-    pub fn register_user(&self, user: UserData) -> Result<AuthenticatedUser, RegisterError> {
+    pub fn register_user(&self, user: UserData) -> Result<AuthenticatedUserModel, RegisterError> {
         // Call the User Service to create a new User record with the given data
         let user = self.users_service.create_user(user).map_err(|e| {
             tracing::warn!("Failed to create user: {:?}", e);
@@ -35,7 +35,7 @@ impl AuthenticationService {
 
         // Return the Authenticated User
         // todo!()
-        Ok(AuthenticatedUser {
+        Ok(AuthenticatedUserModel {
             user,
             authorization,
         })

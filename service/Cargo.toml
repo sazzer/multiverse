@@ -13,13 +13,14 @@ name = "multiverse"
 [dependencies]
 argonautica = "0.2.0"
 bytes = "0.5.4"
-chrono = "0.4.11"
+chrono = { version = "0.4.11", features = ["serde"] }
 config = "0.10.1"
 dotenv = "0.15.0"
+frank_jwt = "3.1.2"
 lazy_static = "1.4.0"
 log = "0.4.8"
 postgres = "0.17.3"
-postgres-types = { version = "0.1.1", features=["derive", "with-uuid-0_8", "with-chrono-0_4", "with-serde_json-1"] }
+postgres-types = { version = "0.1.1", features = ["derive", "with-uuid-0_8", "with-chrono-0_4", "with-serde_json-1"] }
 r2d2 = "0.8.8"
 r2d2_postgres = "0.16.0"
 rocket = "0.4.4"
@@ -34,7 +35,6 @@ tracing = "0.1.13"
 tracing-log = "0.1.1"
 tracing-subscriber = "0.2.5"
 uuid = { version = "0.8.1", features = ["v4", "serde"] }
-frank_jwt = "3.1.2"
 
 [dev-dependencies]
 galvanic-assert = "0.8.7"

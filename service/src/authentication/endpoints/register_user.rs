@@ -1,3 +1,4 @@
+use super::model::AuthenticatedUser;
 use crate::http::problem::*;
 use crate::{
     authentication::{AuthenticationService, RegisterError},
@@ -20,7 +21,8 @@ use serde_json::Value;
 pub fn register_user(
     authentication_service: State<AuthenticationService>,
     body: Json<Value>,
-) -> Result<Status, Problem> {
+) -> Result<AuthenticatedUser, Problem> {
+    /// TODO: Tidy
     let username = body
         .get("username")
         .and_then(|v| v.as_str())
@@ -65,7 +67,7 @@ pub fn register_user(
 
             tracing::debug!(authenticated_user = ?authenticated_user, "Registered user");
 
-            Ok(Status::NoContent)
+            Ok(authenticated_user.into())
         }
         _ => {
             tracing::warn!("Validation error registering user");
