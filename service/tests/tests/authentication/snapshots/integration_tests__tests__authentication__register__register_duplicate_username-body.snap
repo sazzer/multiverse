@@ -1,5 +1,5 @@
 ---
-source: tests/tests/users/register.rs
+source: tests/tests/authentication/register.rs
 expression: response.to_json().unwrap()
 ---
 {

@@ -1,10 +1,10 @@
 ---
-source: tests/tests/users/register.rs
+source: tests/tests/authentication/register.rs
 expression: response.to_json().unwrap()
 ---
 {
   "fields": {
-    "password": {
+    "email_address": {
       "title": "The required field was missing",
       "type": "tag:multiverse,2020:problems/validation_error/missing"
     }
