@@ -1,0 +1,5 @@
+---
+source: tests/tests/authentication/register.rs
+expression: response.headers()
+---
+"HTTP/1.1 200 OK\nContent-Type: application/json\nServer: Rocket"

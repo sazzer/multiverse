@@ -105,3 +105,24 @@ fn integration_test_register_duplicate_username() {
         response.to_json().unwrap()
     );
 }
+
+#[test]
+fn integration_test_register_success() {
+    let service = TestService::new();
+
+    let body = serde_json::to_string(&json!({
+        "username": "username",
+        "display_name": "display_name",
+        "email_address": "test@example.com",
+        "password": "password"
+    }))
+    .unwrap();
+    let client = service.test_client();
+    let mut response: TestResponse = client.post("/register").body(&body).dispatch().into();
+
+    assert_debug_snapshot!("register_success-headers", response.headers());
+    assert_json_snapshot!("register_success-body", response.to_json().unwrap(), {
+        ".token.token" => "[access_token]",
+        ".token.valid_until" => "[access_token_expiry]"
+    });
+}
