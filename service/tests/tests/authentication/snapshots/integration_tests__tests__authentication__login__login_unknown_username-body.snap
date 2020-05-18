@@ -1,0 +1,9 @@
+---
+source: tests/tests/authentication/login.rs
+expression: response.to_json().unwrap()
+---
+{
+  "status": 401,
+  "title": "Invalid Username or Password",
+  "type": "tag:multiverse,2020:users/problems/authentication_error"
+}

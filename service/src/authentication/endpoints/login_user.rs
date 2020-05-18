@@ -1,7 +1,7 @@
 use super::model::AuthenticatedUserResponse;
 use crate::http::problem::*;
 use crate::{authentication::AuthenticationService, users::*};
-use rocket::{post, State};
+use rocket::{http::Status, post, State};
 use rocket_contrib::json::Json;
 use serde::Deserialize;
 
@@ -26,12 +26,8 @@ pub fn login_user(
     let password = body.password();
 
     match (&username) {
-        (Ok(username)) => todo!(),
-        _ => {
-            tracing::warn!("Validation error authenticating user");
-
-            todo!()
-        }
+        (Ok(username)) => Err(Problem::new(LoginProblemType {}, Status::Unauthorized)),
+        _ => Err(Problem::new(LoginProblemType {}, Status::Unauthorized)),
     }
 }
 
@@ -59,5 +55,23 @@ impl LoginRequest {
             .clone()
             .filter(|v| !v.trim().is_empty())
             .unwrap_or_default()
+    }
+}
+
+#[derive(Debug)]
+struct LoginProblemType {}
+
+impl std::fmt::Display for LoginProblemType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "Invalid Username or Password")
+    }
+}
+
+impl ProblemType for LoginProblemType {
+    /// Generate a Type value for the `ProblemType` values.
+    ///
+    /// These are used in the `type` field in the RFC-7807 Problem Response
+    fn error_code(&self) -> &'static str {
+        "tag:multiverse,2020:users/problems/authentication_error"
     }
 }
