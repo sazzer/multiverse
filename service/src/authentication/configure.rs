@@ -33,9 +33,13 @@ impl AuthenticationConfig {
     pub fn configure(&self) -> Arc<dyn Fn(Rocket) -> Rocket + Send + Sync> {
         let authentication_service = self.authentication_service.clone();
         Arc::new(move |config| {
-            config
-                .manage(authentication_service.clone())
-                .mount("/", rocket::routes![super::endpoints::register_user])
+            config.manage(authentication_service.clone()).mount(
+                "/",
+                rocket::routes![
+                    super::endpoints::register_user,
+                    super::endpoints::login_user
+                ],
+            )
         })
     }
 }
