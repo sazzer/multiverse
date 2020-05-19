@@ -28,7 +28,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Healthcheck'
+                $ref: '#/components/schemas/Healthcheck-Response'
               examples:
                 Healthy:
                   value:
@@ -41,7 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Healthcheck'
+                $ref: '#/components/schemas/Healthcheck-Response'
       operationId: get-health
       description: Check the health of the system
   '/usernames/{username}':
@@ -74,6 +74,85 @@ paths:
         in: path
         required: true
         description: The username to look up
+  /register:
+    post:
+      summary: Register a new user
+      tags:
+        - users
+        - authentication
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticatedUser-Response'
+        '422':
+          description: Unprocessable Entity (WebDAV)
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem-Response'
+              examples:
+                Invalid Input - Empty Request:
+                  value:
+                    fields:
+                      email_address:
+                        title: The required field was missing
+                        type: 'tag:multiverse,2020:problems/validation_error/missing'
+                      password:
+                        title: The required field was missing
+                        type: 'tag:multiverse,2020:problems/validation_error/missing'
+                      username:
+                        title: The required field was missing
+                        type: 'tag:multiverse,2020:problems/validation_error/missing'
+                    status: 422
+                    title: A validation error occurred
+                    type: 'tag:multiverse,2020:problems/validation_error'
+                Duplicate Username:
+                  value:
+                    status: 422
+                    title: The username is already registered
+                    type: 'tag:multiverse,2020:users/problems/duplicate_username'
+      operationId: post-register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  minLength: 1
+                display_name:
+                  type: string
+                email_address:
+                  type: string
+                  minLength: 1
+                  format: email
+                avatar_url:
+                  type: string
+                  format: uri
+                password:
+                  type: string
+                  minLength: 1
+              required:
+                - username
+                - email_address
+                - password
+            examples:
+              Minimal Details:
+                value:
+                  username: grahamcox
+                  email_address: graham@grahamcox.co.uk
+                  password: Hunter2
+              Full Details:
+                value:
+                  username: grahamcox
+                  display_name: Graham
+                  email_address: graham@grahamcox.co.uk
+                  avatar_url: 'http://example.com/avatar'
+                  password: Hunter2
 components:
   schemas:
     Problem-Response:
@@ -100,7 +179,7 @@ components:
         - type
         - title
         - status
-    Healthcheck:
+    Healthcheck-Response:
       title: Healthcheck
       type: object
       properties:
@@ -123,3 +202,44 @@ components:
       required:
         - healthy
         - components
+    User-Response:
+      type: object
+      title: User
+      properties:
+        username:
+          type: string
+          minLength: 1
+        display_name:
+          type: string
+          minLength: 1
+        email_address:
+          type: string
+          minLength: 1
+        avatar_url:
+          type: string
+          minLength: 1
+      required:
+        - username
+        - display_name
+    AuthenticatedUser-Response:
+      title: AuthenticatedUser
+      type: object
+      description: ''
+      properties:
+        user:
+          $ref: '#/components/schemas/User-Response'
+        token:
+          type: object
+          required:
+            - token
+            - valid_until
+          properties:
+            token:
+              type: string
+              minLength: 1
+            valid_until:
+              type: string
+              format: date-time
+      required:
+        - user
+        - token
