@@ -92,7 +92,9 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: '#/components/schemas/Problem-Response'
+                oneOf:
+                  - $ref: '#/components/schemas/Problem-Response'
+                  - $ref: '#/components/schemas/ValidationProblem-Response'
               examples:
                 Invalid Input - Empty Request:
                   value:
@@ -190,14 +192,14 @@ components:
           required:
             - ''
           additionalProperties:
-              type: object
-              required:
-                - healthy
-              properties:
-                healthy:
-                  type: boolean
-                message:
-                  type: string
+            type: object
+            required:
+              - healthy
+            properties:
+              healthy:
+                type: boolean
+              message:
+                type: string
       required:
         - healthy
         - components
@@ -242,3 +244,26 @@ components:
       required:
         - user
         - token
+    ValidationProblem-Response:
+      title: ValidationProblem-Response
+      allOf:
+        - $ref: '#/components/schemas/Problem-Response'
+        - type: object
+          properties:
+            fields:
+              type: object
+              additionalProperties:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    format: uri
+                    minLength: 1
+                  title:
+                    type: string
+                    minLength: 1
+                required:
+                  - type
+                  - title
+          required:
+            - fields
