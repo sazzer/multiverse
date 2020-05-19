@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
   title: Multiverse
   version: '1.0'
@@ -12,9 +12,38 @@ servers:
   - url: 'https://multiverse-cd.herokuapp.com'
     description: CD
 tags:
+  - name: health
+    description: APIs for healthchecks
   - name: users
     description: APIs for working with Users
 paths:
+  /health:
+    get:
+      summary: Check the health of the system
+      tags:
+        - health
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Healthcheck'
+              examples:
+                Healthy:
+                  value:
+                    components:
+                      db:
+                        healthy: true
+                    healthy: true
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Healthcheck'
+      operationId: get-health
+      description: Check the health of the system
   '/usernames/{username}':
     get:
       summary: Check if a username exists
@@ -71,3 +100,26 @@ components:
         - type
         - title
         - status
+    Healthcheck:
+      title: Healthcheck
+      type: object
+      properties:
+        healthy:
+          type: boolean
+        components:
+          type: object
+          required:
+            - ''
+          patternProperties:
+            ^.+$:
+              type: object
+              required:
+                - healthy
+              properties:
+                healthy:
+                  type: boolean
+                message:
+                  type: string
+      required:
+        - healthy
+        - components
