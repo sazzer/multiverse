@@ -1,0 +1,21 @@
+name: OpenAPI
+
+on: [push]
+
+jobs:
+  build-openapi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Redoc
+        uses: seeebiii/redoc-cli-github-action@v9
+        with:
+          args: "bundle openapi/reference/Multiverse.v1.yaml -o openapi/build/index.html"
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          BRANCH: gh-pages
+          FOLDER: openapi/build
