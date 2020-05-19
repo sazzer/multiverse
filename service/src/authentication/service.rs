@@ -1,3 +1,4 @@
+mod authenticate_user;
 mod register_user;
 
 use crate::authorization::AuthorizationService;

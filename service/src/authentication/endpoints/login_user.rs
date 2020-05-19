@@ -16,16 +16,23 @@ use serde::Deserialize;
 ///
 /// # Error
 /// An RFC-7807 Problem if the incoming details are invalid, or the registration fails for any reason
-#[tracing::instrument(name = "POST /login", skip(authentication_service, body))]
+#[tracing::instrument(name = "POST /login", skip(authentication_service))]
 #[post("/login", data = "<body>")]
 pub fn login_user(
     authentication_service: State<AuthenticationService>,
     body: Json<LoginRequest>,
 ) -> Result<AuthenticatedUserResponse, Problem> {
     match (&body.username, &body.password) {
-        (Some(username), Some(password)) => {
-            Err(Problem::new(LoginProblemType {}, Status::Unauthorized))
-        }
+        (Some(username), Some(password)) => authentication_service
+            .authenticate_user(username.clone(), password.clone())
+            .map(|authenticated_user| {
+                tracing::debug!(authenticated_user = ?authenticated_user, "Authenticated user");
+                authenticated_user.into()
+            })
+            .map_err(|e| {
+                tracing::warn!("Failed to authenticate user: {:?}", e);
+                Problem::new(LoginProblemType {}, Status::Unauthorized)
+            }),
         _ => Err(Problem::new(LoginProblemType {}, Status::Unauthorized)),
     }
 }
