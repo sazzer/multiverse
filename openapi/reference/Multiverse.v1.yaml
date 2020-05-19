@@ -87,6 +87,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthenticatedUser-Response'
+              examples:
+                Success:
+                  value:
+                    token:
+                      token: some.access.token
+                      valid_until: '2020-05-19T16:14:00Z'
+                    user:
+                      display_name: display_name
+                      email_address: test@example.com
+                      username: username
         '422':
           description: Unprocessable Entity (WebDAV)
           content:
@@ -155,6 +165,57 @@ paths:
                   email_address: graham@grahamcox.co.uk
                   avatar_url: 'http://example.com/avatar'
                   password: Hunter2
+  /login:
+    post:
+      summary: Authenticate a user
+      tags:
+        - authentication
+        - users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticatedUser-Response'
+              examples:
+                Success:
+                  value:
+                    token:
+                      token: some.access.token
+                      valid_until: '2020-05-19T16:14:00Z'
+                    user:
+                      display_name: display_name
+                      email_address: test@example.com
+                      username: username
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem-Response'
+              examples:
+                Invalid Username or Password:
+                  value:
+                    status: 401
+                    title: Invalid Username or Password
+                    type: 'tag:multiverse,2020:users/problems/authentication_error'
+      operationId: post-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  minLength: 1
+                password:
+                  type: string
+                  minLength: 1
+              required:
+                - username
+                - password
 components:
   schemas:
     Problem-Response:
