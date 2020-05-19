@@ -11,7 +11,63 @@ servers:
     description: Development
   - url: 'https://multiverse-cd.herokuapp.com'
     description: CD
-tags: []    
-paths: {}
+tags:
+  - name: users
+    description: APIs for working with Users
+paths:
+  '/usernames/{username}':
+    get:
+      summary: Check if a username exists
+      tags:
+        - users
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem-Response'
+              examples:
+                Unknown Username:
+                  value:
+                    status: 404
+                    title: The requested username was unknown
+                    type: 'tag:multiverse,2020:users/problems/unknown_username'
+      operationId: get-usernames
+      description: Check if a username is already registered.
+    parameters:
+      - schema:
+          type: string
+          minLength: 1
+        name: username
+        in: path
+        required: true
+        description: The username to look up
 components:
-  schemas: {}
+  schemas:
+    Problem-Response:
+      title: Problem-Response
+      type: object
+      description: A Problem as defined in RFC-7807
+      properties:
+        type:
+          type: string
+          format: uri
+          minLength: 1
+        title:
+          type: string
+          minLength: 1
+        status:
+          type: integer
+          minimum: 100
+          maximum: 599
+        detail:
+          type: string
+        instance:
+          type: string
+      required:
+        - type
+        - title
+        - status
