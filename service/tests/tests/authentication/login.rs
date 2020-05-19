@@ -1,5 +1,5 @@
 use crate::{
-    data::SeedUser,
+    data::{hash_password, SeedUser},
     service::{TestResponse, TestService},
 };
 use insta::{assert_debug_snapshot, assert_json_snapshot};
@@ -39,12 +39,13 @@ fn integration_test_login_incorrect_password() {
 
     service.seed(SeedUser {
         username: "username".to_owned(),
+        password: hash_password("password"),
         ..Default::default()
     });
 
     let body = serde_json::to_string(&json!({
         "username": "username",
-        "password": "password"
+        "password": "incorrect"
     }))
     .unwrap();
     let client = service.test_client();
@@ -54,13 +55,21 @@ fn integration_test_login_incorrect_password() {
     assert_json_snapshot!("login_incorrect_password-body", response.to_json().unwrap());
 }
 
-// #[test]
+#[test]
 fn integration_test_login_success() {
     let service = TestService::new();
 
+    service.seed(SeedUser {
+        username: "username".to_owned(),
+        password: hash_password("password"),
+        display_name: "display_name".to_owned(),
+        email_address: "test@example.com".to_owned(),
+        ..Default::default()
+    });
+
     let body = serde_json::to_string(&json!({
         "username": "username",
-        "password": "password"
+        "password": "password",
     }))
     .unwrap();
     let client = service.test_client();

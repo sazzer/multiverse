@@ -1,4 +1,5 @@
 use crate::service::Seedable;
+use argonautica::Hasher;
 use chrono::{DateTime, Utc};
 use postgres::types::ToSql;
 use uuid::Uuid;
@@ -27,6 +28,17 @@ pub struct SeedUser {
     pub password: String,
 }
 
+pub fn hash_password<S>(input: S) -> String
+where
+    S: Into<String>,
+{
+    Hasher::default()
+        .with_password(&input.into())
+        .opt_out_of_secret_key(true)
+        .hash()
+        .unwrap()
+}
+
 impl Default for SeedUser {
     fn default() -> Self {
         let now = Utc::now();
@@ -41,7 +53,7 @@ impl Default for SeedUser {
             display_name: format!("Display Name {}", Uuid::new_v4()),
             email_address: format!("{}@example.com", Uuid::new_v4()),
             avatar_url: None,
-            password: "".to_owned(),
+            password: hash_password("password"),
         }
     }
 }

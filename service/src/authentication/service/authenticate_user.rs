@@ -31,10 +31,23 @@ impl AuthenticationService {
         password: Plaintext,
     ) -> Result<AuthenticatedUserModel, AuthenticateError> {
         // Call the User Service to load a new User record with the given data
+        let user = self
+            .users_service
+            .find_user_by_username(&username)
+            .ok_or(AuthenticateError::UnknownUser)?;
+
+        // Check that the password matches
+        if user.data.password != password {
+            Err(AuthenticateError::InvalidPassword)?
+        }
 
         // Call the Authorization Service to create a new Token for the User
+        let authorization = self.authorization_service.generate_authorization(&user);
 
         // Return the Authenticated User
-        Err(AuthenticateError::UnknownUser)
+        Ok(AuthenticatedUserModel {
+            user,
+            authorization,
+        })
     }
 }
