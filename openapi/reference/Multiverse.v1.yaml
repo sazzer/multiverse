@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  title: Multiverse
+  version: '1.0'
+  contact:
+    name: Graham Cox
+    email: graham@grahamcox.co.uk
+  description: World building service
+servers:
+  - url: 'http://localhost:8000'
+    description: Development
+  - url: 'https://multiverse-cd.herokuapp.com'
+    description: CD
+tags: []    
+paths: {}
+components:
+  schemas: {}
