@@ -40,7 +40,7 @@ fn integration_test_login_incorrect_password() {
     service.seed(SeedUser {
         username: "username".to_owned(),
         password: hash_password("password"),
-        ..Default::default()
+        ..SeedUser::default()
     });
 
     let body = serde_json::to_string(&json!({
@@ -64,7 +64,7 @@ fn integration_test_login_success() {
         password: hash_password("password"),
         display_name: "display_name".to_owned(),
         email_address: "test@example.com".to_owned(),
-        ..Default::default()
+        ..SeedUser::default()
     });
 
     let body = serde_json::to_string(&json!({

@@ -86,7 +86,7 @@ fn integration_test_register_duplicate_username() {
 
     service.seed(SeedUser {
         username: "username".to_owned(),
-        ..Default::default()
+        ..SeedUser::default()
     });
 
     let body = serde_json::to_string(&json!({

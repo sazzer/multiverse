@@ -18,7 +18,7 @@ fn integration_test_lookup_known_username(username: &str) {
 
     let user = SeedUser {
         username: username.to_owned(),
-        ..Default::default()
+        ..SeedUser::default()
     };
     service.seed(user);
 

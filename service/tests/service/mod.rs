@@ -95,9 +95,7 @@ impl TestService {
             .unwrap();
 
         // Actually build the service to test
-        let settings = Settings {
-            database_url: database_url.clone(),
-        };
+        let settings = Settings { database_url };
         let service = multiverse_lib::Service::new(settings);
 
         TestService {
