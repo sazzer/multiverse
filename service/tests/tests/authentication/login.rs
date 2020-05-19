@@ -54,7 +54,7 @@ fn integration_test_login_incorrect_password() {
     assert_json_snapshot!("login_incorrect_password-body", response.to_json().unwrap());
 }
 
-#[test]
+// #[test]
 fn integration_test_login_success() {
     let service = TestService::new();
 

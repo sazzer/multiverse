@@ -34,7 +34,7 @@ pub fn register_user(
     tracing::debug!(username = ?username, display_name = ?display_name, email_address = ?email_address, avatar_url = ?avatar_url, password = ?password, "Registering new user");
 
     match (&username, &email_address, &password) {
-        (Ok(username), Ok(email_address), Some(password)) => {
+        (Ok(username), Ok(email_address), Ok(password)) => {
             let user = UserData {
                 username: username.clone(),
                 display_name,
@@ -66,7 +66,7 @@ pub fn register_user(
                 problem.with_field_error("email_address", err);
             }
 
-            if password.is_none() {
+            if password.is_err() {
                 problem.with_field_error("password", GenericValidation::Missing);
             }
 
@@ -87,7 +87,7 @@ pub struct RegistrationRequest {
     /// The avatar URL to register with
     avatar_url: Option<String>,
     /// The password to register with
-    password: Option<String>,
+    password: Option<Plaintext>,
 }
 
 impl RegistrationRequest {
@@ -125,11 +125,11 @@ impl RegistrationRequest {
     }
 
     /// Extract the password to use
-    fn password(&self) -> Option<Password> {
+    fn password(&self) -> Result<Password, PasswordHashError> {
         self.password
             .clone()
-            .filter(|v| !v.trim().is_empty())
             .map(Password::from_plaintext)
+            .unwrap_or(Err(PasswordHashError::Blank))
     }
 }
 
