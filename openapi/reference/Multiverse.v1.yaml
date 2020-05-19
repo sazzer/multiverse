@@ -189,8 +189,7 @@ components:
           type: object
           required:
             - ''
-          patternProperties:
-            ^.+$:
+          additionalProperties:
               type: object
               required:
                 - healthy
