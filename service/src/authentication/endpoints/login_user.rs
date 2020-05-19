@@ -22,11 +22,10 @@ pub fn login_user(
     authentication_service: State<AuthenticationService>,
     body: Json<LoginRequest>,
 ) -> Result<AuthenticatedUserResponse, Problem> {
-    let username = body.username();
-    let password = body.password();
-
-    match (&username) {
-        (Ok(username)) => Err(Problem::new(LoginProblemType {}, Status::Unauthorized)),
+    match (&body.username, &body.password) {
+        (Some(username), Some(password)) => {
+            Err(Problem::new(LoginProblemType {}, Status::Unauthorized))
+        }
         _ => Err(Problem::new(LoginProblemType {}, Status::Unauthorized)),
     }
 }
@@ -35,27 +34,9 @@ pub fn login_user(
 #[derive(Debug, Deserialize)]
 pub struct LoginRequest {
     /// The username to log in as
-    username: Option<String>,
+    pub username: Option<Username>,
     /// The password to log in with
-    password: Option<String>,
-}
-
-impl LoginRequest {
-    /// Extract the username to use
-    fn username(&self) -> Result<Username, UsernameParseError> {
-        self.username
-            .clone()
-            .unwrap_or("".to_owned())
-            .parse::<Username>()
-    }
-
-    /// Extract the password to use
-    fn password(&self) -> String {
-        self.password
-            .clone()
-            .filter(|v| !v.trim().is_empty())
-            .unwrap_or_default()
-    }
+    pub password: Option<Plaintext>,
 }
 
 #[derive(Debug)]
