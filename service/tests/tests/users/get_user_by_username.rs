@@ -22,6 +22,7 @@ fn integration_test_get_known_user_by_username(test_name: &str, username: &str) 
         display_name: username.to_owned(),
         email_address: format!("{}@example.com", username),
         avatar_url: Some(format!("http://example.com/{}", username)),
+        version: "c7040ef8-df74-4106-a017-16fc17fcaa91".parse().unwrap(),
         ..SeedUser::default()
     });
 
@@ -77,6 +78,7 @@ fn integration_test_head_known_user_by_username() {
         display_name: "known".to_owned(),
         email_address: "known@example.com".to_owned(),
         avatar_url: Some("http://example.com/known".to_owned()),
+        version: "c7040ef8-df74-4106-a017-16fc17fcaa91".parse().unwrap(),
         ..SeedUser::default()
     });
 
