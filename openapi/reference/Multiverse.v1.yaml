@@ -44,36 +44,6 @@ paths:
                 $ref: '#/components/schemas/Healthcheck-Response'
       operationId: get-health
       description: Check the health of the system
-  '/usernames/{username}':
-    get:
-      summary: Check if a username exists
-      tags:
-        - users
-      responses:
-        '204':
-          description: No Content
-        '404':
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/Problem-Response'
-              examples:
-                Unknown Username:
-                  value:
-                    status: 404
-                    title: The requested username was unknown
-                    type: 'tag:multiverse,2020:users/problems/unknown_username'
-      operationId: get-usernames
-      description: Check if a username is already registered.
-    parameters:
-      - schema:
-          type: string
-          minLength: 1
-        name: username
-        in: path
-        required: true
-        description: The username to look up
   /register:
     post:
       summary: Register a new user
