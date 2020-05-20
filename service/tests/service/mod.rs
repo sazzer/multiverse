@@ -40,6 +40,14 @@ impl<'r> TestResponse<'r> {
         format!("HTTP/1.1 {}\n{}", self.response.status(), headers)
     }
 
+    /// Convert the response body to a String
+    ///
+    /// # Returns
+    /// The body of the response
+    pub fn to_string(&mut self) -> String {
+        self.response.body_string().unwrap_or_else(|| "".to_owned())
+    }
+
     /// Convert the response body to JSON
     ///
     /// # Returns
@@ -48,7 +56,8 @@ impl<'r> TestResponse<'r> {
     /// # Errors
     /// Any errors from deserializing the response
     pub fn to_json(&mut self) -> Result<serde_json::Value, serde_json::error::Error> {
-        serde_json::from_str(&self.response.body_string().unwrap())
+        let body = self.response.body_string().unwrap_or_else(|| "".to_owned());
+        serde_json::from_str(&body)
     }
 }
 

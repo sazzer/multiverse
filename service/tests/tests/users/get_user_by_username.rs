@@ -67,3 +67,33 @@ fn integration_test_get_unknown_user_by_username(test_name: &str, username: &str
         response.to_json().unwrap()
     );
 }
+
+#[test]
+fn integration_test_head_known_user_by_username() {
+    let service = TestService::new();
+
+    service.seed(SeedUser {
+        username: "known".to_owned(),
+        display_name: "known".to_owned(),
+        email_address: "known@example.com".to_owned(),
+        avatar_url: Some("http://example.com/known".to_owned()),
+        ..SeedUser::default()
+    });
+
+    let client = service.test_client();
+    let mut response: TestResponse = client.head("/users/known").dispatch().into();
+
+    assert_debug_snapshot!("head_known_user_by_username-headers", response.headers());
+    assert_eq!(response.to_string(), "");
+}
+
+#[test]
+fn integration_test_head_unknown_user_by_username() {
+    let service = TestService::new();
+
+    let client = service.test_client();
+    let mut response: TestResponse = client.head("/users/unknown").dispatch().into();
+
+    assert_debug_snapshot!("head_unknown_user_by_username-headers", response.headers());
+    assert_eq!(response.to_string(), "");
+}
