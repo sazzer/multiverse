@@ -1,4 +1,6 @@
 use crate::users::{EmailAddress, UserModel, Username};
+use rocket::{response, Request};
+use rocket_contrib::json::Json;
 use serde::Serialize;
 
 /// API Model representing a User
@@ -24,5 +26,13 @@ impl From<UserModel> for UserResponse {
             email_address: Some(user.data.email_address),
             avatar_url: user.data.avatar_url,
         }
+    }
+}
+
+impl<'r> response::Responder<'r> for UserResponse {
+    fn respond_to(self, req: &Request) -> response::Result<'r> {
+        response::Response::build()
+            .merge(Json(self).respond_to(req).unwrap())
+            .ok()
     }
 }

@@ -1,0 +1,10 @@
+---
+source: tests/tests/users/get_user_by_username.rs
+expression: response.to_json().unwrap()
+---
+{
+  "avatar_url": "http://example.com/,.;'\\[]<>?:\"|{}",
+  "display_name": ",.;'\\[]<>?:\"|{}",
+  "email_address": ",.;'\\[]<>?:\"|{}@example.com",
+  "username": ",.;'\\[]<>?:\"|{}"
+}

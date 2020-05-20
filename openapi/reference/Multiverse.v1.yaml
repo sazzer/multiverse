@@ -216,6 +216,45 @@ paths:
               required:
                 - username
                 - password
+  '/users/{username}':
+    parameters:
+      - schema:
+          type: string
+        name: username
+        in: path
+        required: true
+        description: The username of the user
+    get:
+      summary: Get a single user by username
+      tags:
+        - users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User-Response'
+              examples:
+                Success:
+                  value:
+                    display_name: display_name
+                    email_address: test@example.com
+                    username: username
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem-Response'
+              examples:
+                Unknown User:
+                  value:
+                    status: 404
+                    title: The requested username was unknown
+                    type: 'tag:multiverse,2020:users/problems/unknown_username'
+      operationId: get-users-username
+      description: Fetch a single user by their unique username
 components:
   schemas:
     Problem-Response:
