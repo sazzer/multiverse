@@ -22,6 +22,6 @@ impl UserRepository {
     /// # Returns
     /// The User Repository to use
     pub(super) fn new(database: Database) -> Self {
-        Self { database: database }
+        Self { database }
     }
 }

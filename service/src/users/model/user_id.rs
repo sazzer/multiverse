@@ -7,6 +7,18 @@ use uuid::Uuid;
 #[derive(Debug, PartialEq, Clone, Serialize, Deserialize, FromSql)]
 pub struct UserID(Uuid);
 
+impl UserID {
+    /// Wrap a UUID as a User ID object
+    ///
+    /// # Parameters
+    /// - `uuid` - The UUID to wrap
+    ///
+    /// # The User ID
+    pub fn new(uuid: Uuid) -> Self {
+        UserID(uuid)
+    }
+}
+
 impl Default for UserID {
     fn default() -> Self {
         Self(Uuid::new_v4())

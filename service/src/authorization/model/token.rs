@@ -19,3 +19,10 @@ impl Token {
         Token(value.into())
     }
 }
+
+// Unfortunately this is needed so that the token can be deserialized
+impl AsRef<str> for Token {
+    fn as_ref(&self) -> &str {
+        self.0.as_ref()
+    }
+}
