@@ -26,9 +26,13 @@ impl UsersConfig {
     pub fn configure(&self) -> Arc<dyn Fn(rocket::Rocket) -> rocket::Rocket + Send + Sync> {
         let users_service = self.users_service.clone();
         Arc::new(move |config| {
-            config
-                .manage(users_service.clone())
-                .mount("/", rocket::routes![super::endpoints::lookup_user])
+            config.manage(users_service.clone()).mount(
+                "/",
+                rocket::routes![
+                    super::endpoints::lookup_user,
+                    super::endpoints::lookup_username
+                ],
+            )
         })
     }
 }

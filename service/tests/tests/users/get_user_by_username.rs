@@ -1,12 +1,10 @@
 use crate::{
-    data::{SeedUser, hash_password},
-    service::{TestResponse, TestService},
+    data::{hash_password, SeedUser},
+    service::{login, TestResponse, TestService},
 };
 use insta::{assert_debug_snapshot, assert_json_snapshot};
 use rstest::rstest;
 use uritemplate::UriTemplate;
-use serde_json::json;
-use rocket::http::Header;
 
 #[rstest(
     test_name,
@@ -31,20 +29,14 @@ fn integration_test_get_known_user_by_username(test_name: &str, username: &str) 
 
     let client = service.test_client();
 
-    let body = serde_json::to_string(&json!({
-        "username": username,
-        "password": "password",
-    }))
-    .unwrap();
-    let mut login_response: TestResponse = client.post("/login").body(&body).dispatch().into();
-    let login_body = login_response.to_json().unwrap();
-    let token = login_body.pointer("/token/token").and_then(|v| v.as_str()).unwrap();
+    let authorization = login(&client, username, "password");
 
     let url = UriTemplate::new("/users/{username}")
         .set("username", username)
         .build();
-    let mut response: TestResponse = client.get(url)
-        .header(Header::new("Authorization", format!("Bearer {}", token)))
+    let mut response: TestResponse = client
+        .get(url)
+        .header(rocket::http::Header::new("Authorization", authorization))
         .dispatch()
         .into();
 
@@ -73,9 +65,7 @@ fn integration_test_get_known_user_by_username_unauthenticated() {
 
     let client = service.test_client();
 
-    let mut response: TestResponse = client.get("/users/username")
-        .dispatch()
-        .into();
+    let mut response: TestResponse = client.get("/users/username").dispatch().into();
 
     assert_debug_snapshot!(
         "get_known_user_by_username_authenticated-headers",
