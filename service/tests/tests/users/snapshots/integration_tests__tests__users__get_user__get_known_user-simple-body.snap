@@ -1,5 +1,5 @@
 ---
-source: tests/tests/users/get_user_by_username.rs
+source: tests/tests/users/get_user.rs
 expression: response.to_json().unwrap()
 ---
 {

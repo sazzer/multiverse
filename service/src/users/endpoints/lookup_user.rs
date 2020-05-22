@@ -1,45 +1,45 @@
 use super::model::UserResponse;
 use crate::http::problem::{Problem, ProblemType};
-use crate::users::{Username, UsersService};
+use crate::users::{UserID, UsersService};
 use rocket::{get, http::Status, State};
 
-/// Actix handler to see if a username is already registered or not
+/// Actix handler to get the details of a user by their unique ID
 ///
 /// # Parameters
 /// - `user_service` - The user service to use to look up the username
-/// - `path` - The details of the parameters from the URL
+/// - `id` - The ID of the user
 ///
 /// # Returns
-/// If the username is known then an empty response.
-/// If the username is not registered then an RFC-7807 problem response indicating this.
-#[tracing::instrument(name = "GET /usernames/{username}", skip(users_service))]
-#[get("/users/<username>")]
+/// If the user is return the details.
+/// If the user is not registered then an RFC-7807 problem response indicating this.
+#[tracing::instrument(name = "GET /usernames/{id}", skip(users_service))]
+#[get("/users/<id>")]
 pub fn lookup_user(
     users_service: State<UsersService>,
-    username: Username,
+    id: UserID,
 ) -> Result<UserResponse, Problem> {
     users_service
-        .find_user_by_username(&username)
-        .ok_or_else(|| Problem::new(LookupUsernameProblemType::UnknownUsername, Status::NotFound))
+        .find_user_by_id(&id)
+        .ok_or_else(|| Problem::new(LookupUserProblemType::UnknownUserID, Status::NotFound))
         .map(|user| user.into())
 }
 
-/// Problem Types that can happen when looking up a username
+/// Problem Types that can happen when looking up a User ID
 #[derive(Debug, thiserror::Error)]
-pub enum LookupUsernameProblemType {
-    /// The username that was looked up was not found
-    #[error("The requested username was unknown")]
-    UnknownUsername,
+pub enum LookupUserProblemType {
+    /// The user ID that was looked up was not found
+    #[error("The requested user ID was unknown")]
+    UnknownUserID,
 }
 
-impl ProblemType for LookupUsernameProblemType {
+impl ProblemType for LookupUserProblemType {
     /// Generate a Type value for the `ProblemType` values.
     ///
     /// These are used in the `type` field in the RFC-7807 Problem Response
     fn error_code(&self) -> &'static str {
         match self {
-            LookupUsernameProblemType::UnknownUsername => {
-                "tag:multiverse,2020:users/problems/unknown_username"
+            LookupUserProblemType::UnknownUserID => {
+                "tag:multiverse,2020:users/problems/unknown_user_id"
             }
         }
     }

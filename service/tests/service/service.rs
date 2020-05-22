@@ -1,8 +1,8 @@
+use super::seed::Seedable;
 use multiverse_lib::{Service, Settings, TestDatabase};
 use r2d2::Pool;
 use r2d2_postgres::PostgresConnectionManager;
 use std::str::FromStr;
-use super::seed::Seedable;
 
 /// Wrapper around the service that we are testing, allowing us to interact with it as needed.
 ///
@@ -62,7 +62,10 @@ impl TestService {
     ///
     /// # Parameters
     /// - `data` - The data to seed into the database
-    pub fn seed<D>(&self, data: D)
+    ///
+    /// # Returns
+    /// The data that was seeded
+    pub fn seed<D>(&self, data: D) -> D
     where
         D: Seedable,
     {
@@ -74,5 +77,7 @@ impl TestService {
         let updates = connection.execute(sql, binds.as_slice()).unwrap();
 
         tracing::debug!(rows = ?updates, "Inserted seed data into database");
+
+        data
     }
 }

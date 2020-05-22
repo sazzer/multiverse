@@ -1,5 +1,6 @@
 use bytes::BytesMut;
 use postgres_types::{accepts, to_sql_checked, FromSql, IsNull, ToSql, Type};
+use rocket::{http::RawStr, request};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -36,4 +37,17 @@ impl ToSql for UserID {
 
     accepts!(UUID);
     to_sql_checked!();
+}
+
+impl<'r> request::FromParam<'r> for UserID {
+    type Error = &'r RawStr;
+
+    fn from_param(param: &'r RawStr) -> Result<Self, Self::Error> {
+        param
+            .percent_decode()
+            .map(|cow| cow.into_owned())
+            .map_err(|_| param)
+            .and_then(|user_id| Uuid::parse_str(&user_id).map_err(|_| param))
+            .map(|user_id| UserID::new(user_id))
+    }
 }
