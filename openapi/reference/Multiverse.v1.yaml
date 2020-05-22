@@ -186,16 +186,16 @@ paths:
               required:
                 - username
                 - password
-  '/users/{username}':
+  '/users/{id}':
     parameters:
       - schema:
           type: string
-        name: username
+        name: id
         in: path
         required: true
-        description: The username of the user
+        description: The ID of the user to get
     get:
-      summary: Get a single user by username
+      summary: Get a single user by ID
       tags:
         - users
       responses:
@@ -221,10 +221,39 @@ paths:
                 Unknown User:
                   value:
                     status: 404
+                    title: The requested user ID was unknown
+                    type: 'tag:multiverse,2020:users/problems/unknown_user_id'
+      operationId: get-users-id
+      description: Fetch a single user by their unique ID
+  '/usernames/{username}':
+    parameters:
+      - schema:
+          type: string
+        name: username
+        in: path
+        required: true
+        description: The username to resolve
+    get:
+      summary: Look to see if the given Username exists
+      tags:
+        - users
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem-Response'
+              examples:
+                Unknown User:
+                  value:
+                    status: 404
                     title: The requested username was unknown
                     type: 'tag:multiverse,2020:users/problems/unknown_username'
-      operationId: get-users-username
-      description: Fetch a single user by their unique username
+      operationId: get-usernames-username
+      description: Look to see if the given Username already exists
 components:
   schemas:
     Problem-Response:
