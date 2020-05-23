@@ -31,19 +31,12 @@ pub fn patch_user(
     let password = body.password().unwrap();
 
     users_service
-        .update_user(&id, &move |user| {
-            let display_name = display_name.clone();
-            let email_address = email_address.clone();
-            let avatar_url = avatar_url.clone();
-            let password = password.clone();
-
-            UserData {
-                display_name: display_name.unwrap_or(user.display_name),
-                email_address: email_address.unwrap_or(user.email_address),
-                avatar_url: avatar_url.or(user.avatar_url),
-                password: password.unwrap_or(user.password),
-                ..user
-            }
+        .update_user(&id, &move |user| UserData {
+            display_name: display_name.clone().unwrap_or(user.display_name),
+            email_address: email_address.clone().unwrap_or(user.email_address),
+            avatar_url: avatar_url.clone().or(user.avatar_url),
+            password: password.clone().unwrap_or(user.password),
+            ..user
         })
         .ok_or_else(|| Problem::new(UserProblemType::UnknownUserID, Status::NotFound))
         .map(|user| user.into())
