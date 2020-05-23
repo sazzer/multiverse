@@ -1,6 +1,6 @@
 use super::{errors::UserProblemType, model::UserResponse};
 use crate::authorization::Authorizer;
-use crate::http::problem::Problem;
+use crate::http::problem::{GenericValidation, Problem, ValidationProblem};
 use crate::users::*;
 use rocket::{http::Status, patch, State};
 use rocket_contrib::json::Json;
@@ -26,20 +26,38 @@ pub fn patch_user(
     authorizer.authorize().same_user(&id).finish()?;
 
     let display_name = body.display_name();
-    let email_address = body.email_address().unwrap();
+    let email_address = body.email_address();
     let avatar_url = body.avatar_url();
-    let password = body.password().unwrap();
+    let password = body.password();
 
-    users_service
-        .update_user(&id, &move |user| UserData {
-            display_name: display_name.clone().unwrap_or(user.display_name),
-            email_address: email_address.clone().unwrap_or(user.email_address),
-            avatar_url: avatar_url.clone().or(user.avatar_url),
-            password: password.clone().unwrap_or(user.password),
-            ..user
-        })
-        .ok_or_else(|| Problem::new(UserProblemType::UnknownUserID, Status::NotFound))
-        .map(|user| user.into())
+    if let (Ok(email_address), Ok(password)) = (&email_address, &password) {
+        users_service
+            .update_user(&id, &move |user| UserData {
+                display_name: display_name.clone().unwrap_or(user.display_name),
+                email_address: email_address.clone().unwrap_or(user.email_address),
+                avatar_url: avatar_url.clone().or(user.avatar_url),
+                password: password.clone().unwrap_or(user.password),
+                ..user
+            })
+            .ok_or_else(|| Problem::new(UserProblemType::UnknownUserID, Status::NotFound))
+            .map(|user| user.into())
+    } else {
+        tracing::warn!("Validation error registering user");
+
+        let mut problem = ValidationProblem::new();
+
+        if let Err(err) = email_address.map_err(|e| match e {
+            EmailAddressParseError::Blank => GenericValidation::Missing,
+        }) {
+            problem.with_field_error("email_address", err);
+        }
+
+        if password.is_err() {
+            problem.with_field_error("password", GenericValidation::Missing);
+        }
+
+        Err(problem.build())
+    }
 }
 
 /// Incoming details representing a registration request
