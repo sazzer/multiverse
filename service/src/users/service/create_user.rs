@@ -24,11 +24,7 @@ impl UsersService {
     /// # Errors
     /// Any errors that occurred creating the new user
     pub fn create_user(&self, data: UserData) -> Result<UserModel, CreateUserError> {
-        let user = UserModel {
-            identity: Default::default(),
-            data,
-        };
-        let user = self.repository.create(user)?;
+        let user = self.repository.create(data)?;
 
         Ok(user)
     }
