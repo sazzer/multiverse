@@ -10,6 +10,10 @@ pub enum SaveUserError {
     /// The username is already registered
     #[error("The username is already registered")]
     DuplicateUsername,
+
+    /// The user was not found
+    #[error("The user was not found")]
+    UnknownUser,
 }
 
 impl From<postgres::Error> for SaveUserError {

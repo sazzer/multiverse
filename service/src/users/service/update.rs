@@ -17,9 +17,6 @@ impl UsersService {
 
         let updated_user = updater(user.data);
 
-        Some(UserModel {
-            identity: user.identity,
-            data: updated_user,
-        })
+        self.repository.update(id, updated_user).ok()
     }
 }

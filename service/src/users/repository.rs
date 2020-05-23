@@ -2,6 +2,7 @@ mod create;
 mod errors;
 mod find;
 mod parse;
+mod update;
 
 use crate::infrastructure::database::Database;
 pub use errors::*;
