@@ -30,6 +30,7 @@ impl UsersConfig {
                 "/",
                 rocket::routes![
                     super::endpoints::lookup_user,
+                    super::endpoints::patch_user,
                     super::endpoints::lookup_username
                 ],
             )
