@@ -1,5 +1,5 @@
-use super::model::UserResponse;
-use crate::http::problem::{Problem, ProblemType};
+use super::{errors::UserProblemType, model::UserResponse};
+use crate::http::problem::Problem;
 use crate::users::{UserID, UsersService};
 use rocket::{get, http::Status, State};
 
@@ -20,27 +20,6 @@ pub fn lookup_user(
 ) -> Result<UserResponse, Problem> {
     users_service
         .find_user_by_id(&id)
-        .ok_or_else(|| Problem::new(LookupUserProblemType::UnknownUserID, Status::NotFound))
+        .ok_or_else(|| Problem::new(UserProblemType::UnknownUserID, Status::NotFound))
         .map(|user| user.into())
-}
-
-/// Problem Types that can happen when looking up a User ID
-#[derive(Debug, thiserror::Error)]
-pub enum LookupUserProblemType {
-    /// The user ID that was looked up was not found
-    #[error("The requested user ID was unknown")]
-    UnknownUserID,
-}
-
-impl ProblemType for LookupUserProblemType {
-    /// Generate a Type value for the `ProblemType` values.
-    ///
-    /// These are used in the `type` field in the RFC-7807 Problem Response
-    fn error_code(&self) -> &'static str {
-        match self {
-            LookupUserProblemType::UnknownUserID => {
-                "tag:multiverse,2020:users/problems/unknown_user_id"
-            }
-        }
-    }
 }

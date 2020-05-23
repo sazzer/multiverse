@@ -1,4 +1,5 @@
-use crate::http::problem::{Problem, ProblemType};
+use super::errors::UserProblemType;
+use crate::http::problem::Problem;
 use crate::users::{Username, UsersService};
 use rocket::{get, http::Status, State};
 
@@ -19,27 +20,6 @@ pub fn lookup_username(
 ) -> Result<Status, Problem> {
     users_service
         .find_user_by_username(&username)
-        .ok_or_else(|| Problem::new(LookupUsernameProblemType::UnknownUsername, Status::NotFound))
+        .ok_or_else(|| Problem::new(UserProblemType::UnknownUsername, Status::NotFound))
         .map(|_| Status::NoContent)
-}
-
-/// Problem Types that can happen when looking up a username
-#[derive(Debug, thiserror::Error)]
-pub enum LookupUsernameProblemType {
-    /// The username that was looked up was not found
-    #[error("The requested username was unknown")]
-    UnknownUsername,
-}
-
-impl ProblemType for LookupUsernameProblemType {
-    /// Generate a Type value for the `ProblemType` values.
-    ///
-    /// These are used in the `type` field in the RFC-7807 Problem Response
-    fn error_code(&self) -> &'static str {
-        match self {
-            LookupUsernameProblemType::UnknownUsername => {
-                "tag:multiverse,2020:users/problems/unknown_username"
-            }
-        }
-    }
 }

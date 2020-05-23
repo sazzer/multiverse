@@ -1,3 +1,4 @@
+mod errors;
 mod lookup_user;
 mod lookup_username;
 pub(crate) mod model;
