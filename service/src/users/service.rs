@@ -1,5 +1,6 @@
 mod create_user;
 mod find;
+mod update;
 
 use super::repository::UserRepository;
 pub use create_user::CreateUserError;
