@@ -1,6 +1,5 @@
 use super::AuthenticationService;
-use crate::authorization::AuthorizationService;
-use crate::users::UsersService;
+use crate::{authorization::AuthorizationService, users::UsersService};
 use rocket::Rocket;
 use std::sync::Arc;
 
@@ -25,6 +24,7 @@ impl AuthenticationConfig {
             authentication_service,
         }
     }
+
     /// Generate the configuration callback needed for the HTTP Server to actually add the Authentication endpoints
     /// to the server
     ///

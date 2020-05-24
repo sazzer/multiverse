@@ -1,7 +1,6 @@
 use super::Database;
 use crate::infrastructure::healthchecker::CheckHealth;
-use std::boxed::Box;
-use std::error::Error;
+use std::{boxed::Box, error::Error};
 
 impl CheckHealth for Database {
     /// Actually check the health of the component, and return any errors that have occurred with it.

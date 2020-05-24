@@ -1,6 +1,5 @@
 use super::UserRepository;
-use crate::model::Identity;
-use crate::users::model::*;
+use crate::{model::Identity, users::model::*};
 use postgres::row::Row;
 
 impl UserRepository {

@@ -1,5 +1,4 @@
-use crate::users::repository::SaveUserError;
-use crate::users::*;
+use crate::users::{repository::SaveUserError, *};
 
 /// Errors that can occur when creating a new user record
 #[derive(Debug, thiserror::Error)]

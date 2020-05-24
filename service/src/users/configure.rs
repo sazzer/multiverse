@@ -18,6 +18,7 @@ impl UsersConfig {
             users_service: UsersService::new(repository),
         }
     }
+
     /// Generate the configuration callback needed for the HTTP Server to actually add the Users endpoints
     /// to the server
     ///

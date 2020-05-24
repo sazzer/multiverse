@@ -1,5 +1,7 @@
-use super::check_health::CheckHealth;
-use super::model::{ComponentHealth, SystemHealth};
+use super::{
+    check_health::CheckHealth,
+    model::{ComponentHealth, SystemHealth},
+};
 use std::{collections::HashMap, sync::Arc};
 
 /// System to check the health of the application

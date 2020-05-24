@@ -1,5 +1,7 @@
-use crate::authorization::{Authorization, AuthorizationDetails, AuthorizationService};
-use crate::users::UserModel;
+use crate::{
+    authorization::{Authorization, AuthorizationDetails, AuthorizationService},
+    users::UserModel,
+};
 use chrono::Utc;
 
 impl AuthorizationService {

@@ -1,5 +1,7 @@
-use crate::authorization::Authorizer;
-use crate::users::{EmailAddress, UserID, UserModel, Username};
+use crate::{
+    authorization::Authorizer,
+    users::{EmailAddress, UserID, UserModel, Username},
+};
 use chrono::{DateTime, Utc};
 use rocket::{
     http::hyper::header::{CacheControl, CacheDirective, ETag, EntityTag},

@@ -167,13 +167,22 @@ mod tests {
         assert_that!(&Patch::Missing.map(|v: u32| v), eq(Patch::Missing));
         assert_that!(&Patch::Null.map(|v: u32| v), eq(Patch::Null));
         assert_that!(&Patch::Value(5).map(|v| v * 2), eq(Patch::Value(10)));
-        assert_that!(&Patch::Value(5).map(|v| format!("{}", v)), eq(Patch::Value("5".to_owned())));
+        assert_that!(
+            &Patch::Value(5).map(|v| format!("{}", v)),
+            eq(Patch::Value("5".to_owned()))
+        );
     }
 
     #[test]
     fn test_filter_null() {
-        assert_that!(&Patch::Missing.filter_null(|_: &u32| true), eq(Patch::Missing));
-        assert_that!(&Patch::Missing.filter_null(|_: &u32| false), eq(Patch::Missing));
+        assert_that!(
+            &Patch::Missing.filter_null(|_: &u32| true),
+            eq(Patch::Missing)
+        );
+        assert_that!(
+            &Patch::Missing.filter_null(|_: &u32| false),
+            eq(Patch::Missing)
+        );
         assert_that!(&Patch::Null.filter_null(|_: &u32| true), eq(Patch::Null));
         assert_that!(&Patch::Null.filter_null(|_: &u32| false), eq(Patch::Null));
         assert_that!(&Patch::Value(1).filter_null(|_| true), eq(Patch::Value(1)));
@@ -182,12 +191,27 @@ mod tests {
 
     #[test]
     fn test_filter_missing() {
-        assert_that!(&Patch::Missing.filter_missing(|_: &u32| true), eq(Patch::Missing));
-        assert_that!(&Patch::Missing.filter_missing(|_: &u32| false), eq(Patch::Missing));
+        assert_that!(
+            &Patch::Missing.filter_missing(|_: &u32| true),
+            eq(Patch::Missing)
+        );
+        assert_that!(
+            &Patch::Missing.filter_missing(|_: &u32| false),
+            eq(Patch::Missing)
+        );
         assert_that!(&Patch::Null.filter_missing(|_: &u32| true), eq(Patch::Null));
-        assert_that!(&Patch::Null.filter_missing(|_: &u32| false), eq(Patch::Null));
-        assert_that!(&Patch::Value(1).filter_missing(|_| true), eq(Patch::Value(1)));
-        assert_that!(&Patch::Value(1).filter_missing(|_| false), eq(Patch::Missing));
+        assert_that!(
+            &Patch::Null.filter_missing(|_: &u32| false),
+            eq(Patch::Null)
+        );
+        assert_that!(
+            &Patch::Value(1).filter_missing(|_| true),
+            eq(Patch::Value(1))
+        );
+        assert_that!(
+            &Patch::Value(1).filter_missing(|_| false),
+            eq(Patch::Missing)
+        );
     }
 
     #[test]
@@ -206,9 +230,21 @@ mod tests {
 
     #[test]
     fn test_transpose() {
-        assert_that!(&Patch::<Result<u32, u32>>::Missing.transpose(), eq(Ok(Patch::Missing)));
-        assert_that!(&Patch::<Result<u32, u32>>::Null.transpose(), eq(Ok(Patch::Null)));
-        assert_that!(&Patch::<Result<u32, u32>>::Value(Ok(1)).transpose(), eq(Ok(Patch::Value(1))));
-        assert_that!(&Patch::<Result<u32, u32>>::Value(Err(5)).transpose(), eq(Err(5)));
+        assert_that!(
+            &Patch::<Result<u32, u32>>::Missing.transpose(),
+            eq(Ok(Patch::Missing))
+        );
+        assert_that!(
+            &Patch::<Result<u32, u32>>::Null.transpose(),
+            eq(Ok(Patch::Null))
+        );
+        assert_that!(
+            &Patch::<Result<u32, u32>>::Value(Ok(1)).transpose(),
+            eq(Ok(Patch::Value(1)))
+        );
+        assert_that!(
+            &Patch::<Result<u32, u32>>::Value(Err(5)).transpose(),
+            eq(Err(5))
+        );
     }
 }

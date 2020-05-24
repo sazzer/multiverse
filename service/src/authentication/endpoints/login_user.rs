@@ -1,6 +1,5 @@
 use super::model::AuthenticatedUserResponse;
-use crate::http::problem::*;
-use crate::{authentication::AuthenticationService, users::*};
+use crate::{authentication::AuthenticationService, http::problem::*, users::*};
 use rocket::{http::Status, post, State};
 use rocket_contrib::json::Json;
 use serde::Deserialize;

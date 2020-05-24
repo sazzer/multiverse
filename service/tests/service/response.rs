@@ -1,4 +1,3 @@
-
 /// The response from a test request to the server
 pub struct TestResponse<'r> {
     response: rocket::local::LocalResponse<'r>,

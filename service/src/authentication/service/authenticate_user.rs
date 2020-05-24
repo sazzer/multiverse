@@ -1,5 +1,7 @@
-use crate::authentication::{AuthenticatedUserModel, AuthenticationService};
-use crate::users::{Plaintext, Username};
+use crate::{
+    authentication::{AuthenticatedUserModel, AuthenticationService},
+    users::{Plaintext, Username},
+};
 
 /// Errors that can occur when registering a new user
 #[derive(Debug, thiserror::Error)]

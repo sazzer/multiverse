@@ -1,6 +1,8 @@
 use super::{errors::UserProblemType, model::UserResponse};
-use crate::http::problem::Problem;
-use crate::users::{UserID, UsersService};
+use crate::{
+    http::problem::Problem,
+    users::{UserID, UsersService},
+};
 use rocket::{get, http::Status, State};
 
 /// Actix handler to get the details of a user by their unique ID

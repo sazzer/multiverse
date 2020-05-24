@@ -59,6 +59,10 @@ impl PartialEq<Plaintext> for Password {
 }
 
 impl ToSql for Password {
+    accepts!(TEXT, VARCHAR);
+
+    to_sql_checked!();
+
     fn to_sql(
         &self,
         t: &Type,
@@ -66,9 +70,6 @@ impl ToSql for Password {
     ) -> Result<IsNull, Box<dyn std::error::Error + Sync + Send>> {
         self.0.to_sql(t, w)
     }
-
-    accepts!(TEXT, VARCHAR);
-    to_sql_checked!();
 }
 
 impl std::fmt::Debug for Plaintext {

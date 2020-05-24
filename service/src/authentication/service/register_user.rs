@@ -1,5 +1,7 @@
-use crate::authentication::{AuthenticatedUserModel, AuthenticationService};
-use crate::users::{CreateUserError, UserData};
+use crate::{
+    authentication::{AuthenticatedUserModel, AuthenticationService},
+    users::{CreateUserError, UserData},
+};
 
 /// Errors that can occur when registering a new user
 #[derive(Debug, thiserror::Error)]

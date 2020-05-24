@@ -1,6 +1,8 @@
 use super::errors::UserProblemType;
-use crate::http::problem::Problem;
-use crate::users::{Username, UsersService};
+use crate::{
+    http::problem::Problem,
+    users::{Username, UsersService},
+};
 use rocket::{get, http::Status, State};
 
 /// Actix handler to see if a username is already registered or not

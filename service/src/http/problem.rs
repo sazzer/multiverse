@@ -1,8 +1,10 @@
 use rocket::http::Status;
 use serde::Serialize;
 use serde_json::Value;
-use std::collections::HashMap;
-use std::fmt::{Debug, Display, Formatter};
+use std::{
+    collections::HashMap,
+    fmt::{Debug, Display, Formatter},
+};
 pub use validation::*;
 
 mod response;

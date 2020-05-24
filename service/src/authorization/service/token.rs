@@ -1,5 +1,7 @@
-use crate::authorization::{AuthorizationDetails, AuthorizationService, Token};
-use crate::users::UserID;
+use crate::{
+    authorization::{AuthorizationDetails, AuthorizationService, Token},
+    users::UserID,
+};
 use chrono::{offset::TimeZone, Utc};
 use serde_json::json;
 use uuid::Uuid;

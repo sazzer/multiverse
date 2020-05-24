@@ -27,6 +27,10 @@ impl Default for UserID {
 }
 
 impl ToSql for UserID {
+    accepts!(UUID);
+
+    to_sql_checked!();
+
     fn to_sql(
         &self,
         t: &Type,
@@ -34,9 +38,6 @@ impl ToSql for UserID {
     ) -> Result<IsNull, Box<dyn std::error::Error + Sync + Send>> {
         self.0.to_sql(t, w)
     }
-
-    accepts!(UUID);
-    to_sql_checked!();
 }
 
 impl<'r> request::FromParam<'r> for UserID {

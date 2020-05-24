@@ -1,6 +1,8 @@
 use super::{AuthorizationDetails, AuthorizationService, Token};
-use crate::http::problem::{Problem, ProblemType};
-use crate::users::UserID;
+use crate::{
+    http::problem::{Problem, ProblemType},
+    users::UserID,
+};
 use rocket::{
     http::Status,
     request::{FromRequest, Outcome, Request},

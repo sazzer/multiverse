@@ -1,8 +1,7 @@
 mod authenticate_user;
 mod register_user;
 
-use crate::authorization::AuthorizationService;
-use crate::users::UsersService;
+use crate::{authorization::AuthorizationService, users::UsersService};
 pub use register_user::RegisterError;
 
 /// Service for authenticating a user

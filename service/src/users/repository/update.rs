@@ -1,6 +1,6 @@
 use super::{SaveUserError, UserRepository};
-use crate::users::{UserID, UserData, UserModel};
-use chrono::{Utc};
+use crate::users::{UserData, UserID, UserModel};
+use chrono::Utc;
 use uuid::Uuid;
 
 impl UserRepository {
@@ -31,7 +31,7 @@ impl UserRepository {
                 &user.display_name,
                 &user.email_address,
                 &user.avatar_url,
-                &user.password,    
+                &user.password,
             ])?
             .map(|row| self.parse_row(&row))
             .ok_or(SaveUserError::UnknownUser)?;

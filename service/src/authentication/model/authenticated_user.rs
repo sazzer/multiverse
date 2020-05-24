@@ -1,5 +1,4 @@
-use crate::authorization::Authorization;
-use crate::users::UserModel;
+use crate::{authorization::Authorization, users::UserModel};
 /// Representation of a user that we have successfully authenticated as.
 ///
 /// This wrapper contains both the user and the authentication details

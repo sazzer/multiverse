@@ -1,6 +1,7 @@
-use crate::authentication::AuthenticatedUserModel;
-use crate::authorization::Token;
-use crate::users::endpoints::model::UserResponse;
+use crate::{
+    authentication::AuthenticatedUserModel, authorization::Token,
+    users::endpoints::model::UserResponse,
+};
 use chrono::{DateTime, Utc};
 use rocket::{response, Request};
 use rocket_contrib::json::Json;

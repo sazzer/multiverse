@@ -1,10 +1,12 @@
 use super::{errors::UserProblemType, model::UserResponse};
-use crate::authorization::Authorizer;
-use crate::http::{
-    patch::Patch,
-    problem::{GenericValidation, Problem, ValidationProblem},
+use crate::{
+    authorization::Authorizer,
+    http::{
+        patch::Patch,
+        problem::{GenericValidation, Problem, ValidationProblem},
+    },
+    users::*,
 };
-use crate::users::*;
 use rocket::{http::Status, patch, State};
 use rocket_contrib::json::Json;
 use serde::Deserialize;

@@ -50,6 +50,7 @@ impl Server {
 
         rocket
     }
+
     /// Get a test client used to test the server
     ///
     /// # Returns

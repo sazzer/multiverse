@@ -38,6 +38,10 @@ impl FromStr for EmailAddress {
 }
 
 impl ToSql for EmailAddress {
+    accepts!(TEXT, VARCHAR);
+
+    to_sql_checked!();
+
     fn to_sql(
         &self,
         t: &Type,
@@ -45,7 +49,4 @@ impl ToSql for EmailAddress {
     ) -> Result<IsNull, Box<dyn std::error::Error + Sync + Send>> {
         self.0.to_sql(t, w)
     }
-
-    accepts!(TEXT, VARCHAR);
-    to_sql_checked!();
 }

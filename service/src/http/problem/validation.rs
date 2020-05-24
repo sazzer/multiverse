@@ -1,8 +1,10 @@
 use super::{Problem, ProblemType};
 use rocket::http::Status;
 use serde::Serialize;
-use std::collections::HashMap;
-use std::fmt::{Debug, Display};
+use std::{
+    collections::HashMap,
+    fmt::{Debug, Display},
+};
 
 /// Trait to represent the type of validation error
 pub trait ValidationType: Display + Debug {

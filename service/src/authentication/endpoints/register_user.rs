@@ -1,7 +1,7 @@
 use super::model::AuthenticatedUserResponse;
-use crate::http::problem::*;
 use crate::{
     authentication::{AuthenticationService, RegisterError},
+    http::problem::*,
     users::*,
 };
 use rocket::{http::Status, post, State};
