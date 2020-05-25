@@ -1,5 +1,0 @@
----
-source: tests/tests/users/get_user.rs
-expression: response.headers()
----
-"HTTP/1.1 200 OK\nContent-Type: application/json\nCache-Control: private, max-age=3600\nETag: \"c7040ef8-df74-4106-a017-16fc17fcaa91\"\nServer: Rocket"

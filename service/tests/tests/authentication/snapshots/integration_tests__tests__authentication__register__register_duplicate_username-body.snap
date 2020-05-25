@@ -1,9 +1,0 @@
----
-source: tests/tests/authentication/register.rs
-expression: response.to_json().unwrap()
----
-{
-  "status": 422,
-  "title": "The username is already registered",
-  "type": "tag:multiverse,2020:users/problems/duplicate_username"
-}

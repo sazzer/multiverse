@@ -1,5 +1,0 @@
----
-source: tests/tests/users/get_user.rs
-expression: response.headers()
----
-"HTTP/1.1 404 Not Found\nContent-Type: application/problem+json\nServer: Rocket"

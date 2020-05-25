@@ -1,5 +1,0 @@
----
-source: tests/tests/health.rs
-expression: response.headers()
----
-"HTTP/1.1 200 OK\nContent-Type: application/json\nServer: Rocket"

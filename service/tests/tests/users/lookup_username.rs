@@ -1,64 +1,49 @@
-use crate::{
-    data::SeedUser,
-    service::{TestResponse, TestService},
-};
-use insta::{assert_debug_snapshot, assert_json_snapshot};
+use crate::{data::SeedUser, tests::run_test};
+use rocket::http::Status;
 use rstest::rstest;
+use serde_json::json;
 use uritemplate::UriTemplate;
 
 #[rstest(
-    test_name,
     username,
-    case("simple", "known"),
-    case("symbols1", "!@#$%^&*()_"),
-    case("symbols2", ",.;'\\[]<>?:\"|{}")
+    case("simple"),
+    case("!@#$%^&*()_"),
+    case(",.;'\\[]<>?:\"|{}")
 )]
 #[test]
-fn integration_test_lookup_known_user_by_username(test_name: &str, username: &str) {
-    let service = TestService::new();
-
-    service.seed(SeedUser {
-        username: username.to_owned(),
-        ..SeedUser::default()
-    });
-
-    let client = service.test_client();
-
+fn test_lookup_unknown_username(username: &str) {
     let url = UriTemplate::new("/usernames/{username}")
         .set("username", username)
         .build();
-    let mut response: TestResponse = client.get(url).dispatch().into();
 
-    assert_debug_snapshot!(
-        format!("lookup_known_user_by_username-{}-headers", test_name),
-        response.headers()
-    );
-    assert_eq!(response.to_string(), "");
+    run_test()
+        .get(url)
+        .has_status(Status::NotFound)
+        .has_header("Content-Type", "application/problem+json")
+        .has_json_body(json!({
+            "type": "tag:multiverse,2020:users/problems/unknown_username",
+            "title": "The requested username was unknown",
+            "status": 404
+        }));
 }
 
 #[rstest(
-    test_name,
     username,
-    case("simple", "known"),
-    case("symbols1", "!@#$%^&*()_"),
-    case("symbols2", ",.;'\\[]<>?:\"|{}")
+    case("simple"),
+    case("!@#$%^&*()_"),
+    case(",.;'\\[]<>?:\"|{}")
 )]
 #[test]
-fn integration_test_get_unknown_user_by_username(test_name: &str, username: &str) {
-    let service = TestService::new();
-
+fn test_lookup_known_username(username: &str) {
     let url = UriTemplate::new("/usernames/{username}")
         .set("username", username)
         .build();
-    let client = service.test_client();
-    let mut response: TestResponse = client.get(url).dispatch().into();
 
-    assert_debug_snapshot!(
-        format!("lookup_unknown_user_by_username-{}-headers", test_name),
-        response.headers()
-    );
-    assert_json_snapshot!(
-        format!("lookup_unknown_user_by_username-{}-body", test_name),
-        response.to_json().unwrap()
-    );
+    run_test()
+        .seed(SeedUser {
+            username: username.to_owned(),
+            ..SeedUser::default()
+        })
+        .get(url)
+        .has_status(Status::NoContent);
 }
