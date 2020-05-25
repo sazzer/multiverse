@@ -4,7 +4,7 @@ use galvanic_assert::{
     matchers::{variant::*, *},
 };
 use rocket::{
-    http::Status,
+    http::{Header, Status},
     local::{Client, LocalResponse},
 };
 use serde_json::Value;
@@ -16,6 +16,8 @@ pub struct TestHarness {
     service: TestService,
     /// The HTTP Client to interact with the service
     client: Client,
+    /// The authentication token to use
+    authentication_token: Option<String>,
     /// The last HTTP response received
     last_response: Option<Response>,
 }
@@ -58,6 +60,7 @@ pub fn run_test() -> TestHarness {
     TestHarness {
         service,
         client,
+        authentication_token: None,
         last_response: None,
     }
 }
@@ -79,6 +82,44 @@ impl TestHarness {
         self
     }
 
+    /// Authenticate the requests as the given username and password
+    ///
+    /// # Parameters
+    /// - `username` - The username to authenticate as
+    /// - `password` - The password to authenticate as
+    ///
+    /// # Returns
+    /// Self, for chaining
+    pub fn authenticate<U, P>(self, username: U, password: P) -> Self
+    where
+        U: Into<String>,
+        P: Into<String>,
+    {
+        let client = self.client;
+        let body = serde_json::json!({
+            "username": username.into(),
+            "password": password.into()
+        });
+        let response: Response = client
+            .post("/login")
+            .body(serde_json::to_string(&body).unwrap())
+            .dispatch()
+            .into();
+        assert_that!(&response.status, eq(Status::Ok));
+        let response_body: Value = serde_json::from_str(&response.body).unwrap();
+        let token = response_body
+            .pointer("/token/token")
+            .and_then(|v| v.as_str())
+            .unwrap()
+            .to_owned();
+
+        Self {
+            client,
+            authentication_token: Some(token),
+            ..self
+        }
+    }
+
     /// Make a GET request to the service
     ///
     /// # Parameters
@@ -91,12 +132,16 @@ impl TestHarness {
         S: Into<String>,
     {
         let client = self.client;
-        let response = client.get(url.into()).dispatch().into();
+        let mut request = client.get(url.into());
+        if let Some(token) = &self.authentication_token {
+            request = request.header(Header::new("Authorization", format!("Bearer {}", token)));
+        }
+        let response = request.dispatch().into();
 
         Self {
-            service: self.service,
             client,
             last_response: Some(response),
+            ..self
         }
     }
 
