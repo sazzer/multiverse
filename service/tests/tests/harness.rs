@@ -259,4 +259,16 @@ impl TestHarness {
             f(&actual_body);
         })
     }
+
+    pub fn assert_database<F>(self, f: F) -> Self
+    where
+        F: FnOnce(postgres::Transaction),
+    {
+        let mut connection = self.service.database_connection();
+        let transaction: postgres::Transaction = connection.transaction().unwrap();
+
+        f(transaction);
+
+        self
+    }
 }

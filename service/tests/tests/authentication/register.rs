@@ -1,4 +1,5 @@
 use crate::{data::SeedUser, tests::run_test};
+use galvanic_assert::{assert_that, matchers::*};
 use insta::assert_json_snapshot;
 use rocket::http::Status;
 use serde_json::json;
@@ -128,6 +129,16 @@ fn test_register_success_minimal_data() {
               }
             }
             "###);
+        })
+        .assert_database(|mut conn| {
+            let user = conn
+                .query_one("SELECT * FROM users WHERE username = $1", &[&"testuser"])
+                .unwrap();
+
+            assert_that!(&user.get("username"), eq("testuser"));
+            assert_that!(&user.get("display_name"), eq("testuser"));
+            assert_that!(&user.get("email_address"), eq("testuser@example.com"));
+            assert_that!(&user.get("avatar_url"), eq(Option::<&str>::None));
         });
 }
 
@@ -164,6 +175,19 @@ fn test_register_success_full_data() {
               }
             }
             "###);
+        })
+        .assert_database(|mut conn| {
+            let user = conn
+                .query_one("SELECT * FROM users WHERE username = $1", &[&"testuser"])
+                .unwrap();
+
+            assert_that!(&user.get("username"), eq("testuser"));
+            assert_that!(&user.get("display_name"), eq("Test User"));
+            assert_that!(&user.get("email_address"), eq("testuser@example.com"));
+            assert_that!(
+                &user.get("avatar_url"),
+                eq(Some("http://example.com/testuser.png"))
+            );
         });
 }
 
@@ -172,6 +196,8 @@ fn test_register_duplicate_username() {
     run_test()
         .seed(SeedUser {
             username: "testuser".to_owned(),
+            display_name: "Old Display Name".to_owned(),
+            email_address: "old@example.com".to_owned(),
             ..SeedUser::default()
         })
         .post(
@@ -188,5 +214,13 @@ fn test_register_duplicate_username() {
             "type": "tag:multiverse,2020:users/problems/duplicate_username",
             "title": "The username is already registered",
             "status": 422
-        }));
+        }))
+        .assert_database(|mut conn| {
+            let user = conn
+                .query_one("SELECT * FROM users WHERE username = $1", &[&"testuser"])
+                .unwrap();
+
+            assert_that!(&user.get("display_name"), eq("Old Display Name"));
+            assert_that!(&user.get("email_address"), eq("old@example.com"));
+        });
 }
