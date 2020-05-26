@@ -174,6 +174,35 @@ impl TestHarness {
         }
     }
 
+    /// Make a PATCH request to the service
+    ///
+    /// # Parameters
+    /// - `url` - The URL to make the request to
+    /// - `body` - The JSON Body to make the request with
+    ///
+    /// # Returns
+    /// Self, for chaining
+    pub fn patch<S, B>(self, url: S, body: B) -> Self
+    where
+        S: Into<String>,
+        B: Into<Value>,
+    {
+        let client = self.client;
+        let mut request = client
+            .patch(url.into())
+            .body(serde_json::to_string(&body.into()).unwrap());
+        if let Some(token) = &self.authentication_token {
+            request = request.header(Header::new("Authorization", format!("Bearer {}", token)));
+        }
+        let response = request.dispatch().into();
+
+        Self {
+            client,
+            last_response: Some(response),
+            ..self
+        }
+    }
+
     /// Assert that we have a response and that the response has the expected status code
     ///
     /// # Parameters
