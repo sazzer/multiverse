@@ -1,7 +1,4 @@
-use crate::{
-    data::{hash_password, SeedUser},
-    tests::run_test,
-};
+use crate::{data::SeedUser, tests::run_test};
 use insta::assert_json_snapshot;
 use rocket::http::Status;
 use serde_json::json;
