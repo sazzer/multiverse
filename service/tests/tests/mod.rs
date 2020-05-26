@@ -1,3 +1,4 @@
+mod authentication;
 mod harness;
 mod health;
 mod users;

@@ -23,13 +23,13 @@ pub struct TestHarness {
 }
 
 /// Representation of an HTTP Response
-struct Response {
+pub struct Response {
     /// The status code
-    status: Status,
+    pub status: Status,
     /// The headers
-    headers: HashMap<String, String>,
+    pub headers: HashMap<String, String>,
     /// The body
-    body: String,
+    pub body: String,
 }
 
 impl<'r> From<LocalResponse<'r>> for Response {
@@ -145,6 +145,35 @@ impl TestHarness {
         }
     }
 
+    /// Make a POST request to the service
+    ///
+    /// # Parameters
+    /// - `url` - The URL to make the request to
+    /// - `body` - The JSON Body to make the request with
+    ///
+    /// # Returns
+    /// Self, for chaining
+    pub fn post<S, B>(self, url: S, body: B) -> Self
+    where
+        S: Into<String>,
+        B: Into<Value>,
+    {
+        let client = self.client;
+        let mut request = client
+            .post(url.into())
+            .body(serde_json::to_string(&body.into()).unwrap());
+        if let Some(token) = &self.authentication_token {
+            request = request.header(Header::new("Authorization", format!("Bearer {}", token)));
+        }
+        let response = request.dispatch().into();
+
+        Self {
+            client,
+            last_response: Some(response),
+            ..self
+        }
+    }
+
     /// Assert that we have a response and that the response has the expected status code
     ///
     /// # Parameters
@@ -153,12 +182,9 @@ impl TestHarness {
     /// # Returns
     /// Self, for chaining
     pub fn has_status(self, status: Status) -> Self {
-        assert!(self.last_response.is_some());
-        if let Some(response) = &self.last_response {
+        self.assert_response(|response| {
             assert_that!(&response.status, eq(status));
-        }
-
-        self
+        })
     }
 
     /// Assert that we have a response and that the response has the expected header
@@ -174,14 +200,11 @@ impl TestHarness {
         H: Into<String>,
         V: Into<String>,
     {
-        assert!(self.last_response.is_some());
-        if let Some(response) = &self.last_response {
+        self.assert_response(|response| {
             let expected_value = value.into();
             let header_value = response.headers.get(&header.into());
             assert_that!(&header_value, maybe_some(eq(&expected_value)));
-        }
-
-        self
+        })
     }
 
     /// Assert that we have a response, that the response has a body that is parsable as JSON and that
@@ -196,12 +219,44 @@ impl TestHarness {
     where
         B: Into<Value>,
     {
+        self.assert_json_body(|actual_body| {
+            let expected_body = body.into();
+            assert_that!(&actual_body, eq(expected_body));
+        })
+    }
+
+    /// Assert some details about the response are as desired
+    ///
+    /// # Parameters
+    /// - `f` - The function to assert the response with
+    ///
+    /// # Returns
+    /// Self, for chaining
+    pub fn assert_response<F>(self, f: F) -> Self
+    where
+        F: FnOnce(&Response),
+    {
         assert!(self.last_response.is_some());
         if let Some(response) = &self.last_response {
-            let expected_body = body.into();
-            let actual_body: Result<Value, _> = serde_json::from_str(&response.body);
-            assert_that!(&actual_body, maybe_ok(eq(expected_body)));
+            f(response);
         }
         self
+    }
+
+    /// Assert some details about the body, having already parsed it as JSON
+    ///
+    /// # Parameters
+    /// - `f` - The function to assert the response with
+    ///
+    /// # Returns
+    /// Self, for chaining
+    pub fn assert_json_body<F>(self, f: F) -> Self
+    where
+        F: FnOnce(&Value),
+    {
+        self.assert_response(|response| {
+            let actual_body = serde_json::from_str(&response.body).unwrap();
+            f(&actual_body);
+        })
     }
 }
