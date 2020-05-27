@@ -105,7 +105,7 @@ impl TestHarness {
         assert_eq!(response.status, Status::Ok);
         let response_body: Value = serde_json::from_str(&response.body).unwrap();
         let token = response_body
-            .pointer("/token/token")
+            .pointer("/token")
             .and_then(|v| v.as_str())
             .unwrap()
             .to_owned();

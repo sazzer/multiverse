@@ -1,6 +1,7 @@
 use crate::{
-    authentication::AuthenticatedUserModel, authorization::Token,
-    users::endpoints::model::UserResponse,
+    authentication::AuthenticatedUserModel,
+    authorization::Token,
+    users::{endpoints::model::UserResponse, UserID},
 };
 use chrono::{DateTime, Utc};
 use rocket::{response, Request};
@@ -10,29 +11,23 @@ use serde::Serialize;
 /// API Model representing an authenticated User - that is a user and access token
 #[derive(Debug, Serialize)]
 pub struct AuthenticatedUserResponse {
-    /// The user
-    user: UserResponse,
-    /// The access token
-    token: AccessTokenResponse,
-}
-
-/// API Model representing an access token for a user
-#[derive(Debug, Serialize)]
-pub struct AccessTokenResponse {
     /// The actual token
     token: Token,
     /// The date that the token expires
     valid_until: DateTime<Utc>,
+    /// The ID of the user that authenticated
+    user_id: UserID,
+    /// The display name of the user that authenticated
+    display_name: String,
 }
 
 impl From<AuthenticatedUserModel> for AuthenticatedUserResponse {
     fn from(user: AuthenticatedUserModel) -> Self {
         Self {
-            user: user.user.into(),
-            token: AccessTokenResponse {
-                token: user.authorization.token,
-                valid_until: user.authorization.details.valid_until,
-            },
+            token: user.authorization.token,
+            valid_until: user.authorization.details.valid_until,
+            user_id: user.user.identity.id,
+            display_name: user.user.data.display_name,
         }
     }
 }

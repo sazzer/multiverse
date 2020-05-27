@@ -114,19 +114,15 @@ fn test_register_success_minimal_data() {
         .has_header("Content-Type", "application/json")
         .assert_json_body(|body| {
             assert_json_snapshot!(body, {
-                ".token.token" => "[access_token]",
-                ".token.valid_until" => "[access_token_expiry]"
+                ".token" => "[access_token]",
+                ".valid_until" => "[access_token_expiry]",
+                ".user_id" => "[user_id]"
             }, @r###"
             {
-              "token": {
-                "token": "[access_token]",
-                "valid_until": "[access_token_expiry]"
-              },
-              "user": {
-                "display_name": "testuser",
-                "email_address": "testuser@example.com",
-                "username": "testuser"
-              }
+              "display_name": "testuser",
+              "token": "[access_token]",
+              "user_id": "[user_id]",
+              "valid_until": "[access_token_expiry]"
             }
             "###);
         })
@@ -159,20 +155,15 @@ fn test_register_success_full_data() {
         .has_header("Content-Type", "application/json")
         .assert_json_body(|body| {
             assert_json_snapshot!(body, {
-                ".token.token" => "[access_token]",
-                ".token.valid_until" => "[access_token_expiry]"
+                ".token" => "[access_token]",
+                ".valid_until" => "[access_token_expiry]",
+                ".user_id" => "[user_id]"
             }, @r###"
             {
-              "token": {
-                "token": "[access_token]",
-                "valid_until": "[access_token_expiry]"
-              },
-              "user": {
-                "avatar_url": "http://example.com/testuser.png",
-                "display_name": "Test User",
-                "email_address": "testuser@example.com",
-                "username": "testuser"
-              }
+              "display_name": "Test User",
+              "token": "[access_token]",
+              "user_id": "[user_id]",
+              "valid_until": "[access_token_expiry]"
             }
             "###);
         })

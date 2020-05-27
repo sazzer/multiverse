@@ -5,6 +5,7 @@ use crate::{
 use insta::assert_json_snapshot;
 use rocket::http::Status;
 use serde_json::json;
+use uuid::Uuid;
 
 #[test]
 fn test_login_unknown_user() {
@@ -89,6 +90,7 @@ fn test_login_missing_password() {
 fn test_login_success() {
     run_test()
         .seed(SeedUser {
+            user_id: Uuid::parse_str("c23462c2-7096-4677-9663-231cd9bca08a").unwrap(),
             username: "testuser".to_owned(),
             password: hash_password("password"),
             display_name: "Test User".to_owned(),
@@ -106,19 +108,14 @@ fn test_login_success() {
         .has_header("Content-Type", "application/json")
         .assert_json_body(|body| {
             assert_json_snapshot!(body, {
-                ".token.token" => "[access_token]",
-                ".token.valid_until" => "[access_token_expiry]"
+                ".token" => "[access_token]",
+                ".valid_until" => "[access_token_expiry]"
             }, @r###"
             {
-              "token": {
-                "token": "[access_token]",
-                "valid_until": "[access_token_expiry]"
-              },
-              "user": {
-                "display_name": "Test User",
-                "email_address": "testuser@example.com",
-                "username": "testuser"
-              }
+              "display_name": "Test User",
+              "token": "[access_token]",
+              "user_id": "c23462c2-7096-4677-9663-231cd9bca08a",
+              "valid_until": "[access_token_expiry]"
             }
             "###);
         });
