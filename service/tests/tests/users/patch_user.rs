@@ -200,3 +200,42 @@ fn test_patch_user_invalid() {
             assert_that!(&user_row.get("updated"), eq(user.updated));
         });
 }
+
+#[test]
+fn test_patch_clear_avatar_url() {
+    let user = SeedUser {
+        username: "testuser".to_owned(),
+        password: hash_password("password"),
+        email_address: "testuser@example.com".to_owned(),
+        display_name: "Test User".to_owned(),
+        avatar_url: Some("http://example.com".to_owned()),
+        ..SeedUser::default()
+    };
+
+    let url = UriTemplate::new("/users/{id}")
+        .set("id", user.user_id.to_string())
+        .build();
+
+    run_test()
+        .seed(user.clone())
+        .authenticate("testuser", "password")
+        .patch(url, json!({ "avatar_url": null }))
+        .has_status(Status::Ok)
+        .has_header("Content-Type", "application/json")
+        .has_json_body(json!({
+            "username": "testuser",
+            "display_name": "Test User",
+            "email_address": "testuser@example.com"
+        }))
+        .assert_database(|mut conn| {
+            let user_row = conn
+                .query_one("SELECT * FROM users WHERE user_id = $1", &[&user.user_id])
+                .unwrap();
+
+            assert_that!(&user_row.get("avatar_url"), eq(Option::<&str>::None));
+
+            assert_that!(&user_row.get("version"), not(eq(user.version)));
+            assert_that!(&user_row.get("created"), eq(user.created));
+            assert_that!(&user_row.get("updated"), not(eq(user.updated)));
+        });
+}
