@@ -1,83 +1,125 @@
 use crate::{
     data::{hash_password, SeedUser},
-    service::{TestResponse, TestService},
+    tests::run_test,
 };
-use insta::{assert_debug_snapshot, assert_json_snapshot};
+use insta::assert_json_snapshot;
+use rocket::http::Status;
 use serde_json::json;
 
 #[test]
-fn integration_test_login_no_username() {
-    let service = TestService::new();
-
-    let body = serde_json::to_string(&json!({})).unwrap();
-    let client = service.test_client();
-    let mut response: TestResponse = client.post("/login").body(&body).dispatch().into();
-
-    assert_debug_snapshot!("login_no_username-headers", response.headers());
-    assert_json_snapshot!("login_no_username-body", response.to_json().unwrap());
+fn test_login_unknown_user() {
+    run_test()
+        .post(
+            "/login",
+            json!({
+                "username": "username",
+                "password": "password"
+            }),
+        )
+        .has_status(Status::Unauthorized)
+        .has_header("Content-Type", "application/problem+json")
+        .has_json_body(json!({
+            "type": "tag:multiverse,2020:users/problems/authentication_error",
+            "title": "Invalid Username or Password",
+            "status": 401
+        }));
 }
 
 #[test]
-fn integration_test_login_unknown_username() {
-    let service = TestService::new();
-
-    let body = serde_json::to_string(&json!({
-        "username": "username",
-        "password": "password"
-    }))
-    .unwrap();
-    let client = service.test_client();
-    let mut response: TestResponse = client.post("/login").body(&body).dispatch().into();
-
-    assert_debug_snapshot!("login_unknown_username-headers", response.headers());
-    assert_json_snapshot!("login_unknown_username-body", response.to_json().unwrap());
+fn test_login_empty_body() {
+    run_test()
+        .post("/login", json!({}))
+        .has_status(Status::Unauthorized)
+        .has_header("Content-Type", "application/problem+json")
+        .has_json_body(json!({
+            "type": "tag:multiverse,2020:users/problems/authentication_error",
+            "title": "Invalid Username or Password",
+            "status": 401
+        }));
 }
 
 #[test]
-fn integration_test_login_incorrect_password() {
-    let service = TestService::new();
-
-    service.seed(SeedUser {
-        username: "username".to_owned(),
-        password: hash_password("password"),
-        ..SeedUser::default()
-    });
-
-    let body = serde_json::to_string(&json!({
-        "username": "username",
-        "password": "incorrect"
-    }))
-    .unwrap();
-    let client = service.test_client();
-    let mut response: TestResponse = client.post("/login").body(&body).dispatch().into();
-
-    assert_debug_snapshot!("login_incorrect_password-headers", response.headers());
-    assert_json_snapshot!("login_incorrect_password-body", response.to_json().unwrap());
+fn test_login_invalid_password() {
+    run_test()
+        .seed(SeedUser {
+            username: "testuser".to_owned(),
+            password: hash_password("password"),
+            ..SeedUser::default()
+        })
+        .post(
+            "/login",
+            json!({
+                "username": "testuser",
+                "password": "incorrect"
+            }),
+        )
+        .has_status(Status::Unauthorized)
+        .has_header("Content-Type", "application/problem+json")
+        .has_json_body(json!({
+            "type": "tag:multiverse,2020:users/problems/authentication_error",
+            "title": "Invalid Username or Password",
+            "status": 401
+        }));
 }
 
 #[test]
-fn integration_test_login_success() {
-    let service = TestService::new();
+fn test_login_missing_password() {
+    run_test()
+        .seed(SeedUser {
+            username: "testuser".to_owned(),
+            password: hash_password("password"),
+            ..SeedUser::default()
+        })
+        .post(
+            "/login",
+            json!({
+                "username": "testuser"
+            }),
+        )
+        .has_status(Status::Unauthorized)
+        .has_header("Content-Type", "application/problem+json")
+        .has_json_body(json!({
+            "type": "tag:multiverse,2020:users/problems/authentication_error",
+            "title": "Invalid Username or Password",
+            "status": 401
+        }));
+}
 
-    service.seed(SeedUser {
-        username: "username".to_owned(),
-        password: hash_password("password"),
-        display_name: "display_name".to_owned(),
-        email_address: "test@example.com".to_owned(),
-        ..SeedUser::default()
-    });
-
-    let body = serde_json::to_string(&json!({
-        "username": "username",
-        "password": "password",
-    }))
-    .unwrap();
-    let client = service.test_client();
-    let mut response: TestResponse = client.post("/login").body(&body).dispatch().into();
-
-    assert_debug_snapshot!("login_success-headers", response.headers());
-    assert_json_snapshot!("login_success-body", response.to_json().unwrap(), {
-        ".token.token" => "[access_token]",
-        ".token.valid_until" => "[access_token_expiry]"
-    });
+#[test]
+fn test_login_success() {
+    run_test()
+        .seed(SeedUser {
+            username: "testuser".to_owned(),
+            password: hash_password("password"),
+            display_name: "Test User".to_owned(),
+            email_address: "testuser@example.com".to_owned(),
+            ..SeedUser::default()
+        })
+        .post(
+            "/login",
+            json!({
+                "username": "testuser",
+                "password": "password"
+            }),
+        )
+        .has_status(Status::Ok)
+        .has_header("Content-Type", "application/json")
+        .assert_json_body(|body| {
+            assert_json_snapshot!(body, {
+                ".token.token" => "[access_token]",
+                ".token.valid_until" => "[access_token_expiry]"
+            }, @r###"
+            {
+              "token": {
+                "token": "[access_token]",
+                "valid_until": "[access_token_expiry]"
+              },
+              "user": {
+                "display_name": "Test User",
+                "email_address": "testuser@example.com",
+                "username": "testuser"
+              }
+            }
+            "###);
+        });
 }

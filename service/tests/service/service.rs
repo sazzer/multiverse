@@ -1,6 +1,6 @@
 use super::seed::Seedable;
 use multiverse_lib::{Service, Settings, TestDatabase};
-use r2d2::Pool;
+use r2d2::{Pool, PooledConnection};
 use r2d2_postgres::PostgresConnectionManager;
 use std::str::FromStr;
 
@@ -58,6 +58,16 @@ impl TestService {
         self.service.test_client()
     }
 
+    /// Get a database connection to work with
+    ///
+    /// # Returns
+    /// The database connection
+    pub fn database_connection(
+        &self,
+    ) -> PooledConnection<PostgresConnectionManager<postgres::tls::NoTls>> {
+        self.pool.get().unwrap()
+    }
+
     /// Insert some seed data into the database
     ///
     /// # Parameters
@@ -71,7 +81,7 @@ impl TestService {
     {
         tracing::debug!(data = ?data, "Inserting seed data into database");
 
-        let mut connection = self.pool.get().unwrap();
+        let mut connection = self.database_connection();
         let sql = data.sql();
         let binds = data.binds();
         let updates = connection.execute(sql, binds.as_slice()).unwrap();

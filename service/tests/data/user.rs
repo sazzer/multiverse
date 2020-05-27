@@ -1,6 +1,6 @@
 use crate::service::Seedable;
 use argonautica::Hasher;
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Timelike, Utc};
 use postgres::types::ToSql;
 use uuid::Uuid;
 
@@ -41,7 +41,7 @@ where
 
 impl Default for SeedUser {
     fn default() -> Self {
-        let now = Utc::now();
+        let now = Utc::now().with_nanosecond(0).unwrap();
 
         Self {
             user_id: Uuid::new_v4(),

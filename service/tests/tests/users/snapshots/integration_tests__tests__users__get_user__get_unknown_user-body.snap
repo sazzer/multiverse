@@ -1,9 +1,0 @@
----
-source: tests/tests/users/get_user.rs
-expression: response.to_json().unwrap()
----
-{
-  "status": 404,
-  "title": "The requested user ID was unknown",
-  "type": "tag:multiverse,2020:users/problems/unknown_user_id"
-}

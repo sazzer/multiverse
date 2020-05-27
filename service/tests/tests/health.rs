@@ -1,12 +1,19 @@
-use crate::service::{TestResponse, TestService};
-use insta::{assert_debug_snapshot, assert_json_snapshot};
+use crate::tests::run_test;
+use rocket::http::Status;
+use serde_json::json;
 
 #[test]
-fn integration_test_healthcheck() {
-    let service = TestService::new();
-    let client = service.test_client();
-    let mut response: TestResponse = client.get("/health").dispatch().into();
-
-    assert_debug_snapshot!("healthcheck-headers", response.headers());
-    assert_json_snapshot!("healthcheck-body", response.to_json().unwrap());
+fn test_health() {
+    run_test()
+        .get("/health")
+        .has_status(Status::Ok)
+        .has_header("Content-Type", "application/json")
+        .has_json_body(json!({
+            "healthy": true,
+            "components": {
+                "db": {
+                    "healthy": true
+                }
+            }
+        }));
 }
