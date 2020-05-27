@@ -45,10 +45,15 @@ jobs:
           cd service
           cargo clippy --lib --all-features -- -D clippy::pedantic
 
+      - name: Install Tarpaulin
+        run: cargo install cargo-tarpaulin
+
       - name: Cargo Test
+        env:
+          COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
         run: |
           cd service
-          cargo test
+          cargo +nightly tarpaulin --verbose --all-features --workspace --coveralls $COVERALLS_TOKEN
 
   build-service-container:
     runs-on: ubuntu-latest
