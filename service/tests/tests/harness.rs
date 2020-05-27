@@ -1,8 +1,5 @@
 use crate::service::{Seedable, TestService};
-use galvanic_assert::{
-    assert_that,
-    matchers::{variant::*, *},
-};
+use pretty_assertions::assert_eq;
 use rocket::{
     http::{Header, Status},
     local::{Client, LocalResponse},
@@ -105,7 +102,7 @@ impl TestHarness {
             .body(serde_json::to_string(&body).unwrap())
             .dispatch()
             .into();
-        assert_that!(&response.status, eq(Status::Ok));
+        assert_eq!(response.status, Status::Ok);
         let response_body: Value = serde_json::from_str(&response.body).unwrap();
         let token = response_body
             .pointer("/token/token")
@@ -212,7 +209,7 @@ impl TestHarness {
     /// Self, for chaining
     pub fn has_status(self, status: Status) -> Self {
         self.assert_response(|response| {
-            assert_that!(&response.status, eq(status));
+            assert_eq!(response.status, status);
         })
     }
 
@@ -232,7 +229,7 @@ impl TestHarness {
         self.assert_response(|response| {
             let expected_value = value.into();
             let header_value = response.headers.get(&header.into());
-            assert_that!(&header_value, maybe_some(eq(&expected_value)));
+            assert_eq!(header_value, Some(&expected_value));
         })
     }
 
@@ -250,7 +247,10 @@ impl TestHarness {
     {
         self.assert_json_body(|actual_body| {
             let expected_body = body.into();
-            assert_that!(&actual_body, eq(expected_body));
+
+            let actual_body_string = serde_json::to_string(actual_body).unwrap();
+            let expected_body_string = serde_json::to_string(&expected_body).unwrap();
+            assert_eq!(actual_body_string, expected_body_string);
         })
     }
 
