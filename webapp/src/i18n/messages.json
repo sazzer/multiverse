@@ -1,5 +1,8 @@
 {
   "page": {
     "title": "Multiverse"
+  },
+  "header": {
+    "toggleNavigation": "Toggle Navigation"
   }
 }

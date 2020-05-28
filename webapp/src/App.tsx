@@ -1,5 +1,6 @@
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
+import HeaderBar from "./header";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -8,6 +9,7 @@ export default () => {
 
   return (
     <Router>
+      <HeaderBar />
       <div>{t("page.title")}</div>
       <Link to="/">Home</Link>
       <Link to="/about">About</Link>
