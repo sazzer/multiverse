@@ -1,5 +1,4 @@
 use rocket::{config::Environment, local::Client, Config, Rocket};
-use rocket_cors::{AllowedHeaders, AllowedOrigins, Error};
 use std::sync::Arc;
 
 /// A function that is able to contribute configuration to the Actix server when it is being constructed

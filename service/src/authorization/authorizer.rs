@@ -38,23 +38,6 @@ impl Authorizer {
 }
 
 impl Authorizing {
-    /// Check if the current request is actually authorized or not.
-    /// This doesn't care about *who* is authorized, just that there is a legal token
-    ///
-    /// # Parameters
-    /// - `self` - Consumes self
-    ///
-    /// # Returns
-    /// A new DSL in the correct status after this test
-    pub fn authorized(self) -> Self {
-        Self {
-            result: self
-                .result
-                .and_then(|_| self.authorization.clone().and(Some(())).ok_or(())),
-            ..self
-        }
-    }
-
     /// Check if the current request is authorized for exactly the given User ID
     ///
     /// # Parameters

@@ -54,45 +54,6 @@ impl<T> Patch<T> {
         }
     }
 
-    /// Filter the value inside the Patch, returning `Missing` if the value fails the predicate
-    ///
-    /// A `Missing` or `Null` value is left as-is.
-    /// A `Value(v)` will get transformed into the new value
-    ///
-    /// # Parameters
-    /// - `predicate` - The function to evaluate the value
-    ///
-    /// # Returns
-    /// The filtered value
-    pub fn filter_missing<P: FnOnce(&T) -> bool>(self, predicate: P) -> Self {
-        match self {
-            Patch::Missing => Patch::Missing,
-            Patch::Null => Patch::Null,
-            Patch::Value(v) => {
-                if predicate(&v) {
-                    Patch::Value(v)
-                } else {
-                    Patch::Missing
-                }
-            }
-        }
-    }
-
-    /// Convert the value to an `Option<T>`.
-    ///
-    /// A `Missing` or `Null` returns `None`.
-    /// A `Value(v)` returns `Some(v)`
-    ///
-    /// # Returns
-    /// The value as an Option
-    pub fn value(self) -> Option<T> {
-        if let Patch::Value(v) = self {
-            Some(v)
-        } else {
-            None
-        }
-    }
-
     /// Convert the value to an `Option<T>` but wrapped in a `Result`.
     /// The `Result` returns `Err(err)` if the `Patch` is `Null`, otherwise returns an `Ok(Option<T>)`
     /// containing the value.
@@ -187,38 +148,6 @@ mod tests {
         assert_that!(&Patch::Null.filter_null(|_: &u32| false), eq(Patch::Null));
         assert_that!(&Patch::Value(1).filter_null(|_| true), eq(Patch::Value(1)));
         assert_that!(&Patch::Value(1).filter_null(|_| false), eq(Patch::Null));
-    }
-
-    #[test]
-    fn test_filter_missing() {
-        assert_that!(
-            &Patch::Missing.filter_missing(|_: &u32| true),
-            eq(Patch::Missing)
-        );
-        assert_that!(
-            &Patch::Missing.filter_missing(|_: &u32| false),
-            eq(Patch::Missing)
-        );
-        assert_that!(&Patch::Null.filter_missing(|_: &u32| true), eq(Patch::Null));
-        assert_that!(
-            &Patch::Null.filter_missing(|_: &u32| false),
-            eq(Patch::Null)
-        );
-        assert_that!(
-            &Patch::Value(1).filter_missing(|_| true),
-            eq(Patch::Value(1))
-        );
-        assert_that!(
-            &Patch::Value(1).filter_missing(|_| false),
-            eq(Patch::Missing)
-        );
-    }
-
-    #[test]
-    fn test_value() {
-        assert_that!(&Patch::<u32>::Missing.value(), eq(None));
-        assert_that!(&Patch::<u32>::Null.value(), eq(None));
-        assert_that!(&Patch::Value(1).value(), eq(Some(1)));
     }
 
     #[test]
