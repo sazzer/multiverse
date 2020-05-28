@@ -1,4 +1,5 @@
 use rocket::{config::Environment, local::Client, Config, Rocket};
+use rocket_cors::{AllowedHeaders, AllowedOrigins, Error};
 use std::sync::Arc;
 
 /// A function that is able to contribute configuration to the Actix server when it is being constructed
@@ -36,13 +37,20 @@ impl Server {
     /// # Returns
     /// The rocket instance
     fn build(&self, port: u16) -> Rocket {
+        let cors = rocket_cors::CorsOptions {
+            allow_credentials: true,
+            ..Default::default()
+        }
+        .to_cors()
+        .unwrap();
+
         let config =
             Config::build(Environment::active().expect("Invalid rocket environment specified"))
                 .port(port)
                 .finalize()
                 .expect("Failed to create rocket config");
 
-        let mut rocket = rocket::custom(config);
+        let mut rocket = rocket::custom(config).attach(cors);
 
         for config in &self.configs {
             rocket = config(rocket);
