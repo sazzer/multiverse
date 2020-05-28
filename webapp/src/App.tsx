@@ -1,10 +1,14 @@
 import { Link, Route, BrowserRouter as Router, Switch } from "react-router-dom";
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default () => {
+  const { t } = useTranslation();
+
   return (
     <Router>
+      <div>{t("page.title")}</div>
       <Link to="/">Home</Link>
       <Link to="/about">About</Link>
       <Link to="/users">Users</Link>
