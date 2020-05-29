@@ -56,7 +56,7 @@ export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
           />
         </div>
 
-        <div className="form-group">
+        <div className="btn-group form-group">
           <button type="submit" className="btn btn-primary">
             {loading && (
               <span

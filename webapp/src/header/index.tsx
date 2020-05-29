@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 export default () => {
   const { t } = useTranslation();
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <Link className="navbar-brand" to="/">
         {t("page.title")}
       </Link>

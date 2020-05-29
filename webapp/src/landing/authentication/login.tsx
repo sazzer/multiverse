@@ -64,7 +64,7 @@ export const Login: React.FC<LoginProps> = ({ username, onCancel }) => {
           />
         </div>
 
-        <div className="form-group">
+        <div className="btn-group form-group">
           <button type="submit" className="btn btn-primary">
             {loading && (
               <span
