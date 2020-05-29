@@ -10,8 +10,15 @@
       "title": "Login / Register",
       "submit": "Login / Register"
     },
+    "login": {
+      "title": "Login",
+      "submit": "Login"
+    },
     "username": {
       "label": "Username"
+    },
+    "password": {
+      "label": "Password"
     }
   }
 }
