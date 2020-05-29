@@ -1,17 +1,20 @@
 import { Problem, request } from "../../api";
+import React, { useState } from "react";
 
-import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 export default () => {
   const { t } = useTranslation();
+  const [error, setError] = useState();
+
   const { register, handleSubmit } = useForm({
     defaultValues: {
       username: "",
     },
   });
   const onSubmit = ({ username }: { username: string }) => {
+    setError(null);
     request("/usernames/{username}", {
       urlParams: {
         username,
@@ -28,6 +31,7 @@ export default () => {
           console.log("Username doesn't exist");
         } else {
           console.log("Something went wrong", e);
+          setError(e.toString());
         }
       });
   };
@@ -49,9 +53,17 @@ export default () => {
         />
       </div>
 
-      <button type="submit" className="btn btn-primary">
-        {t("authentication.start.submit")}
-      </button>
+      <div className="form-group">
+        <button type="submit" className="btn btn-primary">
+          {t("authentication.start.submit")}
+        </button>
+      </div>
+
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
     </form>
   );
 };
