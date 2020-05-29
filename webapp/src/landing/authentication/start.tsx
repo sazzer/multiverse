@@ -19,6 +19,7 @@ export interface StartAuthProps {
 export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
   const { t } = useTranslation();
   const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -27,6 +28,7 @@ export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
   });
   const onSubmitHandler = ({ username }: { username: string }) => {
     setError(undefined);
+    setLoading(true);
     request("/usernames/{username}", {
       urlParams: {
         username,
@@ -47,31 +49,41 @@ export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
           LOGGER("Something went wrong: %o", e);
           setError(e.toString());
         }
-      });
+      })
+      .then(() => setLoading(false));
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
       <h2>{t("authentication.start.title")}</h2>
 
-      <div className="form-group">
-        <label htmlFor="username">{t("authentication.username.label")}</label>
-        <input
-          type="text"
-          className="form-control"
-          id="username"
-          name="username"
-          ref={register({ required: true })}
-          required
-          autoFocus
-        />
-      </div>
+      <fieldset disabled={loading}>
+        <div className="form-group">
+          <label htmlFor="username">{t("authentication.username.label")}</label>
+          <input
+            type="text"
+            className="form-control"
+            id="username"
+            name="username"
+            ref={register({ required: true })}
+            required
+            autoFocus
+          />
+        </div>
 
-      <div className="form-group">
-        <button type="submit" className="btn btn-primary">
-          {t("authentication.start.submit")}
-        </button>
-      </div>
+        <div className="form-group">
+          <button type="submit" className="btn btn-primary">
+            {loading && (
+              <span
+                className="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+            )}
+            {t("authentication.start.submit")}
+          </button>
+        </div>
+      </fieldset>
 
       {error && (
         <div className="alert alert-danger" role="alert">
