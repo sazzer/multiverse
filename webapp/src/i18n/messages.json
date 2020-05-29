@@ -4,5 +4,14 @@
   },
   "header": {
     "toggleNavigation": "Toggle Navigation"
+  },
+  "authentication": {
+    "start": {
+      "title": "Login / Register",
+      "submit": "Login / Register"
+    },
+    "username": {
+      "label": "Username"
+    }
   }
 }
