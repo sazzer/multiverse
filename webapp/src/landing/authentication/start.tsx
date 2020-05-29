@@ -1,10 +1,22 @@
 import { Problem, request } from "../../api";
 import React, { useState } from "react";
 
+import debug from "debug";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-export default () => {
+/** The logger to use */
+const LOGGER = debug("multiverse:landing:authentication:start");
+
+/**
+ * Shape of the props needed to start authentication
+ */
+export interface StartAuthProps {
+  /** Callback with the username that was entered */
+  onSubmit: (username: string, known: boolean) => void;
+}
+
+export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
   const { t } = useTranslation();
   const [error, setError] = useState();
 
@@ -13,31 +25,33 @@ export default () => {
       username: "",
     },
   });
-  const onSubmit = ({ username }: { username: string }) => {
-    setError(null);
+  const onSubmitHandler = ({ username }: { username: string }) => {
+    setError(undefined);
     request("/usernames/{username}", {
       urlParams: {
         username,
       },
     })
       .then((response) => {
-        console.log("Username exists", response);
+        LOGGER("Username exists: %o", response);
+        onSubmit(username, true);
       })
       .catch((e) => {
         if (
           e instanceof Problem &&
           e.type === "tag:multiverse,2020:users/problems/unknown_username"
         ) {
-          console.log("Username doesn't exist");
+          LOGGER("Username doesn't exist");
+          onSubmit(username, false);
         } else {
-          console.log("Something went wrong", e);
+          LOGGER("Something went wrong: %o", e);
           setError(e.toString());
         }
       });
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmitHandler)}>
       <h2>{t("authentication.start.title")}</h2>
 
       <div className="form-group">
