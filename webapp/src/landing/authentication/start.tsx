@@ -1,12 +1,8 @@
-import { Problem, request } from "../../api";
 import React, { useState } from "react";
 
-import debug from "debug";
+import { lookupUsername } from "./api";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-
-/** The logger to use */
-const LOGGER = debug("multiverse:landing:authentication:start");
 
 /**
  * Shape of the props needed to start authentication
@@ -26,31 +22,20 @@ export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
       username: "",
     },
   });
+
   const onSubmitHandler = ({ username }: { username: string }) => {
-    setError(undefined);
     setLoading(true);
-    request("/usernames/{username}", {
-      urlParams: {
-        username,
-      },
-    })
-      .then((response) => {
-        LOGGER("Username exists: %o", response);
-        onSubmit(username, true);
+    setError(undefined);
+
+    lookupUsername(username)
+      .then((known: boolean) => {
+        setLoading(false);
+        onSubmit(username, known);
       })
       .catch((e) => {
-        if (
-          e instanceof Problem &&
-          e.type === "tag:multiverse,2020:users/problems/unknown_username"
-        ) {
-          LOGGER("Username doesn't exist");
-          onSubmit(username, false);
-        } else {
-          LOGGER("Something went wrong: %o", e);
-          setError(e.toString());
-        }
-      })
-      .then(() => setLoading(false));
+        setError(e.toString());
+        setLoading(false);
+      });
   };
 
   return (
