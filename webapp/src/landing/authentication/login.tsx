@@ -11,10 +11,13 @@ const LOGGER = debug("multiverse:landing:authentication:login");
  * Shape of the props needed to login
  */
 export interface LoginProps {
+  /** The username to log in as */
   username: string;
+  /** Callback to cancel logging in */
+  onCancel: () => void;
 }
 
-export const Login: React.FC<LoginProps> = ({ username }) => {
+export const Login: React.FC<LoginProps> = ({ username, onCancel }) => {
   const { t } = useTranslation();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
@@ -71,6 +74,14 @@ export const Login: React.FC<LoginProps> = ({ username }) => {
               ></span>
             )}
             {t("authentication.login.submit")}
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={onCancel}
+          >
+            {t("authentication.login.cancel")}
           </button>
         </div>
       </fieldset>

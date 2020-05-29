@@ -28,14 +28,33 @@ interface LookupUsernameAction {
   };
 }
 
+/**
+ * The shape of the action indicating authentication was cancelled
+ */
+interface CancelAuthAction {
+  /** The action being performed */
+  action: "CANCEL_AUTH";
+}
+
+/**
+ * Reducer to manage this components state
+ * @param state The previous state
+ * @param action The action being performed
+ */
 function reducer(
   state: ReducerState,
-  action: LookupUsernameAction
+  action: LookupUsernameAction | CancelAuthAction
 ): ReducerState {
-  return {
-    username: action.payload.username,
-    known: action.payload.known,
-  } as ReducerState;
+  if (action.action === "LOOKUP_USERNAME") {
+    return {
+      username: action.payload.username,
+      known: action.payload.known,
+    };
+  } else if (action.action === "CANCEL_AUTH") {
+    return {};
+  } else {
+    return state;
+  }
 }
 
 export default () => {
@@ -43,7 +62,12 @@ export default () => {
 
   if (state.username) {
     if (state.known) {
-      return <Login username={state.username} />;
+      return (
+        <Login
+          username={state.username}
+          onCancel={() => dispatch({ action: "CANCEL_AUTH" })}
+        />
+      );
     } else {
       return <div>Register as user: {state.username}</div>;
     }

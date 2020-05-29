@@ -12,7 +12,8 @@
     },
     "login": {
       "title": "Login",
-      "submit": "Login"
+      "submit": "Login",
+      "cancel": "Cancel"
     },
     "username": {
       "label": "Username"
