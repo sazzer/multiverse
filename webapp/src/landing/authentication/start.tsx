@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 export default () => {
   const { t } = useTranslation();
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = (data: any) => {
     console.log(data);
   };
