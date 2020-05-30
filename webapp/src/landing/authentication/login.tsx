@@ -1,11 +1,8 @@
+import { AuthenticationError, login } from "./api";
 import React, { useState } from "react";
 
-import debug from "debug";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-
-/** The logger to use */
-const LOGGER = debug("multiverse:landing:authentication:login");
 
 /**
  * Shape of the props needed to login
@@ -17,20 +14,42 @@ export interface LoginProps {
   onCancel: () => void;
 }
 
+/**
+ * Shape of the form data for logging in
+ */
+interface LoginForm {
+  /** The username */
+  username: string;
+  /** The password  */
+  password: string;
+}
+
 export const Login: React.FC<LoginProps> = ({ username, onCancel }) => {
   const { t } = useTranslation();
-  const [error, setError] = useState();
+  const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(false);
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
       username,
+      password: "",
     },
   });
-  const onSubmitHandler = (data: any) => {
+  const onSubmitHandler = (form: LoginForm) => {
     setError(undefined);
     setLoading(true);
-    LOGGER("Submitting form: %o", data);
+
+    login(form.username, form.password)
+      .catch((e) => {
+        if (e instanceof AuthenticationError) {
+          setError(t("authentication.errors.invalidPassword"));
+        } else {
+          setError(e.toString());
+        }
+      })
+      .then(() => {
+        setLoading(false);
+      });
   };
 
   return (

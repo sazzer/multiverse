@@ -16,6 +16,8 @@ export interface Request {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD";
   /** Any parameters to use for URL expansion */
   urlParams?: { [key: string]: any };
+  /** Any body to submit */
+  body?: any;
 }
 
 /**
@@ -43,6 +45,7 @@ export async function request<B>(
   try {
     const response = await fetch(URL_BASE + finalUrl, {
       method: request.method || "GET",
+      body: JSON.stringify(request.body),
     });
     LOGGER("Received response from %s: %o", finalUrl, response);
 

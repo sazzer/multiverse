@@ -20,6 +20,9 @@
     },
     "password": {
       "label": "Password"
+    },
+    "errors": {
+      "invalidPassword": "Invalid username or password"
     }
   }
 }

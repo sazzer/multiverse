@@ -12,6 +12,14 @@ export interface StartAuthProps {
   onSubmit: (username: string, known: boolean) => void;
 }
 
+/**
+ * Shape of the form data for starting authentication
+ */
+interface StartAuthForm {
+  /** The username */
+  username: string;
+}
+
 export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
   const { t } = useTranslation();
   const [error, setError] = useState();
@@ -23,14 +31,14 @@ export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
     },
   });
 
-  const onSubmitHandler = ({ username }: { username: string }) => {
+  const onSubmitHandler = (form: StartAuthForm) => {
     setLoading(true);
     setError(undefined);
 
-    lookupUsername(username)
+    lookupUsername(form.username)
       .then((known: boolean) => {
         setLoading(false);
-        onSubmit(username, known);
+        onSubmit(form.username, known);
       })
       .catch((e) => {
         setError(e.toString());
