@@ -36,19 +36,40 @@ jobs:
           key: cargo-build-target-${{ runner.os }}-${{ hashFiles('service/Cargo.lock') }}
 
       - name: Cargo Check
-        run: |
-          cd service
-          cargo check
+        working-directory: service
+        run: cargo check
 
       - name: Cargo Clippy
-        run: |
-          cd service
-          cargo clippy --lib --all-features -- -D clippy::pedantic
+        working-directory: service
+        run: cargo clippy --lib --all-features -- -D clippy::pedantic
 
       - name: Cargo Test
-        run: |
-          cd service
-          cargo test
+        working-directory: service
+        run: cargo test
+
+  build-webapp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: "14"
+
+      - name: Cache node_modules
+        uses: actions/cache@v1
+        with:
+          path: webapp/node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('webapp/yarn.lock') }}
+
+      - name: Install dependencies
+        working-directory: webapp
+        run: yarn install
+
+      - name: Run tests
+        working-directory: webapp
+        run: yarn test
 
   build-service-container:
     runs-on: ubuntu-latest
