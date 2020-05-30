@@ -1,3 +1,4 @@
+import { Button, Input } from "../../components/form";
 import React, { useState } from "react";
 
 import { lookupUsername } from "./api";
@@ -25,7 +26,7 @@ export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       username: "",
     },
@@ -51,30 +52,23 @@ export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
       <h2>{t("authentication.start.title")}</h2>
 
       <fieldset disabled={loading}>
-        <div className="form-group">
-          <label htmlFor="username">{t("authentication.username.label")}</label>
-          <input
-            type="text"
-            className="form-control"
-            id="username"
-            name="username"
-            ref={register({ required: true })}
-            required
-            autoFocus
-          />
-        </div>
+        <Input
+          id="username"
+          i18n="authentication.username"
+          error={errors.username}
+          required
+          autoFocus
+          inputProps={{
+            ref: register({ required: true }),
+          }}
+        />
 
         <div className="btn-group form-group">
-          <button type="submit" className="btn btn-primary">
-            {loading && (
-              <span
-                className="spinner-border spinner-border-sm"
-                role="status"
-                aria-hidden="true"
-              ></span>
-            )}
-            {t("authentication.start.submit")}
-          </button>
+          <Button
+            label="authentication.start.submit"
+            type="submit"
+            loading={loading}
+          />
         </div>
       </fieldset>
 

@@ -15,11 +15,38 @@
       "submit": "Login",
       "cancel": "Cancel"
     },
+    "register": {
+      "title": "Register",
+      "submit": "Register",
+      "cancel": "Cancel"
+    },
     "username": {
-      "label": "Username"
+      "label": "Username",
+      "errors": {
+        "required": "Please enter a username"
+      }
+    },
+    "email_address": {
+      "label": "Email Address",
+      "errors": {
+        "required": "Please enter an email address"
+      }
+    },
+    "display_name": {
+      "label": "Display Name"
     },
     "password": {
-      "label": "Password"
+      "label": "Password",
+      "errors": {
+        "required": "Please enter a password"
+      }
+    },
+    "password2": {
+      "label": "Repeat Password",
+      "errors": {
+        "required": "Please re-enter your password",
+        "noMatch": "Passwords do not match"
+      }
     },
     "errors": {
       "invalidPassword": "Invalid username or password"

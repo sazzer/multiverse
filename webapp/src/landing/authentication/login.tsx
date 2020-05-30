@@ -1,4 +1,5 @@
 import { AuthenticationError, login } from "./api";
+import { Button, Input } from "../../components/form";
 import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
@@ -29,7 +30,7 @@ export const Login: React.FC<LoginProps> = ({ username, onCancel }) => {
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       username,
       password: "",
@@ -57,51 +58,38 @@ export const Login: React.FC<LoginProps> = ({ username, onCancel }) => {
       <h2>{t("authentication.login.title")}</h2>
 
       <fieldset disabled={loading}>
-        <div className="form-group">
-          <label htmlFor="username">{t("authentication.username.label")}</label>
-          <input
-            type="text"
-            className="form-control"
-            id="username"
-            name="username"
-            ref={register({ required: true })}
-            required
-            readOnly
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="password">{t("authentication.password.label")}</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            name="password"
-            ref={register({ required: true })}
-            required
-            autoFocus
-          />
-        </div>
+        <Input
+          id="username"
+          i18n="authentication.username"
+          required
+          readOnly
+          inputProps={{
+            ref: register({ required: true }),
+          }}
+        />
+        <Input
+          id="password"
+          i18n="authentication.password"
+          type="password"
+          error={errors.password}
+          required
+          autoFocus
+          inputProps={{
+            ref: register({ required: true }),
+          }}
+        />
 
         <div className="btn-group form-group">
-          <button type="submit" className="btn btn-primary">
-            {loading && (
-              <span
-                className="spinner-border spinner-border-sm"
-                role="status"
-                aria-hidden="true"
-              ></span>
-            )}
-            {t("authentication.login.submit")}
-          </button>
-
-          <button
-            type="button"
-            className="btn btn-secondary"
+          <Button
+            label="authentication.login.submit"
+            type="submit"
+            loading={loading}
+          />
+          <Button
+            label="authentication.login.cancel"
+            display="secondary"
             onClick={onCancel}
-          >
-            {t("authentication.login.cancel")}
-          </button>
+          />
         </div>
       </fieldset>
 

@@ -1,6 +1,7 @@
 import React, { useReducer } from "react";
 
 import { Login } from "./login";
+import { Register } from "./register";
 import { StartAuthentication } from "./start";
 
 /**
@@ -69,7 +70,12 @@ export default () => {
         />
       );
     } else {
-      return <div>Register as user: {state.username}</div>;
+      return (
+        <Register
+          username={state.username}
+          onCancel={() => dispatch({ action: "CANCEL_AUTH" })}
+        />
+      );
     }
   } else {
     return (
