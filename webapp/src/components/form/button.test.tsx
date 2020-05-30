@@ -1,11 +1,14 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 
 import { Button } from "./button";
 import React from "react";
 
-test("Rendering a simple button produces the correct markup", () => {
-  const { container } = render(<Button label="authentication.login.submit" />);
-  expect(container).toMatchInlineSnapshot(`
+describe("Rendering a button", () => {
+  test("Simple button", () => {
+    const { container } = render(
+      <Button label="authentication.login.submit" />
+    );
+    expect(container).toMatchInlineSnapshot(`
     <div>
       <button
         class="btn btn-primary"
@@ -15,13 +18,13 @@ test("Rendering a simple button produces the correct markup", () => {
       </button>
     </div>
   `);
-});
+  });
 
-test("Rendering a cancel button produces the correct markup", () => {
-  const { container } = render(
-    <Button label="authentication.login.cancel" display="secondary" />
-  );
-  expect(container).toMatchInlineSnapshot(`
+  test("Secondary display format", () => {
+    const { container } = render(
+      <Button label="authentication.login.cancel" display="secondary" />
+    );
+    expect(container).toMatchInlineSnapshot(`
     <div>
       <button
         class="btn btn-secondary"
@@ -31,13 +34,13 @@ test("Rendering a cancel button produces the correct markup", () => {
       </button>
     </div>
   `);
-});
+  });
 
-test("Rendering a submit button produces the correct markup", () => {
-  const { container } = render(
-    <Button label="authentication.login.submit" type="submit" />
-  );
-  expect(container).toMatchInlineSnapshot(`
+  test("Submit button", () => {
+    const { container } = render(
+      <Button label="authentication.login.submit" type="submit" />
+    );
+    expect(container).toMatchInlineSnapshot(`
     <div>
       <button
         class="btn btn-primary"
@@ -47,13 +50,13 @@ test("Rendering a submit button produces the correct markup", () => {
       </button>
     </div>
   `);
-});
+  });
 
-test("Rendering a loading button produces the correct markup", () => {
-  const { container } = render(
-    <Button label="authentication.login.submit" loading />
-  );
-  expect(container).toMatchInlineSnapshot(`
+  test("Loading button", () => {
+    const { container } = render(
+      <Button label="authentication.login.submit" loading />
+    );
+    expect(container).toMatchInlineSnapshot(`
     <div>
       <button
         class="btn btn-primary"
@@ -69,6 +72,7 @@ test("Rendering a loading button produces the correct markup", () => {
       </button>
     </div>
   `);
+  });
 });
 
 test("Clicking on a button triggers the callback", () => {

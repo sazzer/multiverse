@@ -22,7 +22,7 @@ export const Input: React.FC<InputProps> = (props) => {
       <label htmlFor={props.id}>{t(`${props.i18n}.label`)}</label>
       <input
         type={props.type || "text"}
-        className={`form-control ${props.error && "is-invalid"}`}
+        className={`form-control ${props.error ? "is-invalid" : ""}`}
         id={props.id}
         name={props.name || props.id}
         required={props.required}
