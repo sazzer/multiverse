@@ -1,32 +1,80 @@
 import React, { useContext, useState } from "react";
 
 import debug from "debug";
+import { request } from "./api";
 
 /** The logger to use */
 const LOGGER = debug("multiverse:currentUser");
 
+/**
+ * The shape of the user returned by the API
+ */
+interface UserResponse {
+  /** The users unique username */
+  username: string;
+  /** The users display name */
+  display_name: string;
+  /** The users email address */
+  email_address: string;
+  /** The avatar for the user */
+  avatar_url?: string;
+}
+
+/**
+ * The shape of the user as stored in the webapp
+ */
+export interface User {
+  /** The ID of the user */
+  userId: string;
+  /** The users unique username */
+  username: string;
+  /** The users display name */
+  displayName: string;
+  /** The users email address */
+  emailAddress: string;
+  /** The avatar for the user */
+  avatarUrl?: string;
+}
+
+/**
+ * The shape of the actual context store
+ */
 export interface UserContext {
-  user: string | null;
-  hasUser: boolean;
+  /** The user details */
+  user: User | null;
+  /** Callback to store the ID of the User */
   setUserId: (userId: string) => void;
 }
 
 /** The actual context type */
 const userContext = React.createContext<UserContext>({
   user: null,
-  hasUser: false,
   setUserId: () => {},
 });
 
 export const UserProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const contextValue = {
     user,
-    hasUser: user !== null,
     setUserId: (userId: string) => {
       LOGGER("Setting User ID: %s", userId);
-      setUser(userId);
+      request<UserResponse>("/users/{userId}", {
+        urlParams: {
+          userId,
+        },
+      })
+        .then((response) => response.body!!)
+        .then((user) => {
+          LOGGER("User details: %o", user);
+          setUser({
+            userId,
+            username: user.username,
+            displayName: user.display_name,
+            emailAddress: user.email_address,
+            avatarUrl: user.avatar_url,
+          });
+        });
     },
   };
 
@@ -39,5 +87,11 @@ export const UserProvider: React.FC = ({ children }) => {
  * Hook to access the user details
  */
 export function useUser() {
-  return useContext(userContext);
+  const context = useContext(userContext);
+
+  return {
+    user: context.user,
+    hasUser: context.user !== undefined,
+    setUserId: context.setUserId,
+  };
 }
