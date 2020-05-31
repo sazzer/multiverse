@@ -26,6 +26,7 @@ export const Input: React.FC<InputProps> = (props) => {
         id={props.id}
         name={props.name || props.id}
         required={props.required}
+        aria-required={!!props.required}
         autoFocus={props.autoFocus}
         readOnly={props.readOnly}
         {...props.inputProps}

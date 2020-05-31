@@ -19,6 +19,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-required="false"
             class="form-control "
             id="username"
             name="username"
@@ -44,6 +45,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-required="false"
             class="form-control "
             id="name"
             name="username"
@@ -69,6 +71,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-required="false"
             class="form-control "
             id="username"
             name="username"
@@ -94,6 +97,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-required="false"
             class="form-control "
             id="username"
             name="username"
@@ -120,6 +124,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-required="false"
             class="form-control "
             id="username"
             name="username"
@@ -145,6 +150,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-required="true"
             class="form-control "
             id="username"
             name="username"
@@ -175,6 +181,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-required="false"
             class="form-control is-invalid"
             id="username"
             name="username"
@@ -209,6 +216,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-required="false"
             class="form-control "
             data-answer="42"
             id="username"
