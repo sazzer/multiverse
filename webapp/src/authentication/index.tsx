@@ -3,6 +3,8 @@ import React, { useReducer } from "react";
 import { Login } from "./login";
 import { Register } from "./register";
 import { StartAuthentication } from "./start";
+import { useHistory } from "react-router-dom";
+import { useUser } from "../currentUser";
 
 /**
  * The shape of the state in the reducer
@@ -60,6 +62,13 @@ function reducer(
 
 export default () => {
   const [state, dispatch] = useReducer(reducer, {});
+  const { setUserId } = useUser();
+  const history = useHistory();
+
+  const onAuthenticated = (userId: string) => {
+    setUserId(userId);
+    history.push("/profile");
+  };
 
   if (state.username) {
     if (state.known) {
@@ -67,6 +76,7 @@ export default () => {
         <Login
           username={state.username}
           onCancel={() => dispatch({ action: "CANCEL_AUTH" })}
+          onAuthenticated={onAuthenticated}
         />
       );
     } else {
@@ -74,6 +84,7 @@ export default () => {
         <Register
           username={state.username}
           onCancel={() => dispatch({ action: "CANCEL_AUTH" })}
+          onAuthenticated={onAuthenticated}
         />
       );
     }

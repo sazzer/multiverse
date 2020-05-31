@@ -4,7 +4,6 @@ import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useUser } from "../currentUser";
 
 /**
  * Shape of the props needed to login
@@ -14,6 +13,8 @@ export interface LoginProps {
   username: string;
   /** Callback to cancel logging in */
   onCancel: () => void;
+  /** Callback for when we successfully authenticated */
+  onAuthenticated: (userId: string) => void;
 }
 
 /**
@@ -26,11 +27,14 @@ interface LoginForm {
   password: string;
 }
 
-export const Login: React.FC<LoginProps> = ({ username, onCancel }) => {
+export const Login: React.FC<LoginProps> = ({
+  username,
+  onCancel,
+  onAuthenticated,
+}) => {
   const { t } = useTranslation();
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(false);
-  const { setUserId } = useUser();
 
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
@@ -53,7 +57,7 @@ export const Login: React.FC<LoginProps> = ({ username, onCancel }) => {
       .then((userId) => {
         setLoading(false);
         if (userId) {
-          setUserId(userId);
+          onAuthenticated(userId);
         }
       });
   };

@@ -4,7 +4,6 @@ import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useUser } from "../currentUser";
 
 /**
  * Shape of the props needed to register
@@ -14,6 +13,8 @@ export interface RegisterProps {
   username: string;
   /** Callback to cancel registering */
   onCancel: () => void;
+  /** Callback for when we successfully authenticated */
+  onAuthenticated: (userId: string) => void;
 }
 
 /**
@@ -32,11 +33,14 @@ interface RegisterForm {
   password2: string;
 }
 
-export const Register: React.FC<RegisterProps> = ({ username, onCancel }) => {
+export const Register: React.FC<RegisterProps> = ({
+  username,
+  onCancel,
+  onAuthenticated,
+}) => {
   const { t } = useTranslation();
   const [error, setGlobalError] = useState<string>();
   const [loading, setLoading] = useState(false);
-  const { setUserId } = useUser();
 
   const { register, handleSubmit, setError, errors } = useForm({
     defaultValues: {
@@ -71,7 +75,7 @@ export const Register: React.FC<RegisterProps> = ({ username, onCancel }) => {
       .then((userId) => {
         setLoading(false);
         if (userId) {
-          setUserId(userId);
+          onAuthenticated(userId);
         }
       });
   };
