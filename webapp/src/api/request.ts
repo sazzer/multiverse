@@ -1,6 +1,7 @@
 import { Problem } from "./problem";
 import UrlTemplate from "url-template";
 import debug from "debug";
+import { getToken } from "./token";
 
 /** The logger to use */
 const LOGGER = debug("multiverse:api:request");
@@ -42,10 +43,17 @@ export async function request<B>(
   const finalUrl = template.expand(request.urlParams);
   LOGGER("Making request to %s: %o", finalUrl, request);
 
+  const token = getToken();
+  const headers = new Headers();
+  if (token !== undefined) {
+    headers.set("authorization", `Bearer ${token}`);
+  }
+
   try {
     const response = await fetch(URL_BASE + finalUrl, {
       method: request.method || "GET",
       body: JSON.stringify(request.body),
+      headers,
     });
     LOGGER("Received response from %s: %o", finalUrl, response);
 

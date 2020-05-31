@@ -4,3 +4,9 @@
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom/extend-expect";
 import "./i18n";
+
+import { clearToken } from "./api/token";
+
+afterEach(() => {
+  clearToken();
+});

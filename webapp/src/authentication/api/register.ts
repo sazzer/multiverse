@@ -1,4 +1,5 @@
 import { Problem, request } from "../../api";
+import { TokenResponse, recordToken } from "./token";
 
 import debug from "debug";
 
@@ -23,7 +24,7 @@ export async function registerUser(
   displayName?: string
 ) {
   try {
-    const response = await request("/register", {
+    const response = await request<TokenResponse>("/register", {
       method: "POST",
       body: {
         username,
@@ -33,6 +34,9 @@ export async function registerUser(
       },
     });
     LOGGER("Registered successfully: %o", response);
+    if (response.body) {
+      recordToken(response.body);
+    }
   } catch (e) {
     if (
       e instanceof Problem &&

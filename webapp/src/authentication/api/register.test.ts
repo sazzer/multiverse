@@ -1,6 +1,13 @@
 import * as api from "./register";
 
 import nock from "nock";
+import { storeToken } from "../../api/token";
+
+jest.mock("../../api/token");
+
+beforeEach(() => {
+  (storeToken as jest.Mock).mockClear();
+});
 
 test("Successful registration", async () => {
   nock("https://multiverse-cd.herokuapp.com")
@@ -24,6 +31,13 @@ test("Successful registration", async () => {
     "test@example.com",
     "Test User"
   );
+
+  expect(storeToken).toBeCalledTimes(1);
+  expect(storeToken).toBeCalledWith(
+    "authToken",
+    new Date("2020-09-08T10:09:55.139275303Z")
+  );
+
   expect(result).toBeUndefined(); // TODO: Not specified behaviour yet
 });
 
@@ -59,4 +73,5 @@ test("Duplicate username", async () => {
   } catch (e) {
     expect(e).toBeInstanceOf(api.DuplicateUsernameError);
   }
+  expect(storeToken).not.toBeCalled();
 });

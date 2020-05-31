@@ -1,4 +1,5 @@
 import { Problem, request } from "../../api";
+import { TokenResponse, recordToken } from "./token";
 
 import debug from "debug";
 
@@ -16,7 +17,7 @@ export class AuthenticationError extends Error {}
  */
 export async function login(username: string, password: string) {
   try {
-    const response = await request("/login", {
+    const response = await request<TokenResponse>("/login", {
       method: "POST",
       body: {
         username,
@@ -24,6 +25,9 @@ export async function login(username: string, password: string) {
       },
     });
     LOGGER("Authenticated successfully: %o", response);
+    if (response.body) {
+      recordToken(response.body);
+    }
   } catch (e) {
     if (
       e instanceof Problem &&

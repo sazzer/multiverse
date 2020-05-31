@@ -1,6 +1,13 @@
 import * as api from "./login";
 
 import nock from "nock";
+import { storeToken } from "../../api/token";
+
+jest.mock("../../api/token");
+
+beforeEach(() => {
+  (storeToken as jest.Mock).mockClear();
+});
 
 test("Successful login", async () => {
   nock("https://multiverse-cd.herokuapp.com")
@@ -14,6 +21,13 @@ test("Successful login", async () => {
     });
 
   const result = await api.login("username", "password");
+
+  expect(storeToken).toBeCalledTimes(1);
+  expect(storeToken).toBeCalledWith(
+    "authToken",
+    new Date("2020-09-08T10:09:55.139275303Z")
+  );
+
   expect(result).toBeUndefined(); // TODO: Not specified behaviour yet
 });
 
@@ -39,4 +53,5 @@ test("Unsuccessful login", async () => {
   } catch (e) {
     expect(e).toBeInstanceOf(api.AuthenticationError);
   }
+  expect(storeToken).not.toBeCalled();
 });
