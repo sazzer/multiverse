@@ -1,5 +1,5 @@
 import { AuthenticationError, login } from "./api";
-import { Button, Input } from "../../components/form";
+import { Button, Input } from "../components/form";
 import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";

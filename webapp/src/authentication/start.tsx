@@ -1,4 +1,4 @@
-import { Button, Input } from "../../components/form";
+import { Button, Input } from "../components/form";
 import React, { useState } from "react";
 
 import { lookupUsername } from "./api";

@@ -1,4 +1,4 @@
-import Authentication from "./authentication";
+import Authentication from "../authentication";
 import React from "react";
 import landingPicture from "./landing.jpg";
 

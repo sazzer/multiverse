@@ -1,4 +1,4 @@
-import { Button, Input } from "../../components/form";
+import { Button, Input } from "../components/form";
 import { DuplicateUsernameError, registerUser } from "./api";
 import React, { useState } from "react";
 
