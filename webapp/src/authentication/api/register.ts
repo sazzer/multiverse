@@ -11,11 +11,11 @@ export class DuplicateUsernameError extends Error {}
 
 /**
  * Attempt to register a new user
- * // TODO: Not specified behaviour on success yet
  * @param username The username to register with
  * @param password The password to register with
  * @param email The email address to register with
  * @param displayName The display name to register with
+ * @return The ID of the user that registered
  */
 export async function registerUser(
   username: string,
@@ -36,7 +36,9 @@ export async function registerUser(
     LOGGER("Registered successfully: %o", response);
     if (response.body) {
       recordToken(response.body);
+      return response.body.user_id;
     }
+    return null;
   } catch (e) {
     if (
       e instanceof Problem &&

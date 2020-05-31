@@ -4,6 +4,7 @@ import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useUser } from "../currentUser";
 
 /**
  * Shape of the props needed to register
@@ -35,6 +36,7 @@ export const Register: React.FC<RegisterProps> = ({ username, onCancel }) => {
   const { t } = useTranslation();
   const [error, setGlobalError] = useState<string>();
   const [loading, setLoading] = useState(false);
+  const { setUserId } = useUser();
 
   const { register, handleSubmit, setError, errors } = useForm({
     defaultValues: {
@@ -66,8 +68,11 @@ export const Register: React.FC<RegisterProps> = ({ username, onCancel }) => {
           setGlobalError(e.toString());
         }
       })
-      .then(() => {
+      .then((userId) => {
         setLoading(false);
+        if (userId) {
+          setUserId(userId);
+        }
       });
   };
 

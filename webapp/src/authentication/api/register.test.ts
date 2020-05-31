@@ -38,7 +38,7 @@ test("Successful registration", async () => {
     new Date("2020-09-08T10:09:55.139275303Z")
   );
 
-  expect(result).toBeUndefined(); // TODO: Not specified behaviour yet
+  expect(result).toEqual("a9846a08-d66c-4ec6-956d-be32e92a6fd6");
 });
 
 test("Duplicate username", async () => {

@@ -11,9 +11,9 @@ export class AuthenticationError extends Error {}
 
 /**
  * Attempt to log in to the system and retrieve an access token
- * // TODO: Not specified behaviour on success yet
  * @param username The username to log in as
  * @param password The password to log in with
+ * @return The ID of the user that logged in
  */
 export async function login(username: string, password: string) {
   try {
@@ -27,7 +27,9 @@ export async function login(username: string, password: string) {
     LOGGER("Authenticated successfully: %o", response);
     if (response.body) {
       recordToken(response.body);
+      return response.body.user_id;
     }
+    return null;
   } catch (e) {
     if (
       e instanceof Problem &&
