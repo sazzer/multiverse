@@ -6,7 +6,12 @@ test("Successful login", async () => {
   nock("https://multiverse-cd.herokuapp.com")
     .defaultReplyHeaders({ "access-control-allow-origin": "*" })
     .post("/login", { username: "username", password: "password" })
-    .reply(204);
+    .reply(200, {
+      token: "authToken",
+      valid_until: "2020-09-08T10:09:55.139275303Z",
+      user_id: "a9846a08-d66c-4ec6-956d-be32e92a6fd6",
+      display_name: "Test User",
+    });
 
   const result = await api.login("username", "password");
   expect(result).toBeUndefined(); // TODO: Not specified behaviour yet
