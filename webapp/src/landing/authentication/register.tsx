@@ -1,5 +1,5 @@
-import { AuthenticationError, login } from "./api";
 import { Button, Input } from "../../components/form";
+import { DuplicateUsernameError, registerUser } from "./api";
 import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
@@ -53,10 +53,15 @@ export const Register: React.FC<RegisterProps> = ({ username, onCancel }) => {
     }
     setLoading(true);
 
-    login(form.username, form.password)
+    registerUser(
+      form.username,
+      form.password,
+      form.email_address,
+      form.display_name
+    )
       .catch((e) => {
-        if (e instanceof AuthenticationError) {
-          setGlobalError(t("authentication.errors.invalidPassword"));
+        if (e instanceof DuplicateUsernameError) {
+          setGlobalError(t("authentication.errors.duplicateUsername"));
         } else {
           setGlobalError(e.toString());
         }
@@ -95,9 +100,8 @@ export const Register: React.FC<RegisterProps> = ({ username, onCancel }) => {
           id="display_name"
           i18n="authentication.display_name"
           error={errors.display_name}
-          required
           inputProps={{
-            ref: register({ required: true }),
+            ref: register(),
           }}
         />
         <Input

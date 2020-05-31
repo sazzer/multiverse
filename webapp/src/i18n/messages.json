@@ -49,7 +49,8 @@
       }
     },
     "errors": {
-      "invalidPassword": "Invalid username or password"
+      "invalidPassword": "Invalid username or password",
+      "duplicateUsername": "That username is already registered"
     }
   }
 }
