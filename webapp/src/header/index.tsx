@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import { UserMenu } from "./userMenu";
 import { useTranslation } from "react-i18next";
 
 export default () => {
@@ -22,7 +23,9 @@ export default () => {
       </button>
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav ml-auto"></ul>
+        <ul className="navbar-nav ml-auto">
+          <UserMenu />
+        </ul>
       </div>
     </nav>
   );
