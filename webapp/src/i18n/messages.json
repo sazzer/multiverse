@@ -23,13 +23,15 @@
     "username": {
       "label": "Username",
       "errors": {
-        "required": "Please enter a username"
+        "required": "Please enter a username",
+        "pattern": "$t(authentication.username.errors.required)"
       }
     },
     "email_address": {
       "label": "Email Address",
       "errors": {
-        "required": "Please enter an email address"
+        "required": "Please enter an email address",
+        "pattern": "$t(authentication.email_address.errors.required)"
       }
     },
     "display_name": {
@@ -38,7 +40,8 @@
     "password": {
       "label": "Password",
       "errors": {
-        "required": "Please enter a password"
+        "required": "Please enter a password",
+        "pattern": "$t(authentication.password.errors.required)"
       }
     },
     "password2": {

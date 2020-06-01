@@ -91,7 +91,7 @@ export const Register: React.FC<RegisterProps> = ({
           required
           readOnly
           inputProps={{
-            ref: register({ required: true }),
+            ref: register({ required: true, pattern: /[^\s]/ }),
           }}
         />
         <Input
@@ -102,7 +102,7 @@ export const Register: React.FC<RegisterProps> = ({
           required
           autoFocus
           inputProps={{
-            ref: register({ required: true }),
+            ref: register({ required: true, pattern: /[^\s]/ }),
           }}
         />
         <Input
@@ -120,7 +120,7 @@ export const Register: React.FC<RegisterProps> = ({
           error={errors.password}
           required
           inputProps={{
-            ref: register({ required: true }),
+            ref: register({ required: true, pattern: /[^\s]/ }),
           }}
         />
         <Input

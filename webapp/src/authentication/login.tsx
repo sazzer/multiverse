@@ -73,7 +73,7 @@ export const Login: React.FC<LoginProps> = ({
           required
           readOnly
           inputProps={{
-            ref: register({ required: true }),
+            ref: register({ required: true, pattern: /[^\s]/ }),
           }}
         />
         <Input
