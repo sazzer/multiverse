@@ -27,12 +27,14 @@ export const Input: React.FC<InputProps> = (props) => {
         name={props.name || props.id}
         required={props.required}
         aria-required={!!props.required}
+        aria-invalid={props.error ? "true" : "false"}
+        aria-describedby={`${props.id}-error`}
         autoFocus={props.autoFocus}
         readOnly={props.readOnly}
         {...props.inputProps}
       />
       {props.error && (
-        <div className="invalid-feedback">
+        <div className="invalid-feedback" id={`${props.id}-error`}>
           {t(`${props.i18n}.errors.${props.error.type}`)}
         </div>
       )}

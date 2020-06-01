@@ -9,15 +9,15 @@ describe("Rendering a button", () => {
       <Button label="authentication.login.submit" />
     );
     expect(container).toMatchInlineSnapshot(`
-    <div>
-      <button
-        class="btn btn-primary"
-        type="button"
-      >
-        Login
-      </button>
-    </div>
-  `);
+          <div>
+            <button
+              class="btn btn-primary"
+              type="button"
+            >
+              Login
+            </button>
+          </div>
+      `);
   });
 
   test("Secondary display format", () => {
@@ -25,15 +25,15 @@ describe("Rendering a button", () => {
       <Button label="authentication.login.cancel" display="secondary" />
     );
     expect(container).toMatchInlineSnapshot(`
-    <div>
-      <button
-        class="btn btn-secondary"
-        type="button"
-      >
-        Cancel
-      </button>
-    </div>
-  `);
+          <div>
+            <button
+              class="btn btn-secondary"
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
+      `);
   });
 
   test("Submit button", () => {
@@ -41,15 +41,15 @@ describe("Rendering a button", () => {
       <Button label="authentication.login.submit" type="submit" />
     );
     expect(container).toMatchInlineSnapshot(`
-    <div>
-      <button
-        class="btn btn-primary"
-        type="submit"
-      >
-        Login
-      </button>
-    </div>
-  `);
+          <div>
+            <button
+              class="btn btn-primary"
+              type="submit"
+            >
+              Login
+            </button>
+          </div>
+      `);
   });
 
   test("Loading button", () => {
@@ -57,21 +57,28 @@ describe("Rendering a button", () => {
       <Button label="authentication.login.submit" loading />
     );
     expect(container).toMatchInlineSnapshot(`
-    <div>
-      <button
-        class="btn btn-primary"
-        type="button"
-      >
+      <div>
+        <button
+          class="btn btn-primary"
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+            class="spinner-border spinner-border-sm"
+            role="status"
+          />
+           
+          Login
+        </button>
         <span
-          aria-hidden="true"
-          class="spinner-border spinner-border-sm"
+          aria-busy="true"
+          aria-hidden="false"
+          aria-label="Loading"
+          class="sr-only"
           role="status"
         />
-         
-        Login
-      </button>
-    </div>
-  `);
+      </div>
+    `);
   });
 });
 

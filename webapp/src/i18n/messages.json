@@ -1,6 +1,9 @@
 {
   "page": {
-    "title": "Multiverse"
+    "title": "Multiverse",
+    "spinner": {
+      "label": "Loading"
+    }
   },
   "header": {
     "toggleNavigation": "Toggle Navigation"

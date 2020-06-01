@@ -19,6 +19,8 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-describedby="username-error"
+            aria-invalid="false"
             aria-required="false"
             class="form-control "
             id="username"
@@ -45,6 +47,8 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-describedby="name-error"
+            aria-invalid="false"
             aria-required="false"
             class="form-control "
             id="name"
@@ -71,6 +75,8 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-describedby="username-error"
+            aria-invalid="false"
             aria-required="false"
             class="form-control "
             id="username"
@@ -97,6 +103,8 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-describedby="username-error"
+            aria-invalid="false"
             aria-required="false"
             class="form-control "
             id="username"
@@ -124,6 +132,8 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-describedby="username-error"
+            aria-invalid="false"
             aria-required="false"
             class="form-control "
             id="username"
@@ -150,6 +160,8 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-describedby="username-error"
+            aria-invalid="false"
             aria-required="true"
             class="form-control "
             id="username"
@@ -181,6 +193,8 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-describedby="username-error"
+            aria-invalid="true"
             aria-required="false"
             class="form-control is-invalid"
             id="username"
@@ -189,6 +203,7 @@ describe("Rendering an input", () => {
           />
           <div
             class="invalid-feedback"
+            id="username-error"
           >
             Please enter a username
           </div>
@@ -216,6 +231,8 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
+            aria-describedby="username-error"
+            aria-invalid="false"
             aria-required="false"
             class="form-control "
             data-answer="42"
