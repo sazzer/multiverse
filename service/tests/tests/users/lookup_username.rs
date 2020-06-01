@@ -45,5 +45,6 @@ fn test_lookup_known_username(username: &str) {
             ..SeedUser::default()
         })
         .get(url)
-        .has_status(Status::NoContent);
+        .has_status(Status::NoContent)
+        .has_header("Cache-Control", "private, max-age=3600");
 }

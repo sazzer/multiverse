@@ -3,7 +3,14 @@ use crate::{
     http::problem::Problem,
     users::{Username, UsersService},
 };
-use rocket::{get, http::Status, State};
+use rocket::{
+    get,
+    http::{
+        hyper::header::{CacheControl, CacheDirective},
+        Status,
+    },
+    Response, State,
+};
 
 /// Actix handler to see if a username is already registered or not
 ///
@@ -19,9 +26,17 @@ use rocket::{get, http::Status, State};
 pub fn lookup_username(
     users_service: State<UsersService>,
     username: Username,
-) -> Result<Status, Problem> {
+) -> Result<Response, Problem> {
     users_service
         .find_user_by_username(&username)
         .ok_or_else(|| Problem::new(UserProblemType::UnknownUsername, Status::NotFound))
-        .map(|_| Status::NoContent)
+        .map(|_| {
+            Response::build()
+                .status(Status::NoContent)
+                .header(CacheControl(vec![
+                    CacheDirective::Private,
+                    CacheDirective::MaxAge(3600),
+                ]))
+                .finalize()
+        })
 }
