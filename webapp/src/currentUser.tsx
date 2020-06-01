@@ -44,12 +44,15 @@ export interface UserContext {
   user: User | null;
   /** Callback to store the ID of the User */
   setUserId: (userId: string) => void;
+  /** Callback to clear the User */
+  clearUserId: () => void;
 }
 
 /** The actual context type */
 const userContext = React.createContext<UserContext>({
   user: null,
   setUserId: () => {},
+  clearUserId: () => {},
 });
 
 export const UserProvider: React.FC = ({ children }) => {
@@ -76,6 +79,9 @@ export const UserProvider: React.FC = ({ children }) => {
           });
         });
     },
+    clearUserId: () => {
+      setUser(null);
+    },
   };
 
   return (
@@ -93,5 +99,6 @@ export function useUser() {
     user: context.user,
     hasUser: context.user !== undefined,
     setUserId: context.setUserId,
+    clearUserId: context.clearUserId,
   };
 }

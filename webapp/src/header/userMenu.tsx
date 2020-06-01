@@ -1,11 +1,22 @@
 import React from "react";
+import { clearToken } from "../api/token";
+import { useHistory } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useUser } from "../currentUser";
 
 /**
  * The user menu as displayed in the header bar
  */
 export const UserMenu = () => {
-  const { user } = useUser();
+  const { t } = useTranslation();
+  const { user, clearUserId } = useUser();
+  const history = useHistory();
+
+  const onLogout = () => {
+    clearUserId();
+    clearToken();
+    history.push("/");
+  };
 
   if (user) {
     return (
@@ -25,9 +36,9 @@ export const UserMenu = () => {
           className="dropdown-menu dropdown-menu-right"
           aria-labelledby="navbarDropdown"
         >
-          <a className="dropdown-item" href="#">
-            Log Out
-          </a>
+          <button className="dropdown-item" onClick={onLogout}>
+            {t("header.userMenu.logout")}
+          </button>
         </div>
       </li>
     );

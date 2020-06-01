@@ -6,7 +6,10 @@
     }
   },
   "header": {
-    "toggleNavigation": "Toggle Navigation"
+    "toggleNavigation": "Toggle Navigation",
+    "userMenu": {
+      "logout": "Log Out"
+    }
   },
   "authentication": {
     "start": {
