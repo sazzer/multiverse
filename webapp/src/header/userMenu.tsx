@@ -22,8 +22,8 @@ export const UserMenu = () => {
     return (
       <li className="nav-item dropdown">
         <button
-          className="nav-link dropdown-toggle"
-          id="navbarDropdown"
+          className="nav-link dropdown-toggle btn btn-link"
+          id="userMenuDropdown"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
@@ -32,7 +32,7 @@ export const UserMenu = () => {
         </button>
         <div
           className="dropdown-menu dropdown-menu-right"
-          aria-labelledby="navbarDropdown"
+          aria-labelledby="userMenuDropdown"
         >
           <button className="dropdown-item" onClick={onLogout}>
             {t("header.userMenu.logout")}
