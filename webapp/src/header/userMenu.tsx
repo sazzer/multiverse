@@ -21,17 +21,15 @@ export const UserMenu = () => {
   if (user) {
     return (
       <li className="nav-item dropdown">
-        <a
+        <button
           className="nav-link dropdown-toggle"
-          href="#"
           id="navbarDropdown"
-          role="button"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
         >
           {user.displayName}
-        </a>
+        </button>
         <div
           className="dropdown-menu dropdown-menu-right"
           aria-labelledby="navbarDropdown"

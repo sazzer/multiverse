@@ -71,6 +71,16 @@ jobs:
         working-directory: webapp
         run: yarn test
 
+      - name: Build output
+        working-directory: webapp
+        run: yarn build
+
+      - name: Upload build output
+        uses: actions/upload-artifact@v1
+        with:
+          name: webapp
+          path: webapp/build
+
   build-service-container:
     runs-on: ubuntu-latest
     steps:
@@ -123,3 +133,24 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release -a multiverse-cd web
+
+  deploy-webapp:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    needs:
+      - build-webapp
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: webapp
+          path: build
+
+      - uses: jsmrcaga/action-netlify-deploy@master
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_MESSAGE: "Prod deploy: ${{ github.ref }}"
+          build_directory: build
