@@ -61,5 +61,14 @@
       "invalidPassword": "Invalid username or password",
       "duplicateUsername": "That username is already registered"
     }
+  },
+  "profile": {
+    "title": "User Profile: {{name}}",
+    "profile": {
+      "label": "Profile"
+    },
+    "password": {
+      "label": "Change Password"
+    }
   }
 }
