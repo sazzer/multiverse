@@ -65,7 +65,18 @@
   "profile": {
     "title": "User Profile: {{name}}",
     "profile": {
-      "label": "Profile"
+      "label": "Profile",
+      "submit": "Save Changes",
+      "cancel": "Cancel",
+      "username": {
+        "label": "Username"
+      },
+      "email_address": {
+        "label": "Email Address"
+      },
+      "display_name": {
+        "label": "Display Name"
+      }
     },
     "password": {
       "label": "Change Password"
