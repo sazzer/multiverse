@@ -1,7 +1,7 @@
 use crate::{
     authentication::AuthenticatedUserModel,
     authorization::Token,
-    users::{endpoints::model::UserResponse, UserID},
+    users::UserID,
 };
 use chrono::{DateTime, Utc};
 use rocket::{response, Request};
