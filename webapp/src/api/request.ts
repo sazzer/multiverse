@@ -1,13 +1,11 @@
 import { Problem } from "./problem";
 import UrlTemplate from "url-template";
 import debug from "debug";
+import env from "@beam-australia/react-env";
 import { getToken } from "./token";
 
 /** The logger to use */
 const LOGGER = debug("multiverse:api:request");
-
-/** The base URL to call */
-const URL_BASE = "https://multiverse-cd.herokuapp.com";
 
 /**
  * The details needed in order to make an HTTP Request
@@ -50,7 +48,7 @@ export async function request<B>(
   }
 
   try {
-    const response = await fetch(URL_BASE + finalUrl, {
+    const response = await fetch(env("URL_BASE") + finalUrl, {
       method: request.method || "GET",
       body: JSON.stringify(request.body),
       headers,

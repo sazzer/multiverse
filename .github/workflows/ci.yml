@@ -47,6 +47,25 @@ jobs:
         working-directory: service
         run: cargo test
 
+  build-service-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Get the git tag
+        run: |
+          echo ::set-env name=GIT_TAG::$(echo ${GITHUB_REF} | sed -e "s/refs\/.*\///g")
+
+      - uses: whoan/docker-build-with-cache-action@v5
+        with:
+          registry: docker.pkg.github.com
+          username: "publisher"
+          password: "${{ secrets.GITHUB_TOKEN }}"
+          image_name: "${{ format('{0}/multiverse-service', github.repository) }}"
+          image_tag: "${{ env.GIT_TAG }}"
+          push_git_tag: true
+          context: service
+
   build-webapp:
     runs-on: ubuntu-latest
     steps:
@@ -81,7 +100,7 @@ jobs:
           name: webapp
           path: webapp/build
 
-  build-service-container:
+  build-webapp-container:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -95,10 +114,10 @@ jobs:
           registry: docker.pkg.github.com
           username: "publisher"
           password: "${{ secrets.GITHUB_TOKEN }}"
-          image_name: "${{ format('{0}/multiverse-service', github.repository) }}"
+          image_name: "${{ format('{0}/multiverse-webapp', github.repository) }}"
           image_tag: "${{ env.GIT_TAG }}"
           push_git_tag: true
-          context: service
+          context: webapp
 
   deploy-service-container:
     runs-on: ubuntu-latest
