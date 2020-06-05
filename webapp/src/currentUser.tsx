@@ -1,39 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
+import { User, loadUser } from "./profile/api";
 
 import debug from "debug";
-import { request } from "./api";
 
 /** The logger to use */
 const LOGGER = debug("multiverse:currentUser");
 
 /** The key into Session Storage where the current user ID is stored */
 const USER_ID_KEY = "multiverse_current_user";
-
-/**
- * The shape of the user returned by the API
- */
-interface UserResponse {
-  /** The users unique username */
-  username: string;
-  /** The users display name */
-  display_name: string;
-  /** The users email address */
-  email_address: string;
-  /** The avatar for the user */
-  avatar_url?: string;
-}
-
-/**
- * The shape of the user as stored in the webapp
- */
-export interface User {
-  /** The ID of the user */
-  userId: string;
-  /** The users unique username */
-  username: string;
-  /** The users display name */
-  displayName: string;
-}
 
 /**
  * The shape of the actual context store
@@ -54,29 +28,12 @@ const userContext = React.createContext<UserContext>({
   clearUserId: () => {},
 });
 
-function loadUser(userId: string): Promise<User> {
-  LOGGER("Setting User ID: %s", userId);
-  return request<UserResponse>("/users/{userId}", {
-    urlParams: {
-      userId,
-    },
-  })
-    .then((response) => response.body!!)
-    .then((user) => {
-      LOGGER("User details: %o", user);
-      return {
-        userId,
-        username: user.username,
-        displayName: user.display_name,
-      };
-    });
-}
-
 export const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     const storedUserId = sessionStorage.getItem(USER_ID_KEY);
     if (storedUserId) {
+      LOGGER("Loading remembered user: %s", storedUserId);
       loadUser(storedUserId).then(setUser);
     }
   }, []);
@@ -84,6 +41,7 @@ export const UserProvider: React.FC = ({ children }) => {
   const contextValue = {
     user,
     setUserId: (userId: string) => {
+      LOGGER("Loading user: %s", userId);
       loadUser(userId).then((user) => {
         setUser(user);
         sessionStorage.setItem(USER_ID_KEY, userId);

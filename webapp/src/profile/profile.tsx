@@ -1,35 +1,21 @@
 import { Button, Input } from "../components/form";
 import React, { useEffect, useState } from "react";
+import { User, loadUser } from "./api";
 
 import { Spinner } from "../components/spinner";
-import { request } from "../api";
 import { useForm } from "react-hook-form";
 import { useUser } from "../currentUser";
 
-/**
- * The shape of the user returned by the API
- */
-interface UserResponse {
-  /** The users unique username */
-  username: string;
-  /** The users display name */
-  display_name: string;
-  /** The users email address */
-  email_address: string;
-  /** The avatar for the user */
-  avatar_url?: string;
-}
-
 interface ProfileFormProps {
-  user: UserResponse;
+  user: User;
 }
 
 const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       username: user.username,
-      email_address: user.email_address,
-      display_name: user.display_name,
+      email_address: user.emailAddress,
+      display_name: user.displayName,
     },
   });
 
@@ -83,20 +69,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
 
 export const ProfileView: React.FC = () => {
   const { userId } = useUser();
-  const [user, setUser] = useState<UserResponse | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
     if (userId) {
-      request<UserResponse>("/users/{userId}", {
-        urlParams: {
-          userId,
-        },
-        authenticated: true,
-        ignoreCache: true,
-      })
-        .then((response) => response.body!!)
-        .then((user) => {
-          setUser(user);
-        });
+      loadUser(userId, true).then(setUser);
     }
   }, [userId]);
 
