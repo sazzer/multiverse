@@ -2,28 +2,38 @@ import { Button, Input } from "../components/form";
 import React, { useEffect, useState } from "react";
 
 import { Spinner } from "../components/spinner";
+import { request } from "../api";
 import { useForm } from "react-hook-form";
+import { useUser } from "../currentUser";
 
-export const ProfileView: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
+/**
+ * The shape of the user returned by the API
+ */
+interface UserResponse {
+  /** The users unique username */
+  username: string;
+  /** The users display name */
+  display_name: string;
+  /** The users email address */
+  email_address: string;
+  /** The avatar for the user */
+  avatar_url?: string;
+}
+
+interface ProfileFormProps {
+  user: UserResponse;
+}
+
+const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
-      username: "sazzer",
-      email_address: "graham@grahamcox.co.uk",
-      display_name: "Graham",
+      username: user.username,
+      email_address: user.email_address,
+      display_name: user.display_name,
     },
   });
 
   const onSubmitHandler = console.log;
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
@@ -69,4 +79,26 @@ export const ProfileView: React.FC = () => {
       </fieldset>
     </form>
   );
+};
+
+export const ProfileView: React.FC = () => {
+  const { userId } = useUser();
+  const [user, setUser] = useState<UserResponse | null>(null);
+  useEffect(() => {
+    if (userId) {
+      request<UserResponse>("/users/{userId}", {
+        urlParams: {
+          userId,
+        },
+        authenticated: true,
+        ignoreCache: true,
+      })
+        .then((response) => response.body!!)
+        .then((user) => {
+          setUser(user);
+        });
+    }
+  }, [userId]);
+
+  return user == null ? <Spinner /> : <ProfileForm user={user} />;
 };

@@ -17,6 +17,10 @@ export interface Request {
   urlParams?: { [key: string]: any };
   /** Any body to submit */
   body?: any;
+  /** Whether to ignore the cache when making the request */
+  ignoreCache?: boolean;
+  /** Whether the request must be authenticated or not */
+  authenticated?: boolean;
 }
 
 /**
@@ -43,8 +47,11 @@ export async function request<B>(
 
   const token = getToken();
   const headers = new Headers();
-  if (token !== undefined) {
+  if (request.authenticated && token !== undefined) {
     headers.set("authorization", `Bearer ${token}`);
+  }
+  if (request.ignoreCache) {
+    headers.set("cache-control", "no-cache");
   }
 
   try {

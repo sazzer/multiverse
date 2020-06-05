@@ -33,10 +33,6 @@ export interface User {
   username: string;
   /** The users display name */
   displayName: string;
-  /** The users email address */
-  emailAddress: string;
-  /** The avatar for the user */
-  avatarUrl?: string;
 }
 
 /**
@@ -72,8 +68,6 @@ function loadUser(userId: string): Promise<User> {
         userId,
         username: user.username,
         displayName: user.display_name,
-        emailAddress: user.email_address,
-        avatarUrl: user.avatar_url,
       };
     });
 }
@@ -114,6 +108,7 @@ export function useUser() {
 
   return {
     user: context.user,
+    userId: context.user?.userId,
     hasUser: context.user !== undefined,
     setUserId: context.setUserId,
     clearUserId: context.clearUserId,
