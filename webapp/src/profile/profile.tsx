@@ -1,9 +1,16 @@
 import { Button, Input } from "../components/form";
+import React, { useEffect, useState } from "react";
 
-import React from "react";
+import { Spinner } from "../components/spinner";
 import { useForm } from "react-hook-form";
 
 export const ProfileView: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       username: "sazzer",
@@ -13,6 +20,10 @@ export const ProfileView: React.FC = () => {
   });
 
   const onSubmitHandler = console.log;
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
