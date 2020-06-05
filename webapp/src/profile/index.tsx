@@ -3,13 +3,15 @@ import { NavLink, Route, Switch } from "react-router-dom";
 import { ProfileView } from "./profile";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useUser } from "../currentUser";
 
 export const Profile: React.FC = () => {
   const { t } = useTranslation();
+  const { user } = useUser();
 
   return (
     <div className="container">
-      <h2>{t("profile.title", { name: "Graham" })}</h2>
+      <h2>{t("profile.title", { name: user?.displayName })}</h2>
       <div className="row">
         <div className="col-12 col-md-9 order-sm-3">
           <Switch>
