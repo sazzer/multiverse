@@ -1,6 +1,7 @@
+import { Link, useHistory } from "react-router-dom";
+
 import React from "react";
 import { clearToken } from "../api/token";
-import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useUser } from "../currentUser";
 
@@ -34,6 +35,10 @@ export const UserMenu = () => {
           className="dropdown-menu dropdown-menu-right"
           aria-labelledby="userMenuDropdown"
         >
+          <Link to="/profile" className="dropdown-item">
+            {t("header.userMenu.profile")}
+          </Link>
+          <div className="dropdown-divider"></div>
           <button className="dropdown-item" onClick={onLogout}>
             {t("header.userMenu.logout")}
           </button>
