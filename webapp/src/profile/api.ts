@@ -23,7 +23,7 @@ export interface User {
   /** The users email address */
   emailAddress: string;
   /** The avatar for the user */
-  avatar_Url?: string;
+  avatarUrl?: string;
 }
 
 /**
@@ -48,6 +48,26 @@ export async function loadUser(
     username: response.body!!.username,
     displayName: response.body!!.display_name,
     emailAddress: response.body!!.email_address,
-    avatar_Url: response.body?.avatar_url,
+    avatarUrl: response.body?.avatar_url,
   };
+}
+
+/**
+ * Update the details of a user
+ * @param user The details of the user to update
+ */
+export async function updateUser(user: User) {
+  const response = await request<UserResponse>("/users/{userId}", {
+    method: "PATCH",
+    urlParams: {
+      userId: user.userId,
+    },
+    body: {
+      email_address: user.emailAddress,
+      display_name: user.displayName,
+      avatar_url: user.avatarUrl,
+    },
+  });
+
+  console.log(response);
 }

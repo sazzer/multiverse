@@ -1,17 +1,32 @@
 import { Button, Input } from "../components/form";
 import React, { useEffect, useState } from "react";
-import { User, loadUser } from "./api";
+import { User, loadUser, updateUser } from "./api";
 
 import { Spinner } from "../components/spinner";
 import { useForm } from "react-hook-form";
 import { useUser } from "../currentUser";
 
+/**
+ * The props needed forthe profile form
+ */
 interface ProfileFormProps {
   user: User;
 }
 
+interface ProfileForm {
+  /** The username */
+  username: string;
+  /** The email address */
+  email_address: string;
+  /** The display name */
+  display_name: string;
+}
+
 const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
-  const { register, handleSubmit, errors } = useForm({
+  const [saving, setSaving] = useState(false);
+  const { setUserId } = useUser();
+
+  const { register, handleSubmit, errors, reset } = useForm<ProfileForm>({
     defaultValues: {
       username: user.username,
       email_address: user.emailAddress,
@@ -19,11 +34,22 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
     },
   });
 
-  const onSubmitHandler = console.log;
+  const onSubmitHandler = (data: ProfileForm) => {
+    setSaving(true);
+    updateUser({
+      userId: user.userId,
+      username: data.username,
+      emailAddress: data.email_address,
+      displayName: data.display_name,
+    }).then(() => {
+      setSaving(false);
+      setUserId(user.userId);
+    });
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
-      <fieldset>
+      <fieldset disabled={saving}>
         <Input
           id="username"
           i18n="profile.profile.username"
@@ -55,11 +81,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
         />
 
         <div className="btn-group form-group">
-          <Button label="profile.profile.submit" type="submit" />
           <Button
-            label="profile.profile.cancel"
-            type="reset"
-            display="secondary"
+            label="profile.profile.submit"
+            type="submit"
+            loading={saving}
           />
         </div>
       </fieldset>

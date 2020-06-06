@@ -70,13 +70,25 @@
       "submit": "Save Changes",
       "cancel": "Cancel",
       "username": {
-        "label": "Username"
+        "label": "Username",
+        "errors": {
+          "required": "Please enter a username",
+          "pattern": "$t(profile.profile.username.errors.required)"
+        }
       },
       "email_address": {
-        "label": "Email Address"
+        "label": "Email Address",
+        "errors": {
+          "required": "Please enter an email address",
+          "pattern": "$t(profile.profile.email_address.errors.required)"
+        }
       },
       "display_name": {
-        "label": "Display Name"
+        "label": "Display Name",
+        "errors": {
+          "required": "Please enter a display name",
+          "pattern": "$t(profile.profile.display_name.errors.required)"
+        }
       }
     },
     "password": {
