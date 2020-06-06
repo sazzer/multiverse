@@ -73,7 +73,7 @@ describe("Rendering a button", () => {
         <span
           aria-busy="true"
           aria-hidden="false"
-          aria-label="Loading"
+          aria-label="Loading..."
           class="sr-only"
           role="status"
         />
