@@ -44,5 +44,16 @@ services:
     networks:
       - multiverse
 
+  multiverse-webapp:
+    image: multiverse-webapp
+    environment:
+      - REACT_APP_URL_BASE=http://localhost:58000
+    ports:
+      - "127.0.0.1:58080:80"
+    depends_on:
+      - multiverse-service
+    networks:
+      - multiverse
+
 networks:
   multiverse:
