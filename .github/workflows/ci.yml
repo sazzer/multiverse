@@ -159,23 +159,35 @@ jobs:
     needs:
       - build-webapp
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - uses: actions/setup-node@v2-beta
         with:
           node-version: "14"
 
+      - name: Install dependencies
+        working-directory: webapp
+        run: yarn add react-env
+
       - uses: actions/download-artifact@v2
         with:
           name: webapp
-          path: build
+          path: webapp/build
 
       - name: Set up runtime environment
+        working-directory: webapp
         env:
           REACT_APP_URL_BASE: "https://multiverse-cd.herokuapp.com"
-        run: npx react-env --dest build
+          NODE_ENV: production
+        run: |
+          npx react-env --dest build
+          find build
 
       - uses: jsmrcaga/action-netlify-deploy@master
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_DEPLOY_MESSAGE: "Prod deploy: ${{ github.ref }}"
-          build_directory: build
+          NETLIFY_DEPLOY_TO_PROD: true
+          build_directory: webapp/build
