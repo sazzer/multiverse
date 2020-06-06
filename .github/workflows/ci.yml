@@ -159,13 +159,19 @@ jobs:
     needs:
       - build-webapp
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: "14"
 
       - uses: actions/download-artifact@v2
         with:
           name: webapp
           path: build
+
+      - name: Set up runtime environment
+        env:
+          REACT_APP_URL_BASE: "https://multiverse-cd.herokuapp.com"
+        run: npx react-env --dest build
 
       - uses: jsmrcaga/action-netlify-deploy@master
         with:
