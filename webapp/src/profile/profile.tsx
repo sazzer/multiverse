@@ -26,7 +26,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
   const [saving, setSaving] = useState(false);
   const { setUserId } = useUser();
 
-  const { register, handleSubmit, errors, reset } = useForm<ProfileForm>({
+  const { register, handleSubmit, errors } = useForm<ProfileForm>({
     defaultValues: {
       username: user.username,
       email_address: user.emailAddress,
