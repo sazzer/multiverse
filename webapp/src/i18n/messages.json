@@ -1,0 +1,98 @@
+{
+  "page": {
+    "title": "Multiverse",
+    "spinner": {
+      "label": "Loading..."
+    }
+  },
+  "header": {
+    "toggleNavigation": "Toggle Navigation",
+    "userMenu": {
+      "profile": "User Profile",
+      "logout": "Log Out"
+    }
+  },
+  "authentication": {
+    "start": {
+      "title": "Login / Register",
+      "submit": "Login / Register"
+    },
+    "login": {
+      "title": "Login",
+      "submit": "Login",
+      "cancel": "Cancel"
+    },
+    "register": {
+      "title": "Register",
+      "submit": "Register",
+      "cancel": "Cancel"
+    },
+    "username": {
+      "label": "Username",
+      "errors": {
+        "required": "Please enter a username",
+        "pattern": "$t(authentication.username.errors.required)"
+      }
+    },
+    "email_address": {
+      "label": "Email Address",
+      "errors": {
+        "required": "Please enter an email address",
+        "pattern": "$t(authentication.email_address.errors.required)"
+      }
+    },
+    "display_name": {
+      "label": "Display Name"
+    },
+    "password": {
+      "label": "Password",
+      "errors": {
+        "required": "Please enter a password",
+        "pattern": "$t(authentication.password.errors.required)"
+      }
+    },
+    "password2": {
+      "label": "Repeat Password",
+      "errors": {
+        "required": "Please re-enter your password",
+        "noMatch": "Passwords do not match"
+      }
+    },
+    "errors": {
+      "invalidPassword": "Invalid username or password",
+      "duplicateUsername": "That username is already registered"
+    }
+  },
+  "profile": {
+    "title": "User Profile: {{name}}",
+    "profile": {
+      "label": "Profile",
+      "submit": "Save Changes",
+      "cancel": "Cancel",
+      "username": {
+        "label": "Username",
+        "errors": {
+          "required": "Please enter a username",
+          "pattern": "$t(profile.profile.username.errors.required)"
+        }
+      },
+      "email_address": {
+        "label": "Email Address",
+        "errors": {
+          "required": "Please enter an email address",
+          "pattern": "$t(profile.profile.email_address.errors.required)"
+        }
+      },
+      "display_name": {
+        "label": "Display Name",
+        "errors": {
+          "required": "Please enter a display name",
+          "pattern": "$t(profile.profile.display_name.errors.required)"
+        }
+      }
+    },
+    "password": {
+      "label": "Change Password"
+    }
+  }
+}

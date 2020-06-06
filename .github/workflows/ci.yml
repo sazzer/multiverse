@@ -36,19 +36,16 @@ jobs:
           key: cargo-build-target-${{ runner.os }}-${{ hashFiles('service/Cargo.lock') }}
 
       - name: Cargo Check
-        run: |
-          cd service
-          cargo check
+        working-directory: service
+        run: cargo check
 
       - name: Cargo Clippy
-        run: |
-          cd service
-          cargo clippy --lib --all-features -- -D clippy::pedantic
+        working-directory: service
+        run: cargo clippy --lib --all-features -- -D clippy::pedantic
 
       - name: Cargo Test
-        run: |
-          cd service
-          cargo test
+        working-directory: service
+        run: cargo test
 
   build-service-container:
     runs-on: ubuntu-latest
@@ -68,6 +65,59 @@ jobs:
           image_tag: "${{ env.GIT_TAG }}"
           push_git_tag: true
           context: service
+
+  build-webapp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: "14"
+
+      - name: Cache node_modules
+        uses: actions/cache@v1
+        with:
+          path: webapp/node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('webapp/yarn.lock') }}
+
+      - name: Install dependencies
+        working-directory: webapp
+        run: yarn install
+
+      - name: Run tests
+        working-directory: webapp
+        run: yarn test
+
+      - name: Build output
+        working-directory: webapp
+        run: yarn build
+
+      - name: Upload build output
+        uses: actions/upload-artifact@v1
+        with:
+          name: webapp
+          path: webapp/build
+
+  build-webapp-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Get the git tag
+        run: |
+          echo ::set-env name=GIT_TAG::$(echo ${GITHUB_REF} | sed -e "s/refs\/.*\///g")
+
+      - uses: whoan/docker-build-with-cache-action@v5
+        with:
+          registry: docker.pkg.github.com
+          username: "publisher"
+          password: "${{ secrets.GITHUB_TOKEN }}"
+          image_name: "${{ format('{0}/multiverse-webapp', github.repository) }}"
+          image_tag: "${{ env.GIT_TAG }}"
+          push_git_tag: true
+          context: webapp
 
   deploy-service-container:
     runs-on: ubuntu-latest
@@ -102,3 +152,30 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release -a multiverse-cd web
+
+  deploy-webapp:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    needs:
+      - build-webapp
+    steps:
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: "14"
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: webapp
+          path: build
+
+      - name: Set up runtime environment
+        env:
+          REACT_APP_URL_BASE: "https://multiverse-cd.herokuapp.com"
+        run: npx react-env --dest build
+
+      - uses: jsmrcaga/action-netlify-deploy@master
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_MESSAGE: "Prod deploy: ${{ github.ref }}"
+          build_directory: build
