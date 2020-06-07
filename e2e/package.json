@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "cypress": "^4.7.0"
   },
   "scripts": {
+    "postinstall": "cypress install",
+    "start": "cypress open",
+    "test": "cypress run"
   }
 }
