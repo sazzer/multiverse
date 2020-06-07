@@ -150,11 +150,20 @@ jobs:
 
       - name: Start Services
         working-directory: e2e
-        run: |
-          docker-compose up -d
-          docker ps
-          ./wait-for-it.sh localhost:58000
-          docker-compose logs multiverse-service
+        run: docker-compose up -d
+
+      - name: Run Tests
+        uses: cypress-io/github-action@v1
+        with:
+          browser: chrome
+          working-directory: e2e
+          wait-on: "http://localhost:8000/health"
+
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: cypress
+          path: e2e/output
 
   deploy-service-container:
     runs-on: ubuntu-latest

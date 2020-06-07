@@ -17,6 +17,8 @@ services:
     environment:
       - RUST_LOG=multiverse_lib=debug,info
       - DATABASE_URL=postgres://multiverse:multiverse@postgres/multiverse
+    ports:
+      - "127.0.0.1:8000:8000"
     depends_on:
       - postgres
     networks:
@@ -25,23 +27,13 @@ services:
   webapp:
     image: multiverse-webapp
     environment:
-      - REACT_APP_URL_BASE=http://service:8000
+      - REACT_APP_URL_BASE=http://localhost:8000
+    ports:
+      - "127.0.0.1:9000:80"
     depends_on:
       - service
     networks:
       - multiverse-e2e
-
-  hub:
-    image: selenium/hub:latest
-    ports:
-      - "127.0.0.1:4444:4444"
-
-  firefox:
-    image: selenium/node-firefox:latest
-    depends_on:
-      - hub
-    environment:
-      HUB_HOST: hub
 
 networks:
   multiverse-e2e:
