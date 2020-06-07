@@ -158,6 +158,7 @@ jobs:
           browser: chrome
           working-directory: e2e
           wait-on: "http://localhost:8000/health"
+          config: baseUrl=http://localhost:9000
 
       - uses: actions/upload-artifact@v1
         if: always()
