@@ -149,6 +149,7 @@ jobs:
           docker tag docker.pkg.github.com/${{ format('{0}/multiverse-webapp', github.repository) }}:${{ env.GIT_TAG }} multiverse-webapp:latest
 
       - name: Start Services
+        working-directory: e2e
         run: |
           docker-compose up -d
           docker ps

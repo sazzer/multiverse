@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:11.6-alpine
+    environment:
+      POSTGRES_DB: multiverse
+      POSTGRES_USER: multiverse
+      POSTGRES_PASSWORD: multiverse
+    ports:
+      - "127.0.0.1:5432:5432"
+    networks:
+      - multiverse-e2e
+
+  service:
+    image: multiverse-service
+    environment:
+      - RUST_LOG=multiverse_lib=debug,info
+      - DATABASE_URL=postgres://multiverse:multiverse@postgres/multiverse
+    depends_on:
+      - postgres
+    networks:
+      - multiverse-e2e
+
+  webapp:
+    image: multiverse-webapp
+    environment:
+      - REACT_APP_URL_BASE=http://service:8000
+    depends_on:
+      - service
+    networks:
+      - multiverse-e2e
+
+  hub:
+    image: selenium/hub:latest
+    ports:
+      - "127.0.0.1:4444:4444"
+
+  firefox:
+    image: selenium/node-firefox:latest
+    depends_on:
+      - hub
+    environment:
+      HUB_HOST: hub
+
+networks:
+  multiverse-e2e:
