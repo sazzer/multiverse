@@ -34,7 +34,7 @@ export const Input: React.FC<InputProps> = (props) => {
         {...props.inputProps}
       />
       {props.error && (
-        <div className="invalid-feedback" id={`${props.id}-error`}>
+        <div className="invalid-feedback" id={`${props.id}-error`} role="alert">
           {t(`${props.i18n}.errors.${props.error.type}`)}
         </div>
       )}

@@ -7,7 +7,7 @@ export default () => {
   const { t } = useTranslation();
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      <Link className="navbar-brand" to="/">
+      <Link className="navbar-brand" to="/" role="heading" aria-level={1}>
         {t("page.title")}
       </Link>
       <button

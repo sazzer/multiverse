@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "cypress": "^4.7.0"
+    "@testing-library/cypress": "^6.0.0",
+    "cypress": "^4.7.0",
+    "cypress-commands": "^1.1.0"
   },
   "scripts": {
     "postinstall": "cypress install",

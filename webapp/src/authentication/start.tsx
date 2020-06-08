@@ -49,7 +49,9 @@ export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)}>
-      <h2>{t("authentication.start.title")}</h2>
+      <h2 aria-level={2}>
+        {t("authentication.start.title")}
+      </h2>
 
       <fieldset disabled={loading}>
         <Input
