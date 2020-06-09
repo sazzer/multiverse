@@ -7,9 +7,8 @@ describe("Starting Authentication", () => {
   it("Entering a whitespace username", () => {
     cy.visit("/");
     cy.startAuthentication(" ");
-
-    cy.withinStartAuthentication(() => {
-      cy.findByLabelText("Username")
+    cy.getStartAuthenticationForm(({ username }) => {
+      username
         .should("be.visible")
         .should("have.value", " ")
         .should("have.error", "Please enter a username");

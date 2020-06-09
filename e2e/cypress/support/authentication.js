@@ -16,3 +16,13 @@ Cypress.Commands.add("startAuthentication", (username) => {
     cy.findByText("Login / Register", { selector: "button" }).click();
   });
 });
+
+Cypress.Commands.add("getStartAuthenticationForm", (callback) => {
+  cy.withinStartAuthentication(() => {
+    const username = cy.findByLabelText("Username");
+
+    callback({
+      username,
+    });
+  });
+});
