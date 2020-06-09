@@ -25,3 +25,15 @@ Cypress.Commands.add("getRegisterForm", (callback) => {
     });
   });
 });
+
+Cypress.Commands.add("getLoginForm", (callback) => {
+  cy.get("form").within(() => {
+    cy.findByRole("heading", { "aria-level": "2" })
+      .should("be.visible")
+      .should("have.text", "Login");
+    callback({
+      username: () => cy.findByLabelText("Username"),
+      password: () => cy.findByLabelText("Password"),
+    });
+  });
+});

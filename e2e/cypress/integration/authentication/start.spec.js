@@ -1,3 +1,5 @@
+import { User } from "../../data/user";
+
 describe("Starting Authentication", () => {
   it("Without entering a username", () => {
     cy.visit("/");
@@ -58,6 +60,28 @@ describe("Starting Authentication", () => {
               .should("not.have.error");
           }
         );
+      });
+
+      it(`Entering a valid, known username: ${usernameInput}`, () => {
+        const user = new User().withUsername(usernameInput);
+        cy.seedData(user);
+
+        cy.visit("/");
+        cy.getStartAuthenticationForm(({ username, submit }) => {
+          username().type(usernameInput);
+          submit();
+        });
+
+        cy.getLoginForm(({ username, password }) => {
+          username()
+            .should("be.visible")
+            .should("have.value", usernameInput)
+            .should("not.have.error");
+          password()
+            .should("be.visible")
+            .should("have.value", "")
+            .should("not.have.error");
+        });
       });
     }
   );

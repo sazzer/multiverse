@@ -18,11 +18,17 @@ function openPool(url) {
 /**
  * Execute a query against the database
  * @param sql The SQL to execute
+ * @param binds The binds to the query
  * @return the result of the query
  */
-async function query(sql) {
-  console.log("Executing query", sql);
-  return await pool.query(sql);
+async function query(sql, binds) {
+  console.log("Executing query", sql, binds);
+  try {
+    return await pool.query(sql, binds);
+  } catch (e) {
+    console.log("Error executing query", e);
+    throw e;
+  }
 }
 
 /**
@@ -41,7 +47,23 @@ async function reset() {
   return null;
 }
 
+/**
+ * Seed the database with some data provided.
+ * The provided data needs to have a property "sql" with the SQL to execute, and optionally a property "binds"
+ * with any SQL binds for this SQL to execute.
+ *
+ * @param {object} data The data to seed the database with
+ */
+async function seed(data) {
+  console.log("Seeding database");
+  if (data.sql) {
+    await query(data.sql, data.binds);
+  }
+  return null;
+}
+
 module.exports = {
   openPool,
   reset,
+  seed,
 };
