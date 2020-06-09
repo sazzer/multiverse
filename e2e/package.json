@@ -1,0 +1,17 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/cypress": "^6.0.0",
+    "cypress": "4.8.0",
+    "cypress-commands": "^1.1.0",
+    "pg": "^8.2.1",
+    "uuid": "^8.1.0"
+  },
+  "scripts": {
+    "postinstall": "cypress install",
+    "start": "cypress open",
+    "test": "cypress run"
+  }
+}

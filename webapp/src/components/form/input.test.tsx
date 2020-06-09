@@ -204,6 +204,7 @@ describe("Rendering an input", () => {
           <div
             class="invalid-feedback"
             id="username-error"
+            role="alert"
           >
             Please enter a username
           </div>
