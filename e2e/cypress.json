@@ -1,5 +1,9 @@
 {
   "baseUrl": "http://localhost:9000",
   "screenshotsFolder": "output/screenshots",
-  "videosFolder": "output/videos"
+  "videosFolder": "output/videos",
+  "fixturesFolder": false,
+  "env": {
+    "POSTGRES_URL": "postgres://multiverse:multiverse@localhost:5432/multiverse"
+  }
 }
