@@ -1,7 +1,17 @@
-chai.Assertion.addMethod("error", function (expectedError) {
+chai.Assertion.addMethod("error", function () {
   const target = this._obj;
-  new chai.Assertion(target).to.exist;
-  new chai.Assertion(target).to.have.attr("aria-invalid", "true");
+  const ariaInvalid = target.attr("aria-invalid");
+  this.assert(
+    ariaInvalid === "true",
+    "expected #{this} to have aria-invalid set to true",
+    "expected #{this} not to have aria-invalid set to true",
+    target
+  );
+});
+
+chai.Assertion.addMethod("errorMessage", function (expectedError) {
+  const target = this._obj;
+  new chai.Assertion(target).to.have.error();
 
   const describedBy = target.attr("aria-describedby");
   const describedByElem = Cypress.$(`#${describedBy}[role="alert"]`);
