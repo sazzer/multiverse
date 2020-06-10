@@ -16,6 +16,9 @@ Cypress.Commands.add("getRegisterForm", (callback) => {
       displayName: () => cy.findByLabelText("Display Name"),
       password: () => cy.findByLabelText("Password"),
       repeatPassword: () => cy.findByLabelText("Repeat Password"),
+      submit: () => cy.findByText("Register", { selector: "button" }).click(),
+      cancel: () => cy.findByText("Cancel", { selector: "button" }).click(),
+      errorMessage: () => cy.findByRole("alert"),
     });
   });
 });

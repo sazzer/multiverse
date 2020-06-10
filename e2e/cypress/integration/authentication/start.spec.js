@@ -11,7 +11,9 @@ describe("Starting Authentication", () => {
     cy.getStartAuthenticationForm(({ username, submit }) => {
       username().type(" ");
       submit();
+    });
 
+    cy.getStartAuthenticationForm(({ username, submit }) => {
       username()
         .should("be.visible")
         .should("have.value", " ")
@@ -60,8 +62,7 @@ describe("Starting Authentication", () => {
       });
 
       it(`Entering a valid, known username: ${usernameInput}`, () => {
-        const user = new User().withUsername(usernameInput);
-        cy.seedData(user);
+        cy.seedData(new User().withUsername(usernameInput));
 
         cy.getStartAuthenticationForm(({ username, submit }) => {
           username().type(usernameInput);
