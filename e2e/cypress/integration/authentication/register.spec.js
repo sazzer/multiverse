@@ -161,4 +161,18 @@ describe("Registering a new user", () => {
       }
     );
   });
+
+  it.only("Successfully", () => {
+    cy.getRegisterForm(
+      ({ emailAddress, displayName, password, repeatPassword, submit }) => {
+        emailAddress().type("testuser@example.com");
+        displayName().type("Test User");
+        password().type("Password");
+        repeatPassword().type("Password");
+        submit();
+      }
+    );
+
+    cy.getProfileForm(({}) => {});
+  });
 });

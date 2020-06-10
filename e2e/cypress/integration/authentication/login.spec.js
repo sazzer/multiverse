@@ -2,7 +2,13 @@ import { User } from "../../data/user";
 
 describe("Registering a new user", () => {
   beforeEach(() => {
-    cy.seedData(new User().withUsername("username").withPassword("Pa55word"));
+    cy.seedData(
+      new User()
+        .withUsername("username")
+        .withPassword("Pa55word")
+        .withDisplayName("Test User")
+        .withEmailAddress("testuser@example.com")
+    );
 
     cy.getStartAuthenticationForm(({ username, submit }) => {
       username().type("username");
@@ -64,5 +70,14 @@ describe("Registering a new user", () => {
         .should("be.visible")
         .should("have.text", "Invalid username or password");
     });
+  });
+
+  it("With the correct password", () => {
+    cy.getLoginForm(({ password, submit }) => {
+      password().type("Pa55word");
+      submit();
+    });
+
+    cy.getProfileForm(({}) => {});
   });
 });

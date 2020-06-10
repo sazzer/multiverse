@@ -4,6 +4,7 @@ import { User, loadUser, updateUser } from "./api";
 
 import { Spinner } from "../components/spinner";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useUser } from "../currentUser";
 
 /**
@@ -23,6 +24,7 @@ interface ProfileForm {
 }
 
 const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
+  const { t } = useTranslation();
   const [saving, setSaving] = useState(false);
   const { setUserId } = useUser();
 
@@ -48,7 +50,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)}>
+    <form
+      onSubmit={handleSubmit(onSubmitHandler)}
+      aria-label={t("profile.profile.label")}
+    >
       <fieldset disabled={saving}>
         <Input
           id="username"
