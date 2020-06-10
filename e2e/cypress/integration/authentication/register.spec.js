@@ -162,7 +162,7 @@ describe("Registering a new user", () => {
     );
   });
 
-  it.only("Successfully", () => {
+  it("Successfully", () => {
     cy.getRegisterForm(
       ({ emailAddress, displayName, password, repeatPassword, submit }) => {
         emailAddress().type("testuser@example.com");
