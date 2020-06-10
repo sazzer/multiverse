@@ -28,6 +28,9 @@ Cypress.Commands.add("getLoginForm", (callback) => {
     callback({
       username: () => cy.findByLabelText("Username"),
       password: () => cy.findByLabelText("Password"),
+      submit: () => cy.findByText("Login", { selector: "button" }).click(),
+      cancel: () => cy.findByText("Cancel", { selector: "button" }).click(),
+      errorMessage: () => cy.findByRole("alert"),
     });
   });
 });
