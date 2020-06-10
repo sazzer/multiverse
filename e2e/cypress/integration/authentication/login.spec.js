@@ -2,7 +2,7 @@ import { User } from "../../data/user";
 
 describe("Registering a new user", () => {
   beforeEach(() => {
-    cy.seedData(new User().withUsername("username"));
+    cy.seedData(new User().withUsername("username").withPassword("Pa55word"));
 
     cy.getStartAuthenticationForm(({ username, submit }) => {
       username().type("username");
@@ -42,6 +42,27 @@ describe("Registering a new user", () => {
         .should("be.visible")
         .should("have.value", "  ")
         .should("have.errorMessage", "Please enter a password");
+    });
+  });
+
+  it.only("With an incorrect password", () => {
+    cy.getLoginForm(({ password, submit }) => {
+      password().type("incorrect");
+      submit();
+    });
+
+    cy.getLoginForm(({ username, password, errorMessage }) => {
+      username()
+        .should("be.visible")
+        .should("have.value", "username")
+        .should("not.have.error");
+      password()
+        .should("be.visible")
+        .should("have.value", "incorrect")
+        .should("not.have.error");
+      errorMessage()
+        .should("be.visible")
+        .should("have.text", "Invalid username or password");
     });
   });
 });

@@ -1,4 +1,5 @@
 import { SeedData } from "./seed";
+import argon2 from "argon2-wasm-pro";
 import { v4 as uuidv4 } from "uuid";
 
 /**
@@ -47,11 +48,20 @@ export class User extends SeedData {
     return this;
   }
 
-  get sql() {
+  /**
+   * Set the password of this user
+   * @param {string} value The new value for the password
+   */
+  withPassword(value) {
+    this._password = value;
+    return this;
+  }
+
+  async sql() {
     return "INSERT INTO users(user_id, version, created, updated, username, display_name, email_address, avatar_url, password) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)";
   }
 
-  get binds() {
+  async binds() {
     return [
       this._userId,
       this._version,
@@ -61,7 +71,15 @@ export class User extends SeedData {
       this._displayName,
       this._emailAddress,
       null,
-      this._password,
+      await hashPassword(this._password),
     ];
   }
+}
+
+async function hashPassword(password) {
+  const { encoded } = await argon2.hash({
+    pass: password,
+    salt: "saltsaltsaltsaltsaltsaltsaltsalt",
+  });
+  return encoded;
 }

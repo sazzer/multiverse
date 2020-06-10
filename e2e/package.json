@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@testing-library/cypress": "^6.0.0",
+    "argon2-wasm-pro": "^1.1.0",
     "cypress": "4.7",
     "cypress-commands": "^1.1.0",
     "pg": "^8.2.1",
