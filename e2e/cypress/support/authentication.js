@@ -1,8 +1,5 @@
 Cypress.Commands.add("getStartAuthenticationForm", (callback) => {
-  cy.get("form").within(() => {
-    cy.findByRole("heading", { "aria-level": "2" })
-      .should("be.visible")
-      .should("have.text", "Login / Register");
+  cy.findByLabelText("Login / Register", { selector: "form" }).within(() => {
     callback({
       username: () => cy.findByLabelText("Username"),
       submit: () =>
@@ -12,10 +9,7 @@ Cypress.Commands.add("getStartAuthenticationForm", (callback) => {
 });
 
 Cypress.Commands.add("getRegisterForm", (callback) => {
-  cy.get("form").within(() => {
-    cy.findByRole("heading", { "aria-level": "2" })
-      .should("be.visible")
-      .should("have.text", "Register");
+  cy.findByLabelText("Register", { selector: "form" }).within(() => {
     callback({
       username: () => cy.findByLabelText("Username"),
       emailAddress: () => cy.findByLabelText("Email Address"),
@@ -27,10 +21,7 @@ Cypress.Commands.add("getRegisterForm", (callback) => {
 });
 
 Cypress.Commands.add("getLoginForm", (callback) => {
-  cy.get("form").within(() => {
-    cy.findByRole("heading", { "aria-level": "2" })
-      .should("be.visible")
-      .should("have.text", "Login");
+  cy.findByLabelText("Login", { selector: "form" }).within(() => {
     callback({
       username: () => cy.findByLabelText("Username"),
       password: () => cy.findByLabelText("Password"),

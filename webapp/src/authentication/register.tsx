@@ -81,8 +81,11 @@ export const Register: React.FC<RegisterProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)}>
-      <h2>{t("authentication.register.title")}</h2>
+    <form
+      onSubmit={handleSubmit(onSubmitHandler)}
+      aria-labelledby="authenticationHeader"
+    >
+      <h2 id="authenticationHeader">{t("authentication.register.title")}</h2>
 
       <fieldset disabled={loading}>
         <Input
