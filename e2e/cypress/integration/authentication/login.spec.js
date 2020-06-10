@@ -45,7 +45,7 @@ describe("Registering a new user", () => {
     });
   });
 
-  it.only("With an incorrect password", () => {
+  it("With an incorrect password", () => {
     cy.getLoginForm(({ password, submit }) => {
       password().type("incorrect");
       submit();
