@@ -3,6 +3,10 @@ function getUserMenu(callback) {
     callback({
       getElement: () => $menu,
       getDropdownButton: () => cy.get('button[data-toggle="dropdown"]'),
+      logout: () => {
+        cy.get('button[data-toggle="dropdown"]').click();
+        cy.findByText("Log Out", { role: "menuitem" }).click();
+      },
     });
   });
 }
