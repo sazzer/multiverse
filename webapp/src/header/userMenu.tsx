@@ -21,7 +21,7 @@ export const UserMenu = () => {
 
   if (user) {
     return (
-      <li className="nav-item dropdown">
+      <li className="nav-item dropdown" role="menuitem" data-testid="userMenu">
         <button
           className="nav-link dropdown-toggle btn btn-link"
           id="userMenuDropdown"
@@ -34,12 +34,13 @@ export const UserMenu = () => {
         <div
           className="dropdown-menu dropdown-menu-right"
           aria-labelledby="userMenuDropdown"
+          role="menu"
         >
-          <Link to="/profile" className="dropdown-item">
+          <Link to="/profile" className="dropdown-item" role="menuitem">
             {t("header.userMenu.profile")}
           </Link>
-          <div className="dropdown-divider"></div>
-          <button className="dropdown-item" onClick={onLogout}>
+          <div className="dropdown-divider" role="separator"></div>
+          <button className="dropdown-item" onClick={onLogout} role="menuitem">
             {t("header.userMenu.logout")}
           </button>
         </div>

@@ -173,6 +173,14 @@ describe("Registering a new user", () => {
       }
     );
 
+    cy.getPageHeader(({ getUserMenu }) => {
+      getUserMenu(({ getDropdownButton }) => {
+        getDropdownButton()
+          .should("be.visible")
+          .should("have.text", "Test User");
+      });
+    });
+
     cy.getProfilePage("Test User", ({ getProfileForm }) => {
       getProfileForm(({ username, emailAddress, displayName }) => {
         username()
