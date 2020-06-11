@@ -107,4 +107,55 @@ describe("User Profile", () => {
 
     cy.getProfilePage("New User");
   });
+
+  it("Saving changes and logging in again", () => {
+    cy.getProfilePage("Test User", ({ getProfileForm }) => {
+      getProfileForm(({ emailAddress, displayName, submit }) => {
+        emailAddress().clear().type("newuser@example.com");
+        displayName().clear().type("New User");
+        submit();
+      });
+    });
+
+    cy.getPageHeader(({ getUserMenu }) => {
+      getUserMenu(({ logout }) => {
+        logout();
+      });
+    });
+
+    cy.getStartAuthenticationForm(({ username, submit }) => {
+      username().type("username");
+      submit();
+    });
+
+    cy.getLoginForm(({ password, submit }) => {
+      password().type("Pa55word");
+      submit();
+    });
+
+    cy.getPageHeader(({ getUserMenu }) => {
+      getUserMenu(({ getDropdownButton }) => {
+        getDropdownButton()
+          .should("be.visible")
+          .should("have.text", "New User");
+      });
+    });
+
+    cy.getProfilePage("New User", ({ getProfileForm }) => {
+      getProfileForm(({ username, emailAddress, displayName }) => {
+        username()
+          .should("be.visible")
+          .should("have.value", "username")
+          .should("not.have.error");
+        emailAddress()
+          .should("be.visible")
+          .should("have.value", "newuser@example.com")
+          .should("not.have.error");
+        displayName()
+          .should("be.visible")
+          .should("have.value", "New User")
+          .should("not.have.error");
+      });
+    });
+  });
 });
