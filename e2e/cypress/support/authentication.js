@@ -40,3 +40,19 @@ Cypress.Commands.add("getLoginForm", (callback) => {
     }
   });
 });
+
+Cypress.Commands.add("login", (usernameValue, passwordValue) => {
+  cy.getStartAuthenticationForm(({ username, submit }) => {
+    username().type(usernameValue);
+    submit();
+  });
+
+  cy.getLoginForm(({ password, submit }) => {
+    password().type(passwordValue);
+    submit();
+  });
+
+  cy.getPageHeader(({ getUserMenu }) => {
+    getUserMenu();
+  });
+});

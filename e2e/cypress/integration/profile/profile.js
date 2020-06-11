@@ -10,15 +10,7 @@ describe("User Profile", () => {
         .withEmailAddress("testuser@example.com")
     );
 
-    cy.getStartAuthenticationForm(({ username, submit }) => {
-      username().type("username");
-      submit();
-    });
-
-    cy.getLoginForm(({ password, submit }) => {
-      password().type("Pa55word");
-      submit();
-    });
+    cy.login("username", "Pa55word");
   });
 
   it("Saving with a blank email", () => {
@@ -123,15 +115,7 @@ describe("User Profile", () => {
       });
     });
 
-    cy.getStartAuthenticationForm(({ username, submit }) => {
-      username().type("username");
-      submit();
-    });
-
-    cy.getLoginForm(({ password, submit }) => {
-      password().type("Pa55word");
-      submit();
-    });
+    cy.login("username", "Pa55word");
 
     cy.getPageHeader(({ getUserMenu }) => {
       getUserMenu(({ getDropdownButton }) => {
