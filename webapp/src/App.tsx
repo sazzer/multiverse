@@ -12,12 +12,12 @@ export default () => {
       <Router>
         <HeaderBar />
 
-        <div className="container-fluid">
+        <main className="container-fluid">
           <Switch>
             <Route path="/profile" component={Profile} />
             <Route path="/" component={LandingPage} />
           </Switch>
-        </div>
+        </main>
       </Router>
     </UserProvider>
   );

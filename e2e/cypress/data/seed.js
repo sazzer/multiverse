@@ -5,14 +5,14 @@ export class SeedData {
   /**
    * Generate the SQL to insert the data into the database
    */
-  get sql() {
+  async sql() {
     return "";
   }
 
   /**
    * Generate the binds for the SQL
    */
-  get binds() {
+  async binds() {
     return [];
   }
 }

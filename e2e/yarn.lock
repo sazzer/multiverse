@@ -219,6 +219,11 @@ arch@2.1.1:
   resolved "https://registry.yarnpkg.com/arch/-/arch-2.1.1.tgz#8f5c2731aa35a30929221bb0640eed65175ec84e"
   integrity sha512-BLM56aPo9vLLFVa8+/+pJLnrZ7QGGTVHWsCwieAWT9o9K8UeGaQbzZbGoabWLOo2ksBCztoXdqBZBplqLDDCSg==
 
+argon2-wasm-pro@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/argon2-wasm-pro/-/argon2-wasm-pro-1.1.0.tgz#6416a87265bc97317ff0c3775c233b2a86add76b"
+  integrity sha512-ApZAKEgbWQILckY+IdjrETB0oTC8L9YHT3JVQhdun77tilExkXNyM/T/qbkvX+Uv68+IQmVwewQwg6yJnSwVxQ==
+
 aria-query@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/aria-query/-/aria-query-4.0.2.tgz#250687b4ccde1ab86d127da0432ae3552fc7b145"

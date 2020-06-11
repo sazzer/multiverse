@@ -158,6 +158,11 @@ jobs:
           browser: chrome
           working-directory: e2e
           wait-on: "http://localhost:8000/health"
+          record: true
+          tag: ci-${{ env.GIT_TAG }}
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/upload-artifact@v1
         if: always()

@@ -63,8 +63,11 @@ export const Login: React.FC<LoginProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)}>
-      <h2>{t("authentication.login.title")}</h2>
+    <form
+      onSubmit={handleSubmit(onSubmitHandler)}
+      aria-labelledby="authenticationHeader"
+    >
+      <h2 id="authenticationHeader">{t("authentication.login.title")}</h2>
 
       <fieldset disabled={loading}>
         <Input
@@ -84,7 +87,7 @@ export const Login: React.FC<LoginProps> = ({
           required
           autoFocus
           inputProps={{
-            ref: register({ required: true }),
+            ref: register({ required: true, pattern: /[^\s]/ }),
           }}
         />
 

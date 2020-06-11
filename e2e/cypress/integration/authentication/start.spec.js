@@ -2,18 +2,18 @@ import { User } from "../../data/user";
 
 describe("Starting Authentication", () => {
   it("Without entering a username", () => {
-    cy.visit("/");
     cy.getStartAuthenticationForm(({ submit }) => {
       submit();
     });
   });
 
   it("Entering a whitespace username", () => {
-    cy.visit("/");
     cy.getStartAuthenticationForm(({ username, submit }) => {
       username().type(" ");
       submit();
+    });
 
+    cy.getStartAuthenticationForm(({ username, submit }) => {
       username()
         .should("be.visible")
         .should("have.value", " ")
@@ -24,7 +24,6 @@ describe("Starting Authentication", () => {
   ["username", "!@#$%^&*()", "<>?,./:\"|;'\\{}[]", "用户名"].forEach(
     (usernameInput) => {
       it(`Entering a valid, unknown username: ${usernameInput}`, () => {
-        cy.visit("/");
         cy.getStartAuthenticationForm(({ username, submit }) => {
           username().type(usernameInput);
           submit();
@@ -63,10 +62,8 @@ describe("Starting Authentication", () => {
       });
 
       it(`Entering a valid, known username: ${usernameInput}`, () => {
-        const user = new User().withUsername(usernameInput);
-        cy.seedData(user);
+        cy.seedData(new User().withUsername(usernameInput));
 
-        cy.visit("/");
         cy.getStartAuthenticationForm(({ username, submit }) => {
           username().type(usernameInput);
           submit();
