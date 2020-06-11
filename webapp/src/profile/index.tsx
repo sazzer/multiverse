@@ -11,8 +11,10 @@ export const Profile: React.FC = () => {
 
   return (
     <div className="container">
-      <h2>{t("profile.title", { name: user?.displayName })}</h2>
-      <div className="row">
+      <h2 id="profilePageLabel">
+        {t("profile.title", { name: user?.displayName })}
+      </h2>
+      <div className="row" aria-labelledby="profilePageLabel">
         <div className="col-12 col-md-9 order-sm-3">
           <Switch>
             <Route path="/profile/password">Change Password</Route>

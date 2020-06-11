@@ -78,19 +78,21 @@ describe("Registering a new user", () => {
       submit();
     });
 
-    cy.getProfileForm(({ username, emailAddress, displayName }) => {
-      username()
-        .should("be.visible")
-        .should("have.value", "username")
-        .should("not.have.error");
-      emailAddress()
-        .should("be.visible")
-        .should("have.value", "testuser@example.com")
-        .should("not.have.error");
-      displayName()
-        .should("be.visible")
-        .should("have.value", "Test User")
-        .should("not.have.error");
+    cy.getProfilePage("Test User", ({ getProfileForm }) => {
+      getProfileForm(({ username, emailAddress, displayName }) => {
+        username()
+          .should("be.visible")
+          .should("have.value", "username")
+          .should("not.have.error");
+        emailAddress()
+          .should("be.visible")
+          .should("have.value", "testuser@example.com")
+          .should("not.have.error");
+        displayName()
+          .should("be.visible")
+          .should("have.value", "Test User")
+          .should("not.have.error");
+      });
     });
   });
 });
