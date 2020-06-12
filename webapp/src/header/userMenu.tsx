@@ -1,7 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 
 import React from "react";
-import { clearToken } from "../api/token";
+import { clearToken } from "../api/http/token";
 import { useTranslation } from "react-i18next";
 import { useUser } from "../currentUser";
 

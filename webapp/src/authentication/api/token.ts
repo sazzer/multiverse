@@ -1,4 +1,4 @@
-import { storeToken } from "../../api/token";
+import { storeToken } from "../../api/http/token";
 
 /**
  * Shape of the response from authenticating a user

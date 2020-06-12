@@ -5,7 +5,7 @@
 import "@testing-library/jest-dom/extend-expect";
 import "./i18n";
 
-import { clearToken } from "./api/token";
+import { clearToken } from "./api/http/token";
 
 afterEach(() => {
   clearToken();

@@ -1,9 +1,9 @@
 import * as api from "./register";
 
 import nock from "nock";
-import { storeToken } from "../../api/token";
+import { storeToken } from "../../api/http/token";
 
-jest.mock("../../api/token");
+jest.mock("../../api/http/token");
 
 beforeEach(() => {
   (storeToken as jest.Mock).mockClear();

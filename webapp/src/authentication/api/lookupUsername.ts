@@ -1,4 +1,4 @@
-import { Problem, request } from "../../api";
+import { Problem, request } from "../../api/http";
 
 import debug from "debug";
 
