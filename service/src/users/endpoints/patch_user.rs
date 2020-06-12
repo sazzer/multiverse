@@ -52,20 +52,43 @@ pub fn patch_user(
         (&display_name, &email_address, &password)
     {
         tracing::info!("Updating user");
+        if let (Some(_), None) = (&password, &body.old_password) {
+            // A new password was provided but an old one wasn't
+            tracing::warn!("Attempt to change password when an old one wasn't provided");
+            Err(Problem::new(
+                UserProblemType::InvalidOldPassword,
+                Status::UnprocessableEntity,
+            ))?
+        }
 
         users_service
-            .update_user(&id, &move |user| UserData {
-                display_name: display_name.clone().unwrap_or(user.display_name),
-                email_address: email_address.clone().unwrap_or(user.email_address),
-                avatar_url: match avatar_url.clone() {
-                    Patch::Value(v) => Some(v),
-                    Patch::Null => None,
-                    Patch::Missing => user.avatar_url,
-                },
-                password: password.clone().unwrap_or(user.password),
-                ..user
+            .update_user::<Problem>(&id, &move |user| {
+                if let Some(old_password) = &body.old_password {
+                    if (user.password != old_password.clone()) {
+                        Err(Problem::new(
+                            UserProblemType::InvalidOldPassword,
+                            Status::UnprocessableEntity,
+                        ))?
+                    }
+                }
+
+                let new_user = UserData {
+                    display_name: display_name.clone().unwrap_or(user.display_name),
+                    email_address: email_address.clone().unwrap_or(user.email_address),
+                    avatar_url: match avatar_url.clone() {
+                        Patch::Value(v) => Some(v),
+                        Patch::Null => None,
+                        Patch::Missing => user.avatar_url,
+                    },
+                    password: password.clone().unwrap_or(user.password),
+                    ..user
+                };
+                Ok(new_user)
             })
-            .ok_or_else(|| Problem::new(UserProblemType::UnknownUserID, Status::NotFound))
+            .map_err(|e| match e {
+                UpdateError::ClientError(e) => e,
+                _ => Problem::new(UserProblemType::UnknownUserID, Status::NotFound),
+            })
             .map(|user| user.into())
     } else {
         tracing::warn!("Validation error updating user");
@@ -98,6 +121,8 @@ pub struct PatchUserRequest {
     avatar_url: Patch<String>,
     /// The new password to use
     password: Patch<Plaintext>,
+    /// The old password to compare against if changing it
+    old_password: Option<Plaintext>,
 }
 
 impl PatchUserRequest {

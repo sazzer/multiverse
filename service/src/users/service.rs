@@ -4,6 +4,7 @@ mod update;
 
 use super::repository::UserRepository;
 pub use create_user::CreateUserError;
+pub use update::UpdateError;
 
 /// Service Layer for dealing with Users
 #[derive(Clone)]
