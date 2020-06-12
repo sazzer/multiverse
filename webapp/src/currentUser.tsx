@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { User, loadUser } from "./profile/api";
+import { User, loadUser } from "./api/users";
 
 import debug from "debug";
 

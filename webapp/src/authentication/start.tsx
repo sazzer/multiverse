@@ -1,7 +1,7 @@
 import { Button, Input } from "../components/form";
 import React, { useState } from "react";
 
-import { lookupUsername } from "./api";
+import { lookupUsername } from "../api/authentication";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 

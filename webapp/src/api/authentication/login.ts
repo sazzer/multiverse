@@ -1,4 +1,4 @@
-import { Problem, request } from "../../api/http";
+import { Problem, request } from "../http";
 import { TokenResponse, recordToken } from "./token";
 
 import debug from "debug";

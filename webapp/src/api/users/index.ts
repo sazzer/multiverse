@@ -1,4 +1,4 @@
-import { request } from "../api/http";
+import { request } from "../http";
 
 /** The shape of a User on the API */
 interface UserResponse {

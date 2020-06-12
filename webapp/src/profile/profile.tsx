@@ -1,6 +1,6 @@
 import { Button, Input } from "../components/form";
 import React, { useEffect, useState } from "react";
-import { User, loadUser, updateUser } from "./api";
+import { User, loadUser, updateUser } from "../api/users";
 
 import { Spinner } from "../components/spinner";
 import { useForm } from "react-hook-form";

@@ -1,4 +1,4 @@
-import { AuthenticationError, login } from "./api";
+import { AuthenticationError, login } from "../api/authentication";
 import { Button, Input } from "../components/form";
 import React, { useState } from "react";
 

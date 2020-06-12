@@ -1,5 +1,5 @@
 import { Button, Input } from "../components/form";
-import { DuplicateUsernameError, registerUser } from "./api";
+import { DuplicateUsernameError, registerUser } from "../api/authentication";
 import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
