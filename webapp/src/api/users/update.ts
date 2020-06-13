@@ -7,7 +7,7 @@ import { request } from "../http";
  * @param user The details of the user to update
  */
 export async function updateUser(user: User) {
-  const response = await request<UserResponse>("/users/{userId}", {
+  await request<UserResponse>("/users/{userId}", {
     method: "PATCH",
     urlParams: {
       userId: user.userId,
