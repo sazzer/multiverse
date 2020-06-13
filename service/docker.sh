@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -t multiverse-service .
+docker build $@ -t multiverse-service .

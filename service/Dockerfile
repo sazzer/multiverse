@@ -5,6 +5,8 @@ WORKDIR /multiverse
 
 RUN apt-get update && apt-get install -y libclang-dev build-essential clang libssl-dev pkg-config
 
+RUN rustup default nightly-2020-06-09
+
 # We do a non-code build to get all the dependencies. This allows us to benefit from layer caching
 COPY Cargo.lock Cargo.toml docker/pre-build.sh /multiverse/
 RUN ./pre-build.sh
