@@ -1,5 +1,6 @@
 import { NavLink, Route, Switch } from "react-router-dom";
 
+import { PasswordView } from "./password";
 import { ProfileView } from "./profile";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -17,7 +18,7 @@ export const Profile: React.FC = () => {
       <div className="row" aria-labelledby="profilePageLabel">
         <div className="col-12 col-md-9 order-sm-3">
           <Switch>
-            <Route path="/profile/password">Change Password</Route>
+            <Route path="/profile/password" component={PasswordView} />
             <Route path="/profile" component={ProfileView} />
           </Switch>
         </div>

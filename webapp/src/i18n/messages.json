@@ -92,7 +92,31 @@
       }
     },
     "password": {
-      "label": "Change Password"
+      "label": "Change Password",
+      "submit": "Change Password",
+      "oldPassword": {
+        "label": "Current Password",
+        "errors": {
+          "required": "Please enter a password",
+          "pattern": "$t(profile.password.oldPassword.errors.required)"
+        }
+      },
+      "password": {
+        "label": "New Password",
+        "errors": {
+          "required": "Please enter a password",
+          "pattern": "$t(profile.password.password.errors.required)",
+          "unchanged": "New password is the same as old"
+        }
+      },
+      "password2": {
+        "label": "Repeat New Password",
+        "errors": {
+          "required": "Please enter a password",
+          "pattern": "$t(profile.password.password2.errors.required)",
+          "noMatch": "Passwords do not match"
+        }
+      }
     }
   }
 }
