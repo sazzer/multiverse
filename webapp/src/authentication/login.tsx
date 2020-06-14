@@ -51,7 +51,7 @@ export const Login: React.FC<LoginProps> = ({
         if (e instanceof AuthenticationError) {
           setError(t("authentication.errors.invalidPassword"));
         } else {
-          setError(e.toString());
+          setError(t("page.errors.unexpected"));
         }
       })
       .then((userId) => {

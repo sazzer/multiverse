@@ -42,7 +42,7 @@ export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
         onSubmit(form.username, known);
       })
       .catch((e) => {
-        setError(e.toString());
+        setError(t("page.errors.unexpected"));
         setLoading(false);
       });
   };

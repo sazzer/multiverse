@@ -69,7 +69,7 @@ export const Register: React.FC<RegisterProps> = ({
         if (e instanceof DuplicateUsernameError) {
           setGlobalError(t("authentication.errors.duplicateUsername"));
         } else {
-          setGlobalError(e.toString());
+          setGlobalError(t("page.errors.unexpected"));
         }
       })
       .then((userId) => {

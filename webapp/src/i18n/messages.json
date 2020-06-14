@@ -3,6 +3,9 @@
     "title": "Multiverse",
     "spinner": {
       "label": "Loading..."
+    },
+    "errors": {
+      "unexpected": "An unexpected error occurred"
     }
   },
   "header": {
@@ -116,6 +119,9 @@
           "pattern": "$t(profile.password.password2.errors.required)",
           "noMatch": "Passwords do not match"
         }
+      },
+      "errors": {
+        "invalidPassword": "The old password was incorrect"
       }
     }
   }

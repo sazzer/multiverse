@@ -1,4 +1,5 @@
 import { Button, Input } from "../components/form";
+import { InvalidOldPasswordError, changePassword } from "../api/users";
 import React, { useState } from "react";
 
 import { Spinner } from "../components/spinner";
@@ -39,10 +40,19 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ userId }) => {
     }
     setSaving(true);
     setGlobalError(null);
-    setTimeout(() => {
-      setGlobalError("Oops");
-      setSaving(false);
-    }, 2000);
+
+    changePassword(userId, data.oldPassword, data.password)
+      .then(() => {
+        setSaving(false);
+      })
+      .catch((e) => {
+        if (e instanceof InvalidOldPasswordError) {
+          setGlobalError(t("profile.password.errors.invalidPassword"));
+        } else {
+          setGlobalError(t("page.errors.unexpected"));
+        }
+        setSaving(false);
+      });
   };
 
   return (
