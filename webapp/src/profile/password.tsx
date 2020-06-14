@@ -58,7 +58,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ userId }) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmitHandler)}
-      aria-label={t("profile.profile.label")}
+      aria-label={t("profile.password.label")}
     >
       <fieldset disabled={saving}>
         <Input

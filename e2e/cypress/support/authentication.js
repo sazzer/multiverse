@@ -56,3 +56,12 @@ Cypress.Commands.add("login", (usernameValue, passwordValue) => {
     getUserMenu();
   });
 });
+
+Cypress.Commands.add("logout", () => {
+  cy.getPageHeader(({ getUserMenu }) => {
+    getUserMenu(({ logout }) => {
+      logout();
+    });
+  });
+  cy.getStartAuthenticationForm();
+});
