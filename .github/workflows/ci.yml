@@ -172,7 +172,7 @@ jobs:
 
   deploy-service-container:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs:
       - e2e
     steps:
@@ -205,7 +205,7 @@ jobs:
 
   deploy-webapp:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs:
       - e2e
     steps:
