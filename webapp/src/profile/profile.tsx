@@ -1,5 +1,5 @@
 import { Button, Input } from "../components/form";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { User, loadUser, updateUser } from "../api/users";
 
 import { Spinner } from "../components/spinner";
@@ -23,9 +23,51 @@ interface ProfileForm {
   display_name: string;
 }
 
+interface ProfileState {
+  state: "INITIAL" | "SAVING" | "SAVED" | "ERROR";
+  error?: string;
+}
+
+interface SavingAction {
+  action: "SAVING";
+}
+
+interface SavedAction {
+  action: "SAVED";
+}
+
+interface ErrorAction {
+  action: "ERROR";
+  message: string;
+}
+
+function reducer(
+  state: ProfileState,
+  action: SavingAction | SavedAction | ErrorAction
+): ProfileState {
+  switch (action.action) {
+    case "SAVING":
+      return {
+        state: "SAVING",
+      };
+    case "SAVED":
+      return {
+        state: "SAVED",
+      };
+    case "ERROR":
+      return {
+        state: "ERROR",
+        error: action.message,
+      };
+    default:
+      return state;
+  }
+}
+
 const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
   const { t } = useTranslation();
-  const [saving, setSaving] = useState(false);
+
+  const [state, dispatch] = useReducer(reducer, { state: "INITIAL" });
   const { setUserId } = useUser();
 
   const { register, handleSubmit, errors } = useForm<ProfileForm>({
@@ -37,16 +79,20 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
   });
 
   const onSubmitHandler = (data: ProfileForm) => {
-    setSaving(true);
+    dispatch({ action: "SAVING" });
     updateUser({
       userId: user.userId,
       username: data.username,
       emailAddress: data.email_address,
       displayName: data.display_name,
-    }).then(() => {
-      setSaving(false);
-      setUserId(user.userId);
-    });
+    })
+      .then(() => {
+        dispatch({ action: "SAVED" });
+        setUserId(user.userId);
+      })
+      .catch(() => {
+        dispatch({ action: "ERROR", message: t("page.errors.unexpected") });
+      });
   };
 
   return (
@@ -54,7 +100,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
       onSubmit={handleSubmit(onSubmitHandler)}
       aria-label={t("profile.profile.label")}
     >
-      <fieldset disabled={saving}>
+      <fieldset disabled={state.state === "SAVING"}>
         <Input
           id="username"
           i18n="profile.profile.username"
@@ -89,9 +135,19 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
           <Button
             label="profile.profile.submit"
             type="submit"
-            loading={saving}
+            loading={state.state === "SAVING"}
           />
         </div>
+        {state.state === "ERROR" && (
+          <div className="alert alert-danger" role="alert">
+            {state.error}
+          </div>
+        )}
+        {state.state === "SAVED" && (
+          <div className="alert alert-success" role="alert">
+            {t("profile.profile.success")}
+          </div>
+        )}
       </fieldset>
     </form>
   );
