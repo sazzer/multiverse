@@ -17,8 +17,13 @@ function getProfileForm(callback) {
       username: () => cy.findByLabelText("Username"),
       emailAddress: () => cy.findByLabelText("Email Address"),
       displayName: () => cy.findByLabelText("Display Name"),
-      submit: () =>
-        cy.findByText("Save Changes", { selector: "button" }).click(),
+      submit: () => {
+        cy.findByText("Save Changes", { selector: "button" }).click();
+        cy.get("fieldset").should("not.be.disabled");
+      },
+      errorMessage: () => cy.findByRole("alert", { selector: ".alert-error" }),
+      successMessage: () =>
+        cy.findByRole("status", { selector: ".alert-success" }),
     });
   });
 }
@@ -38,6 +43,8 @@ function getChangePasswordForm(callback) {
         cy.get("fieldset").should("not.be.disabled");
       },
       errorMessage: () => cy.findByRole("alert"),
+      successMessage: () =>
+        cy.findByRole("status", { selector: ".alert-success" }),
     });
   });
 }

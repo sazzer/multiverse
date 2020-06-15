@@ -30,7 +30,12 @@ describe("User Profile", () => {
       });
     });
 
-    cy.getProfilePage("Test User");
+    cy.getProfilePage("Test User", ({ getProfileForm }) => {
+      getProfileForm(({ errorMessage, successMessage }) => {
+        errorMessage().should("not.be.visible");
+        successMessage().should("not.be.visible");
+      });
+    });
   });
 
   it("Saving with a blank display name", () => {
@@ -50,7 +55,12 @@ describe("User Profile", () => {
       });
     });
 
-    cy.getProfilePage("Test User");
+    cy.getProfilePage("Test User", ({ getProfileForm }) => {
+      getProfileForm(({ errorMessage, successMessage }) => {
+        errorMessage().should("not.be.visible");
+        successMessage().should("not.be.visible");
+      });
+    });
   });
 
   it("Saving with a whitespace display name", () => {
@@ -71,11 +81,12 @@ describe("User Profile", () => {
     });
 
     cy.getProfilePage("Test User", ({ getProfileForm }) => {
-      getProfileForm(({ displayName }) => {
+      getProfileForm(({ displayName, successMessage }) => {
         displayName().should(
           "have.errorMessage",
           "Please enter a display name"
         );
+        successMessage().should("not.be.visible");
       });
     });
   });
@@ -97,7 +108,14 @@ describe("User Profile", () => {
       });
     });
 
-    cy.getProfilePage("New User");
+    cy.getProfilePage("New User", ({ getProfileForm }) => {
+      getProfileForm(({ errorMessage, successMessage }) => {
+        errorMessage().should("not.be.visible");
+        successMessage()
+          .should("be.visible")
+          .should("have.text", "User Profile updated successfully");
+      });
+    });
   });
 
   it("Saving changes and logging in again", () => {

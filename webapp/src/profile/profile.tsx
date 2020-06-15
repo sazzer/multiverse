@@ -144,7 +144,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
           </div>
         )}
         {state.state === "SAVED" && (
-          <div className="alert alert-success" role="alert">
+          <div className="alert alert-success" role="status">
             {t("profile.profile.success")}
           </div>
         )}
