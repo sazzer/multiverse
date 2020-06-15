@@ -1,4 +1,5 @@
 import { Problem } from "./problem";
+import { UnauthorizedError } from "../errors";
 import UrlTemplate from "url-template";
 import debug from "debug";
 import env from "@beam-australia/react-env";
@@ -68,12 +69,11 @@ export async function request<B>(
 
       if (contentType === "application/problem+json") {
         LOGGER("Response was a Problem");
-        throw new Problem(
-          body.type as string,
-          body.title as string,
-          response.status,
-          body
-        );
+        const type = body.type as string;
+        if (type === "tag:multiverse,2020:problems/unauthorized") {
+          throw new UnauthorizedError();
+        }
+        throw new Problem(type, body.title as string, response.status, body);
       } else {
         LOGGER("Response was not a Problem");
         return { status: response.status, headers: response.headers, body };

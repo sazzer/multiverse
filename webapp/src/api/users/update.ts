@@ -1,5 +1,6 @@
 import { Problem, request } from "../http";
 
+import { UnknownUserError } from "./errors";
 import { User } from "./model";
 import { UserResponse } from "./response";
 
@@ -8,23 +9,39 @@ import { UserResponse } from "./response";
  * @param user The details of the user to update
  */
 export async function updateUser(user: User) {
-  await request<UserResponse>("/users/{userId}", {
-    method: "PATCH",
-    urlParams: {
-      userId: user.userId,
-    },
-    body: {
-      email_address: user.emailAddress,
-      display_name: user.displayName,
-      avatar_url: user.avatarUrl,
-    },
-  });
+  try {
+    await request<UserResponse>("/users/{userId}", {
+      method: "PATCH",
+      urlParams: {
+        userId: user.userId,
+      },
+      body: {
+        email_address: user.emailAddress,
+        display_name: user.displayName,
+        avatar_url: user.avatarUrl,
+      },
+    });
+  } catch (e) {
+    if (e instanceof Problem) {
+      switch (e.type) {
+        case "tag:multiverse,2020:users/problems/invalid_old_password":
+          throw new InvalidOldPasswordError();
+        case "tag:multiverse,2020:users/problems/unknown_user_id":
+          throw new UnknownUserError();
+      }
+    }
+    throw e;
+  }
 }
 
 /**
  * Error from changing the users password to indicate that the provided old password was wrong
  */
-export class InvalidOldPasswordError extends Error {}
+export class InvalidOldPasswordError extends Error {
+  constructor() {
+    super("Provided old password was invalid");
+  }
+}
 
 /**
  * Change the password of a user
@@ -49,13 +66,14 @@ export async function changePassword(
       },
     });
   } catch (e) {
-    if (
-      e instanceof Problem &&
-      e.type === "tag:multiverse,2020:users/problems/invalid_old_password"
-    ) {
-      throw new InvalidOldPasswordError();
-    } else {
-      throw e;
+    if (e instanceof Problem) {
+      switch (e.type) {
+        case "tag:multiverse,2020:users/problems/invalid_old_password":
+          throw new InvalidOldPasswordError();
+        case "tag:multiverse,2020:users/problems/unknown_user_id":
+          throw new UnknownUserError();
+      }
     }
+    throw e;
   }
 }
