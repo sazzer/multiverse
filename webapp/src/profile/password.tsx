@@ -1,6 +1,6 @@
 import { Button, Input } from "../components/form";
 import { InvalidOldPasswordError, changePassword } from "../api/users";
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 
 import { Spinner } from "../components/spinner";
 import { useForm } from "react-hook-form";
@@ -14,16 +14,80 @@ interface PasswordFormProps {
   userId: string;
 }
 
+/**
+ * The shape of the data for the Change Password form
+ */
 interface PasswordForm {
   oldPassword: string;
   password: string;
   password2: string;
 }
 
+/**
+ * The state of the Change Password component
+ */
+interface ProfileState {
+  state: "INITIAL" | "SAVING" | "SAVED" | "ERROR";
+  error?: string;
+}
+
+/**
+ * Action to indicate we are going to start saving the form
+ */
+interface SavingAction {
+  /** The name of the action */
+  action: "SAVING";
+}
+
+/**
+ * Action to indicate that we successfully saved the form
+ */
+interface SavedAction {
+  /** The name of the action */
+  action: "SAVED";
+}
+
+/**
+ * Reducer to convert the current state into the new one
+ * @param state The current state
+ * @param action The action to process
+ */
+function reducer(
+  state: ProfileState,
+  action: SavingAction | SavedAction | ErrorAction
+): ProfileState {
+  switch (action.action) {
+    case "SAVING":
+      return {
+        state: "SAVING",
+      };
+    case "SAVED":
+      return {
+        state: "SAVED",
+      };
+    case "ERROR":
+      return {
+        state: "ERROR",
+        error: action.message,
+      };
+    default:
+      return state;
+  }
+}
+
+/**
+ * Action to indicate that we unsuccessfully saved the form
+ */
+interface ErrorAction {
+  /** The name of the action */
+  action: "ERROR";
+  /** The error message */
+  message: string;
+}
+
 const PasswordForm: React.FC<PasswordFormProps> = ({ userId }) => {
   const { t } = useTranslation();
-  const [saving, setSaving] = useState(false);
-  const [globalError, setGlobalError] = useState<string | null>(null);
+  const [state, dispatch] = useReducer(reducer, { state: "INITIAL" });
 
   const { register, handleSubmit, errors, setError } = useForm<PasswordForm>({
     defaultValues: {},
@@ -38,20 +102,24 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ userId }) => {
       setError("password2", "noMatch");
       return;
     }
-    setSaving(true);
-    setGlobalError(null);
+    dispatch({ action: "SAVING" });
 
     changePassword(userId, data.oldPassword, data.password)
       .then(() => {
-        setSaving(false);
+        dispatch({ action: "SAVED" });
       })
       .catch((e) => {
         if (e instanceof InvalidOldPasswordError) {
-          setGlobalError(t("profile.password.errors.invalidPassword"));
+          dispatch({
+            action: "ERROR",
+            message: t("profile.password.errors.invalidPassword"),
+          });
         } else {
-          setGlobalError(t("page.errors.unexpected"));
+          dispatch({
+            action: "ERROR",
+            message: t("page.errors.unexpected"),
+          });
         }
-        setSaving(false);
       });
   };
 
@@ -60,7 +128,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ userId }) => {
       onSubmit={handleSubmit(onSubmitHandler)}
       aria-label={t("profile.password.label")}
     >
-      <fieldset disabled={saving}>
+      <fieldset disabled={state.state === "SAVING"}>
         <Input
           id="oldPassword"
           i18n="profile.password.oldPassword"
@@ -97,12 +165,17 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ userId }) => {
           <Button
             label="profile.password.submit"
             type="submit"
-            loading={saving}
+            loading={state.state === "SAVING"}
           />
         </div>
-        {globalError && (
+        {state.state === "ERROR" && (
           <div className="alert alert-danger" role="alert">
-            {globalError}
+            {state.error}
+          </div>
+        )}
+        {state.state === "SAVED" && (
+          <div className="alert alert-success" role="status">
+            {t("profile.password.success")}
           </div>
         )}
       </fieldset>

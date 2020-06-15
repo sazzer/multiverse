@@ -8,12 +8,15 @@ import { useTranslation } from "react-i18next";
 import { useUser } from "../currentUser";
 
 /**
- * The props needed forthe profile form
+ * The props needed for the profile form
  */
 interface ProfileFormProps {
   user: User;
 }
 
+/**
+ * The shape of the data for the profile form
+ */
 interface ProfileForm {
   /** The username */
   username: string;
@@ -23,24 +26,45 @@ interface ProfileForm {
   display_name: string;
 }
 
+/**
+ * The state of the profile component
+ */
 interface ProfileState {
   state: "INITIAL" | "SAVING" | "SAVED" | "ERROR";
   error?: string;
 }
 
+/**
+ * Action to indicate we are going to start saving the form
+ */
 interface SavingAction {
+  /** The name of the action */
   action: "SAVING";
 }
 
+/**
+ * Action to indicate that we successfully saved the form
+ */
 interface SavedAction {
+  /** The name of the action */
   action: "SAVED";
 }
 
+/**
+ * Action to indicate that we unsuccessfully saved the form
+ */
 interface ErrorAction {
+  /** The name of the action */
   action: "ERROR";
+  /** The error message */
   message: string;
 }
 
+/**
+ * Reducer to convert the current state into the new one
+ * @param state The current state
+ * @param action The action to process
+ */
 function reducer(
   state: ProfileState,
   action: SavingAction | SavedAction | ErrorAction

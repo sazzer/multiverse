@@ -98,6 +98,7 @@
     "password": {
       "label": "Change Password",
       "submit": "Change Password",
+      "success": "Password changed successfully",
       "oldPassword": {
         "label": "Current Password",
         "errors": {

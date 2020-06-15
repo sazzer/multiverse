@@ -35,17 +35,20 @@ describe("Change Password", () => {
     });
 
     cy.getProfilePage("Test User", ({ getChangePasswordForm }) => {
-      getChangePasswordForm(({ oldPassword, password, password2 }) => {
-        oldPassword()
-          .should("have.value", " ")
-          .should("have.errorMessage", "Please enter a password");
-        password()
-          .should("have.value", " ")
-          .should("have.errorMessage", "Please enter a password");
-        password2()
-          .should("have.value", " ")
-          .should("have.errorMessage", "Please enter a password");
-      });
+      getChangePasswordForm(
+        ({ oldPassword, password, password2, successMessage }) => {
+          oldPassword()
+            .should("have.value", " ")
+            .should("have.errorMessage", "Please enter a password");
+          password()
+            .should("have.value", " ")
+            .should("have.errorMessage", "Please enter a password");
+          password2()
+            .should("have.value", " ")
+            .should("have.errorMessage", "Please enter a password");
+          successMessage().should("not.be.visible");
+        }
+      );
     });
 
     cy.logout();
@@ -63,13 +66,20 @@ describe("Change Password", () => {
     });
 
     cy.getProfilePage("Test User", ({ getChangePasswordForm }) => {
-      getChangePasswordForm(({ oldPassword, password, password2 }) => {
-        oldPassword().should("have.value", "Pa55word").should("not.have.error");
-        password().should("have.value", "newPassword").should("not.have.error");
-        password2()
-          .should("have.value", "NewPa55word")
-          .should("have.errorMessage", "Passwords do not match");
-      });
+      getChangePasswordForm(
+        ({ oldPassword, password, password2, successMessage }) => {
+          oldPassword()
+            .should("have.value", "Pa55word")
+            .should("not.have.error");
+          password()
+            .should("have.value", "newPassword")
+            .should("not.have.error");
+          password2()
+            .should("have.value", "NewPa55word")
+            .should("have.errorMessage", "Passwords do not match");
+          successMessage().should("not.be.visible");
+        }
+      );
     });
 
     cy.logout();
@@ -88,7 +98,13 @@ describe("Change Password", () => {
 
     cy.getProfilePage("Test User", ({ getChangePasswordForm }) => {
       getChangePasswordForm(
-        ({ oldPassword, password, password2, errorMessage }) => {
+        ({
+          oldPassword,
+          password,
+          password2,
+          errorMessage,
+          successMessage,
+        }) => {
           oldPassword()
             .should("have.value", "Incorrect")
             .should("not.have.error");
@@ -101,6 +117,7 @@ describe("Change Password", () => {
           errorMessage()
             .should("be.visible")
             .should("have.text", "The old password was incorrect");
+          successMessage().should("not.be.visible");
         }
       );
     });
@@ -121,7 +138,13 @@ describe("Change Password", () => {
 
     cy.getProfilePage("Test User", ({ getChangePasswordForm }) => {
       getChangePasswordForm(
-        ({ oldPassword, password, password2, errorMessage }) => {
+        ({
+          oldPassword,
+          password,
+          password2,
+          errorMessage,
+          successMessage,
+        }) => {
           oldPassword()
             .should("have.value", "Pa55word")
             .should("not.have.error");
@@ -132,6 +155,9 @@ describe("Change Password", () => {
             .should("have.value", "newPassword")
             .should("not.have.error");
           errorMessage().should("not.be.visible");
+          successMessage()
+            .should("be.visible")
+            .should("have.text", "Password changed successfully");
         }
       );
     });
