@@ -11,6 +11,7 @@ mod infrastructure;
 mod model;
 mod testing;
 mod users;
+mod worlds;
 
 pub use infrastructure::service::Service;
 pub use testing::database::TestDatabase;

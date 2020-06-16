@@ -3,6 +3,7 @@ use crate::{
     authentication::configure::AuthenticationConfig,
     infrastructure::{database, healthchecker::configure::HealthcheckConfig},
     users::configure::UsersConfig,
+    worlds::configure::WorldsConfig,
 };
 use std::sync::Arc;
 
@@ -31,6 +32,7 @@ impl Service {
             users.users_service.clone(),
             authorization.authorization_service.clone(),
         );
+        let worlds = WorldsConfig::new(database.clone());
 
         let healthchecks = HealthcheckConfig::default().with_component("db", Arc::new(database));
 
@@ -40,6 +42,7 @@ impl Service {
                 users.configure(),
                 authorization.configure(),
                 authentication.configure(),
+                worlds.configure(),
             ]),
         }
     }
