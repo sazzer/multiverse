@@ -1,7 +1,7 @@
 import debug from "debug";
 
 /** The logger to use */
-const LOGGER = debug("multiverse:api:token");
+const LOGGER = debug("multiverse:api:http:token");
 
 /** The key into Session Storage where the token is stored */
 const TOKEN_STORAGE_KEY = "multiverse_token";

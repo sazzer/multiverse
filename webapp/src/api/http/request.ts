@@ -1,3 +1,5 @@
+import { Links, parseLinks } from "./links";
+
 import { Problem } from "./problem";
 import { UnauthorizedError } from "../errors";
 import UrlTemplate from "url-template";
@@ -6,7 +8,7 @@ import env from "@beam-australia/react-env";
 import { getToken } from "./token";
 
 /** The logger to use */
-const LOGGER = debug("multiverse:api:request");
+const LOGGER = debug("multiverse:api:http:request");
 
 /**
  * The details needed in order to make an HTTP Request
@@ -26,8 +28,13 @@ export interface Request {
  * The details of an HTTP Response
  */
 export interface Response<B> {
+  /** The response status code */
   status: number;
+  /** The response headers */
   headers: Headers;
+  /** The parsed links from the response */
+  links: Links;
+  /** The parsed body of the response */
   body?: B;
 }
 
@@ -62,6 +69,8 @@ export async function request<B>(
     LOGGER("Received response from %s: %o", finalUrl, response);
 
     const contentType = response.headers.get("content-type");
+    const linksHeader = response.headers.get("links");
+    const links = parseLinks(linksHeader || "");
 
     if (contentType) {
       const body = await response.json();
@@ -76,11 +85,16 @@ export async function request<B>(
         throw new Problem(type, body.title as string, response.status, body);
       } else {
         LOGGER("Response was not a Problem");
-        return { status: response.status, headers: response.headers, body };
+        return {
+          status: response.status,
+          headers: response.headers,
+          links,
+          body,
+        };
       }
     } else {
       LOGGER("Response had no payload");
-      return { status: response.status, headers: response.headers };
+      return { status: response.status, headers: response.headers, links };
     }
   } catch (e) {
     LOGGER("Unexpected error making HTTP request: %o", e);
