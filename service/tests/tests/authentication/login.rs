@@ -106,6 +106,10 @@ fn test_login_success() {
         )
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")
+        .has_header(
+            "Link",
+            "</users/c23462c2-7096-4677-9663-231cd9bca08a>; rel=\"related\"",
+        )
         .assert_json_body(|body| {
             assert_json_snapshot!(body, {
                 ".token" => "[access_token]",

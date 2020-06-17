@@ -1,10 +1,13 @@
 use rocket::http::Header;
 use std::fmt::{Display, Formatter};
+
 /// Possible Link relations
 #[derive(Debug, PartialEq)]
 pub enum LinkRel {
     /// A link back to the resource
     SelfLink,
+    /// A link to a related resource
+    Related,
     /// Any custom link relation
     Custom(String),
 }
@@ -45,6 +48,7 @@ impl Display for LinkRel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let relation = match self {
             LinkRel::SelfLink => "self",
+            LinkRel::Related => "related",
             LinkRel::Custom(rel) => rel.as_ref(),
         };
         write!(f, "rel=\"{}\"", relation)
