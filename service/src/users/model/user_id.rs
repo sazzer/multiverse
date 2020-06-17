@@ -2,6 +2,7 @@ use bytes::BytesMut;
 use postgres_types::{accepts, to_sql_checked, FromSql, IsNull, ToSql, Type};
 use rocket::{http::RawStr, request};
 use serde::{Deserialize, Serialize};
+use std::fmt::{Display, Formatter};
 use uuid::Uuid;
 
 /// The ID of a User
@@ -50,5 +51,11 @@ impl<'r> request::FromParam<'r> for UserID {
             .map_err(|_| param)
             .and_then(|user_id| Uuid::parse_str(&user_id).map_err(|_| param))
             .map(|user_id| UserID::new(user_id))
+    }
+}
+
+impl Display for UserID {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }

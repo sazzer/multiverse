@@ -37,9 +37,10 @@ fn test_lookup_known_user_unauthenticated() {
 
     run_test()
         .seed(user)
-        .get(url)
+        .get(&url)
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")
+        .has_header("Link", format!("<{}>; rel=\"self\"", url))
         .has_json_body(json!({
             "username": "testuser",
             "display_name": "Test User"
@@ -62,9 +63,10 @@ fn test_lookup_known_user_authenticated() {
     run_test()
         .seed(user)
         .authenticate("testuser", "password")
-        .get(url)
+        .get(&url)
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")
+        .has_header("Link", format!("<{}>; rel=\"self\"", url))
         .has_json_body(json!({
             "username": "testuser",
             "display_name": "Test User",

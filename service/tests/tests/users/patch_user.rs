@@ -67,9 +67,10 @@ fn test_patch_user_no_changes() {
     run_test()
         .seed(user.clone())
         .authenticate("testuser", "password")
-        .patch(url, json!({}))
+        .patch(&url, json!({}))
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")
+        .has_header("Link", format!("<{}>; rel=\"self\"", url))
         .has_json_body(json!({
             "username": "testuser",
             "display_name": "Test User",
@@ -110,7 +111,7 @@ fn test_patch_user_changes_all() {
         .seed(user.clone())
         .authenticate("testuser", "password")
         .patch(
-            url,
+            &url,
             json!({
                 "password": "new",
                 "old_password": "password",
@@ -121,6 +122,7 @@ fn test_patch_user_changes_all() {
         )
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")
+        .has_header("Link", format!("<{}>; rel=\"self\"", url))
         .has_json_body(json!({
             "username": "testuser",
             "display_name": "New Name",

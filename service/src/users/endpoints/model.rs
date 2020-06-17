@@ -1,5 +1,6 @@
 use crate::{
     authorization::Authorizer,
+    http::link::{Link, LinkRel, Links},
     users::{EmailAddress, UserID, UserModel, Username},
 };
 use chrono::{DateTime, Utc};
@@ -88,6 +89,10 @@ impl<'r> response::Responder<'r> for UserResponse {
                 CacheDirective::MaxAge(3600),
             ]))
             .header(ETag(EntityTag::new(false, etag)))
+            .header(Links(vec![Link::new(
+                format!("/users/{}", self.user_id),
+                LinkRel::SelfLink,
+            )]))
             .ok()
     }
 }
