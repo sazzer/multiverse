@@ -2,7 +2,7 @@ use crate::{
     authentication::AuthenticatedUserModel,
     authorization::Token,
     http::link::{Link, LinkRel, Links},
-    users::UserID,
+    users::{endpoints::model::UserLink, UserID},
 };
 use chrono::{DateTime, Utc};
 use rocket::{response, Request};
@@ -38,7 +38,7 @@ impl<'r> response::Responder<'r> for AuthenticatedUserResponse {
         response::Response::build()
             .merge(Json(&self).respond_to(req).unwrap())
             .header(Links(vec![Link::new(
-                format!("/users/{}", self.user_id),
+                UserLink::new(self.user_id),
                 LinkRel::RELATED,
             )]))
             .ok()
