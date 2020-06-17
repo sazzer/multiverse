@@ -219,6 +219,8 @@ paths:
                     type: 'tag:multiverse,2020:users/problems/unknown_user_id'
       operationId: get-users-id
       description: Fetch a single user by their unique ID
+      security:
+        - Access Token: []
   '/usernames/{username}':
     parameters:
       - schema:
@@ -248,6 +250,51 @@ paths:
                     type: 'tag:multiverse,2020:users/problems/unknown_username'
       operationId: get-usernames-username
       description: Look to see if the given Username already exists
+  /worlds:
+    post:
+      summary: Create a new World
+      tags:
+        - worlds
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/World-Response'
+              examples:
+                Success:
+                  value:
+                    id: some.world.id
+                    name: Test World
+                    description: This is a test world
+                    url_slug: test_world
+                    owner: some.user.id
+      operationId: post-worlds
+      security:
+        - Access Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                url_slug:
+                  type: string
+              required:
+                - name
+                - description
+                - url_slug
+            examples:
+              Example:
+                value:
+                  name: Test World
+                  description: This is a test world
+                  url_slug: test_world
 components:
   schemas:
     Problem-Response:
@@ -357,3 +404,29 @@ components:
                   - title
           required:
             - fields
+    World-Response:
+      title: World-Response
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        url_slug:
+          type: string
+        owner:
+          type: string
+      required:
+        - id
+        - name
+        - description
+        - url_slug
+        - owner
+  securitySchemes:
+    Access Token:
+      name: Authorization
+      type: apiKey
+      in: header
+      description: ''
