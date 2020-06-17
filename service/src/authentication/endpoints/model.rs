@@ -39,7 +39,7 @@ impl<'r> response::Responder<'r> for AuthenticatedUserResponse {
             .merge(Json(&self).respond_to(req).unwrap())
             .header(Links(vec![Link::new(
                 format!("/users/{}", self.user_id),
-                LinkRel::Related,
+                LinkRel::RELATED,
             )]))
             .ok()
     }

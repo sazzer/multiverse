@@ -91,7 +91,7 @@ impl<'r> response::Responder<'r> for UserResponse {
             .header(ETag(EntityTag::new(false, etag)))
             .header(Links(vec![Link::new(
                 format!("/users/{}", self.user_id),
-                LinkRel::SelfLink,
+                LinkRel::SELF,
             )]))
             .ok()
     }

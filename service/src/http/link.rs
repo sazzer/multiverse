@@ -1,15 +1,13 @@
 use rocket::http::Header;
 use std::fmt::{Display, Formatter};
 
-/// Possible Link relations
+/// Representation of a Link Relation
 #[derive(Debug, PartialEq)]
-pub enum LinkRel {
-    /// A link back to the resource
-    SelfLink,
-    /// A link to a related resource
-    Related,
-    /// Any custom link relation
-    Custom(String),
+pub struct LinkRel(&'static str);
+
+impl LinkRel {
+    pub const RELATED: LinkRel = LinkRel("related");
+    pub const SELF: LinkRel = LinkRel("self");
 }
 
 /// Representation of a Link header
@@ -46,12 +44,7 @@ impl Link {
 
 impl Display for LinkRel {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let relation = match self {
-            LinkRel::SelfLink => "self",
-            LinkRel::Related => "related",
-            LinkRel::Custom(rel) => rel.as_ref(),
-        };
-        write!(f, "rel=\"{}\"", relation)
+        write!(f, "rel=\"{}\"", self.0)
     }
 }
 
@@ -81,7 +74,7 @@ mod tests {
 
     #[test]
     pub fn test_format_self_link() {
-        let link = Link::new("/example", LinkRel::SelfLink);
+        let link = Link::new("/example", LinkRel::SELF);
         let formatted = format!("{}", link);
 
         assert_that!(&formatted, eq("</example>; rel=\"self\"".to_owned()));
@@ -89,7 +82,7 @@ mod tests {
 
     #[test]
     pub fn test_format_custom_link() {
-        let link = Link::new("/example", LinkRel::Custom("somethingElse".to_owned()));
+        let link = Link::new("/example", LinkRel("somethingElse"));
         let formatted = format!("{}", link);
 
         assert_that!(
@@ -100,7 +93,7 @@ mod tests {
 
     #[test]
     pub fn test_build_single_link_header() {
-        let link = Link::new("/example", LinkRel::SelfLink);
+        let link = Link::new("/example", LinkRel::SELF);
         let header: Header<'_> = link.into();
         let formatted = format!("{}", header);
 
@@ -110,8 +103,8 @@ mod tests {
     #[test]
     pub fn test_build_multiple_link_header() {
         let links = Links(vec![
-            Link::new("/example1", LinkRel::SelfLink),
-            Link::new("/example2", LinkRel::SelfLink),
+            Link::new("/example1", LinkRel::SELF),
+            Link::new("/example2", LinkRel::SELF),
         ]);
 
         let header: Header<'_> = links.into();
