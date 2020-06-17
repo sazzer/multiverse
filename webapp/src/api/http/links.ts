@@ -36,6 +36,18 @@ export class Links {
   constructor(links: Link[]) {
     this.links = links;
   }
+
+  /**
+   * Get the link that has the given link relation
+   * @param rel The link relation to look for
+   */
+  getLinkByRel(rel: string): Link | undefined {
+    return this.links.find((link) =>
+      link.parameters.find(
+        (parameter) => parameter.key === "rel" && parameter.value === rel
+      )
+    );
+  }
 }
 
 /**
