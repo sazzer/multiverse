@@ -69,7 +69,7 @@ export async function request<B>(
     LOGGER("Received response from %s: %o", finalUrl, response);
 
     const contentType = response.headers.get("content-type");
-    const linksHeader = response.headers.get("links");
+    const linksHeader = response.headers.get("link");
     const links = parseLinks(linksHeader || "");
 
     if (contentType) {

@@ -38,6 +38,9 @@ impl Server {
     fn build(&self, port: u16) -> Rocket {
         let cors = rocket_cors::CorsOptions {
             allow_credentials: true,
+            expose_headers: vec!["Content-Type".to_owned(), "Link".to_owned()]
+                .into_iter()
+                .collect(),
             ..Default::default()
         }
         .to_cors()
