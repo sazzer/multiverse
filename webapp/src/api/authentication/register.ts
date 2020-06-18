@@ -36,7 +36,7 @@ export async function registerUser(
     LOGGER("Registered successfully: %o", response);
     if (response.body) {
       recordToken(response.body);
-      return response.body.user_id;
+      return response.links.getLinkByRel("related")!!.target;
     }
     return null;
   } catch (e) {

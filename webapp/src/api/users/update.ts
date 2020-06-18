@@ -10,11 +10,8 @@ import { UserResponse } from "./response";
  */
 export async function updateUser(user: User) {
   try {
-    await request<UserResponse>("/users/{userId}", {
+    await request<UserResponse>(user.userId, {
       method: "PATCH",
-      urlParams: {
-        userId: user.userId,
-      },
       body: {
         email_address: user.emailAddress,
         display_name: user.displayName,
@@ -55,11 +52,8 @@ export async function changePassword(
   password: string
 ) {
   try {
-    await request<UserResponse>("/users/{userId}", {
+    await request<UserResponse>(userId, {
       method: "PATCH",
-      urlParams: {
-        userId: userId,
-      },
       body: {
         old_password: oldPassword,
         password: password,

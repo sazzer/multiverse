@@ -27,7 +27,7 @@ export async function login(username: string, password: string) {
     LOGGER("Authenticated successfully: %o", response);
     if (response.body) {
       recordToken(response.body);
-      return response.body.user_id;
+      return response.links.getLinkByRel("related")!!.target;
     }
     return null;
   } catch (e) {

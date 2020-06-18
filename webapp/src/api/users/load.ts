@@ -15,15 +15,12 @@ export async function loadUser(
   ignoreCache?: boolean
 ): Promise<User> {
   try {
-    const response = await request<UserResponse>("/users/{userId}", {
-      urlParams: {
-        userId,
-      },
+    const response = await request<UserResponse>(userId, {
       ignoreCache,
     });
 
     return {
-      userId,
+      userId: response.links.getLinkByRel("self")!!.target,
       username: response.body!!.username,
       displayName: response.body!!.display_name,
       emailAddress: response.body!!.email_address,

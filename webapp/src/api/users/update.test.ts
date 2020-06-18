@@ -6,7 +6,10 @@ import nock from "nock";
 
 beforeEach(() => {
   nock("https://multiverse-cd.herokuapp.com")
-    .defaultReplyHeaders({ "access-control-allow-origin": "*" })
+    .defaultReplyHeaders({
+      "access-control-allow-origin": "*",
+      "Access-Control-Expose-Headers": "Link, Content-Type",
+    })
     .options("/users/someUserId")
     .reply(200);
 });
@@ -14,7 +17,10 @@ beforeEach(() => {
 describe("Update User Profile", () => {
   test("Successfully", async () => {
     nock("https://multiverse-cd.herokuapp.com")
-      .defaultReplyHeaders({ "access-control-allow-origin": "*" })
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "Access-Control-Expose-Headers": "Link, Content-Type",
+      })
       .patch("/users/someUserId", {
         display_name: "New User",
         email_address: "newuser@example.com",
@@ -26,7 +32,7 @@ describe("Update User Profile", () => {
       });
 
     await api.updateUser({
-      userId: "someUserId",
+      userId: "/users/someUserId",
       username: "testuser",
       displayName: "New User",
       emailAddress: "newuser@example.com",
@@ -35,7 +41,10 @@ describe("Update User Profile", () => {
 
   test("Unknown User", async () => {
     nock("https://multiverse-cd.herokuapp.com")
-      .defaultReplyHeaders({ "access-control-allow-origin": "*" })
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "Access-Control-Expose-Headers": "Link, Content-Type",
+      })
       .patch("/users/someUserId", {
         display_name: "New User",
         email_address: "newuser@example.com",
@@ -54,7 +63,7 @@ describe("Update User Profile", () => {
 
     try {
       await api.updateUser({
-        userId: "someUserId",
+        userId: "/users/someUserId",
         username: "testuser",
         displayName: "New User",
         emailAddress: "newuser@example.com",
@@ -67,7 +76,10 @@ describe("Update User Profile", () => {
 
   test("When not allowed", async () => {
     nock("https://multiverse-cd.herokuapp.com")
-      .defaultReplyHeaders({ "access-control-allow-origin": "*" })
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "Access-Control-Expose-Headers": "Link, Content-Type",
+      })
       .patch("/users/someUserId", {
         display_name: "New User",
         email_address: "newuser@example.com",
@@ -86,7 +98,7 @@ describe("Update User Profile", () => {
 
     try {
       await api.updateUser({
-        userId: "someUserId",
+        userId: "/users/someUserId",
         username: "testuser",
         displayName: "New User",
         emailAddress: "newuser@example.com",
@@ -101,7 +113,10 @@ describe("Update User Profile", () => {
 describe("Change Password", () => {
   test("Successfully", async () => {
     nock("https://multiverse-cd.herokuapp.com")
-      .defaultReplyHeaders({ "access-control-allow-origin": "*" })
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "Access-Control-Expose-Headers": "Link, Content-Type",
+      })
       .patch("/users/someUserId", {
         old_password: "oldPassword",
         password: "newPassword",
@@ -112,12 +127,15 @@ describe("Change Password", () => {
         email_address: "testuser@example.com",
       });
 
-    await api.changePassword("someUserId", "oldPassword", "newPassword");
+    await api.changePassword("/users/someUserId", "oldPassword", "newPassword");
   });
 
   test("Invalid Old Password", async () => {
     nock("https://multiverse-cd.herokuapp.com")
-      .defaultReplyHeaders({ "access-control-allow-origin": "*" })
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "Access-Control-Expose-Headers": "Link, Content-Type",
+      })
       .patch("/users/someUserId", {
         old_password: "oldPassword",
         password: "newPassword",
@@ -135,7 +153,11 @@ describe("Change Password", () => {
       );
 
     try {
-      await api.changePassword("someUserId", "oldPassword", "newPassword");
+      await api.changePassword(
+        "/users/someUserId",
+        "oldPassword",
+        "newPassword"
+      );
       fail("Expected InvalidOldPasswordError");
     } catch (e) {
       expect(e).toBeInstanceOf(api.InvalidOldPasswordError);
@@ -144,7 +166,10 @@ describe("Change Password", () => {
 
   test("Unknown User", async () => {
     nock("https://multiverse-cd.herokuapp.com")
-      .defaultReplyHeaders({ "access-control-allow-origin": "*" })
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "Access-Control-Expose-Headers": "Link, Content-Type",
+      })
       .patch("/users/someUserId", {
         old_password: "oldPassword",
         password: "newPassword",
@@ -162,7 +187,11 @@ describe("Change Password", () => {
       );
 
     try {
-      await api.changePassword("someUserId", "oldPassword", "newPassword");
+      await api.changePassword(
+        "/users/someUserId",
+        "oldPassword",
+        "newPassword"
+      );
       fail("Expected UnknownUserError");
     } catch (e) {
       expect(e).toBeInstanceOf(UnknownUserError);
@@ -171,7 +200,10 @@ describe("Change Password", () => {
 
   test("When not allowed", async () => {
     nock("https://multiverse-cd.herokuapp.com")
-      .defaultReplyHeaders({ "access-control-allow-origin": "*" })
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "Access-Control-Expose-Headers": "Link, Content-Type",
+      })
       .patch("/users/someUserId", {
         old_password: "oldPassword",
         password: "newPassword",
@@ -189,7 +221,11 @@ describe("Change Password", () => {
       );
 
     try {
-      await api.changePassword("someUserId", "oldPassword", "newPassword");
+      await api.changePassword(
+        "/users/someUserId",
+        "oldPassword",
+        "newPassword"
+      );
       fail("Expected InvalidOldPasswordError");
     } catch (e) {
       expect(e).toBeInstanceOf(UnauthorizedError);

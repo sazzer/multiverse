@@ -6,42 +6,60 @@ import nock from "nock";
 describe("Successfully load user", () => {
   test("Without Avatar URL", async () => {
     nock("https://multiverse-cd.herokuapp.com")
-      .defaultReplyHeaders({ "access-control-allow-origin": "*" })
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "Access-Control-Expose-Headers": "Link, Content-Type",
+      })
       .get("/users/someUserId")
-      .reply(200, {
-        username: "testuser",
-        display_name: "Test User",
-        email_address: "testuser@example.com",
-      });
+      .reply(
+        200,
+        {
+          username: "testuser",
+          display_name: "Test User",
+          email_address: "testuser@example.com",
+        },
+        {
+          link: '</users/someUserId>; rel="self"',
+        }
+      );
 
-    const result = await api.loadUser("someUserId");
+    const result = await api.loadUser("/users/someUserId");
 
     expect(result).toEqual({
       username: "testuser",
       displayName: "Test User",
       emailAddress: "testuser@example.com",
-      userId: "someUserId",
+      userId: "/users/someUserId",
     });
   });
 
   test("With Avatar URL", async () => {
     nock("https://multiverse-cd.herokuapp.com")
-      .defaultReplyHeaders({ "access-control-allow-origin": "*" })
+      .defaultReplyHeaders({
+        "access-control-allow-origin": "*",
+        "Access-Control-Expose-Headers": "Link, Content-Type",
+      })
       .get("/users/someUserId")
-      .reply(200, {
-        username: "testuser",
-        display_name: "Test User",
-        email_address: "testuser@example.com",
-        avatar_url: "http://example.com/avatar",
-      });
+      .reply(
+        200,
+        {
+          username: "testuser",
+          display_name: "Test User",
+          email_address: "testuser@example.com",
+          avatar_url: "http://example.com/avatar",
+        },
+        {
+          link: '</users/someUserId>; rel="self"',
+        }
+      );
 
-    const result = await api.loadUser("someUserId");
+    const result = await api.loadUser("/users/someUserId");
 
     expect(result).toEqual({
       username: "testuser",
       displayName: "Test User",
       emailAddress: "testuser@example.com",
-      userId: "someUserId",
+      userId: "/users/someUserId",
       avatarUrl: "http://example.com/avatar",
     });
   });
@@ -64,7 +82,7 @@ test("Load unknown user", async () => {
     );
 
   try {
-    await api.loadUser("someUserId");
+    await api.loadUser("/users/someUserId");
     fail("Expected an UnknownUserError");
   } catch (e) {
     expect(e).toEqual(new UnknownUserError());
