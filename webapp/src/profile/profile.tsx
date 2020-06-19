@@ -92,7 +92,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
   const { t } = useTranslation();
 
   const [state, dispatch] = useReducer(reducer, { state: "INITIAL" });
-  const { setUserId } = useUser();
+  const { reloadUser } = useUser();
 
   const { register, handleSubmit, errors } = useForm<ProfileForm>({
     defaultValues: {
@@ -105,14 +105,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
   const onSubmitHandler = (data: ProfileForm) => {
     dispatch({ action: "SAVING" });
     updateUser({
-      userId: user.userId,
+      selfLink: user.selfLink,
       username: data.username,
       emailAddress: data.email_address,
       displayName: data.display_name,
     })
       .then(() => {
         dispatch({ action: "SAVED" });
-        setUserId(user.userId);
+        reloadUser();
       })
       .catch(() => {
         dispatch({ action: "ERROR", message: t("page.errors.unexpected") });
@@ -178,13 +178,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
 };
 
 export const ProfileView: React.FC = () => {
-  const { userId } = useUser();
+  const { userLink } = useUser();
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    if (userId) {
-      loadUser(userId, true).then(setUser);
+    if (userLink) {
+      loadUser(userLink, true).then(setUser);
     }
-  }, [userId]);
+  }, [userLink]);
 
   return user == null ? <Spinner /> : <ProfileForm user={user} />;
 };

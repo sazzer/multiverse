@@ -11,7 +11,7 @@ import { useUser } from "../currentUser";
  * The props needed for the Change Password form
  */
 interface PasswordFormProps {
-  userId: string;
+  userLink: string;
 }
 
 /**
@@ -85,7 +85,7 @@ interface ErrorAction {
   message: string;
 }
 
-const PasswordForm: React.FC<PasswordFormProps> = ({ userId }) => {
+const PasswordForm: React.FC<PasswordFormProps> = ({ userLink }) => {
   const { t } = useTranslation();
   const [state, dispatch] = useReducer(reducer, { state: "INITIAL" });
 
@@ -104,7 +104,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ userId }) => {
     }
     dispatch({ action: "SAVING" });
 
-    changePassword(userId, data.oldPassword, data.password)
+    changePassword(userLink, data.oldPassword, data.password)
       .then(() => {
         dispatch({ action: "SAVED" });
       })
@@ -184,7 +184,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ userId }) => {
 };
 
 export const PasswordView: React.FC = () => {
-  const { userId } = useUser();
+  const { userLink } = useUser();
 
-  return userId == null ? <Spinner /> : <PasswordForm userId={userId} />;
+  return userLink == null ? <Spinner /> : <PasswordForm userLink={userLink} />;
 };

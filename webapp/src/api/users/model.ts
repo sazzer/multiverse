@@ -1,7 +1,7 @@
 /** The shape of a User in the application */
 export interface User {
-  /** The ID of the user */
-  userId: string;
+  /** The self link of the user */
+  selfLink: string;
   /** The users unique username */
   username: string;
   /** The users display name */

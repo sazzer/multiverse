@@ -32,7 +32,7 @@ describe("Update User Profile", () => {
       });
 
     await api.updateUser({
-      userId: "/users/someUserId",
+      selfLink: "/users/someUserId",
       username: "testuser",
       displayName: "New User",
       emailAddress: "newuser@example.com",
@@ -63,7 +63,7 @@ describe("Update User Profile", () => {
 
     try {
       await api.updateUser({
-        userId: "/users/someUserId",
+        selfLink: "/users/someUserId",
         username: "testuser",
         displayName: "New User",
         emailAddress: "newuser@example.com",
@@ -98,7 +98,7 @@ describe("Update User Profile", () => {
 
     try {
       await api.updateUser({
-        userId: "/users/someUserId",
+        selfLink: "/users/someUserId",
         username: "testuser",
         displayName: "New User",
         emailAddress: "newuser@example.com",

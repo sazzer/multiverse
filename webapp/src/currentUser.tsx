@@ -7,7 +7,7 @@ import debug from "debug";
 const LOGGER = debug("multiverse:currentUser");
 
 /** The key into Session Storage where the current user ID is stored */
-const USER_ID_KEY = "multiverse_current_user";
+const USER_KEY = "multiverse_current_user";
 
 /**
  * The shape of the actual context store
@@ -16,7 +16,7 @@ export interface UserContext {
   /** The user details */
   user: User | null;
   /** Callback to store the ID of the User */
-  setUserId: (userId: string) => void;
+  setUserLink: (userLink: string) => void;
   /** Callback to clear the User */
   clearUserId: () => void;
 }
@@ -24,14 +24,14 @@ export interface UserContext {
 /** The actual context type */
 const userContext = React.createContext<UserContext>({
   user: null,
-  setUserId: () => {},
+  setUserLink: () => {},
   clearUserId: () => {},
 });
 
 export const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   useEffect(() => {
-    const storedUserId = sessionStorage.getItem(USER_ID_KEY);
+    const storedUserId = sessionStorage.getItem(USER_KEY);
     if (storedUserId) {
       LOGGER("Loading remembered user: %s", storedUserId);
       loadUser(storedUserId).then(setUser);
@@ -40,15 +40,15 @@ export const UserProvider: React.FC = ({ children }) => {
 
   const contextValue = {
     user,
-    setUserId: (userId: string) => {
-      LOGGER("Loading user: %s", userId);
-      loadUser(userId).then((user) => {
+    setUserLink: (userLink: string) => {
+      LOGGER("Loading user: %s", userLink);
+      loadUser(userLink).then((user) => {
         setUser(user);
-        sessionStorage.setItem(USER_ID_KEY, userId);
+        sessionStorage.setItem(USER_KEY, userLink);
       });
     },
     clearUserId: () => {
-      sessionStorage.removeItem(USER_ID_KEY);
+      sessionStorage.removeItem(USER_KEY);
       setUser(null);
     },
   };
@@ -66,9 +66,14 @@ export function useUser() {
 
   return {
     user: context.user,
-    userId: context.user?.userId,
+    userLink: context.user?.selfLink,
     hasUser: context.user !== undefined,
-    setUserId: context.setUserId,
+    setUserLink: context.setUserLink,
+    reloadUser: () => {
+      if (context.user) {
+        context.setUserLink(context.user.selfLink);
+      }
+    },
     clearUserId: context.clearUserId,
   };
 }

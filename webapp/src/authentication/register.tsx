@@ -14,7 +14,7 @@ export interface RegisterProps {
   /** Callback to cancel registering */
   onCancel: () => void;
   /** Callback for when we successfully authenticated */
-  onAuthenticated: (userId: string) => void;
+  onAuthenticated: (userLink: string) => void;
 }
 
 /**
@@ -72,10 +72,10 @@ export const Register: React.FC<RegisterProps> = ({
           setGlobalError(t("page.errors.unexpected"));
         }
       })
-      .then((userId) => {
+      .then((userLink) => {
         setLoading(false);
-        if (userId) {
-          onAuthenticated(userId);
+        if (userLink) {
+          onAuthenticated(userLink);
         }
       });
   };

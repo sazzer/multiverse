@@ -10,7 +10,7 @@ import { UserResponse } from "./response";
  */
 export async function updateUser(user: User) {
   try {
-    await request<UserResponse>(user.userId, {
+    await request<UserResponse>(user.selfLink, {
       method: "PATCH",
       body: {
         email_address: user.emailAddress,
@@ -42,17 +42,17 @@ export class InvalidOldPasswordError extends Error {
 
 /**
  * Change the password of a user
- * @param userId The ID of the user to update
+ * @param user The URL of the user to update
  * @param oldPassword The users old password
  * @param password The users new password
  */
 export async function changePassword(
-  userId: string,
+  user: string,
   oldPassword: string,
   password: string
 ) {
   try {
-    await request<UserResponse>(userId, {
+    await request<UserResponse>(user, {
       method: "PATCH",
       body: {
         old_password: oldPassword,

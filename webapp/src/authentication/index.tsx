@@ -62,11 +62,11 @@ function reducer(
 
 export default () => {
   const [state, dispatch] = useReducer(reducer, {});
-  const { setUserId } = useUser();
+  const { setUserLink } = useUser();
   const history = useHistory();
 
-  const onAuthenticated = (userId: string) => {
-    setUserId(userId);
+  const onAuthenticated = (userLink: string) => {
+    setUserLink(userLink);
     history.push("/profile");
   };
 

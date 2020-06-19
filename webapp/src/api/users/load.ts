@@ -7,20 +7,20 @@ import { UserResponse } from "./response";
 /**
  * Load a user from the server
  *
- * @param userId The ID of the user to load
+ * @param user The URL of the user to load
  * @param ignoreCache Whether to ignore the cache or not
  */
 export async function loadUser(
-  userId: string,
+  user: string,
   ignoreCache?: boolean
 ): Promise<User> {
   try {
-    const response = await request<UserResponse>(userId, {
+    const response = await request<UserResponse>(user, {
       ignoreCache,
     });
 
     return {
-      userId: response.links.getLinkByRel("self")!!.target,
+      selfLink: response.links.getLinkByRel("self")!!.target,
       username: response.body!!.username,
       displayName: response.body!!.display_name,
       emailAddress: response.body!!.email_address,

@@ -29,7 +29,7 @@ describe("Successfully load user", () => {
       username: "testuser",
       displayName: "Test User",
       emailAddress: "testuser@example.com",
-      userId: "/users/someUserId",
+      selfLink: "/users/someUserId",
     });
   });
 
@@ -59,7 +59,7 @@ describe("Successfully load user", () => {
       username: "testuser",
       displayName: "Test User",
       emailAddress: "testuser@example.com",
-      userId: "/users/someUserId",
+      selfLink: "/users/someUserId",
       avatarUrl: "http://example.com/avatar",
     });
   });
