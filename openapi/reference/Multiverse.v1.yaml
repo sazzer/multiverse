@@ -265,11 +265,9 @@ paths:
               examples:
                 Success:
                   value:
-                    id: some.world.id
                     name: Test World
                     description: This is a test world
                     url_slug: test_world
-                    owner: some.user.id
       operationId: post-worlds
       security:
         - Access Token: []
@@ -408,22 +406,16 @@ components:
       title: World-Response
       type: object
       properties:
-        id:
-          type: string
         name:
           type: string
         description:
           type: string
         url_slug:
           type: string
-        owner:
-          type: string
       required:
-        - id
         - name
         - description
         - url_slug
-        - owner
   securitySchemes:
     Access Token:
       name: Authorization
