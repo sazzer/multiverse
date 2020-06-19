@@ -2,6 +2,7 @@ use bytes::BytesMut;
 use postgres_types::{accepts, to_sql_checked, FromSql, IsNull, ToSql, Type};
 use rocket::{http::RawStr, request};
 use serde::{Deserialize, Serialize};
+use std::fmt::{Display, Formatter};
 use uuid::Uuid;
 
 /// The ID of a World
@@ -50,5 +51,11 @@ impl<'r> request::FromParam<'r> for WorldID {
             .map_err(|_| param)
             .and_then(|world_id| Uuid::parse_str(&world_id).map_err(|_| param))
             .map(|world_id| WorldID::new(world_id))
+    }
+}
+
+impl Display for WorldID {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
