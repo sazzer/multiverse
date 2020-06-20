@@ -24,7 +24,7 @@ pub fn create_world(
     body: Json<CreateWorldRequest>,
     authorizer: Authorizer,
 ) -> Result<String, Problem> {
-    authorizer.authorize().authorized().finish()?;
+    let owner = authorizer.authorize().authorized().finish()?;
 
     let name = body.name();
     let description = body.description();
@@ -37,10 +37,20 @@ pub fn create_world(
         "Creating new world"
     );
 
-    match (&name, &url_slug) {
-        (Some(name), Ok(url_slug)) => {
+    match (&name, &url_slug, &owner) {
+        (Some(name), Ok(url_slug), Some(owner)) => {
             // Try to create the world
+            worlds_service.create_world(WorldData {
+                name: name.clone(),
+                description: description.unwrap_or("".to_owned()),
+                url_slug: url_slug.clone(),
+                owner: owner.clone(),
+            });
             todo!()
+        }
+        (_, _, None) => {
+            tracing::error!("No authenticated user");
+            unreachable!()
         }
         _ => {
             // Return a validation problem

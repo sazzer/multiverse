@@ -81,10 +81,11 @@ impl Authorizing {
     /// - `self` - Consumes self
     ///
     /// # Returns
-    /// On success, returns `Ok(())`
+    /// On success, returns the User ID that is authenticated, if there is one
     /// On authorization failure, returns a Problem response indicating this
-    pub fn finish(self) -> Result<(), Problem> {
+    pub fn finish(self) -> Result<Option<UserID>, Problem> {
         self.result
+            .map(|_| self.authorization.map(|auth| auth.user_id))
             .map_err(|_| Problem::new(AuthorizerProblemType {}, Status::Forbidden))
     }
 }
