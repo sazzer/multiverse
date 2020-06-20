@@ -1,7 +1,10 @@
 use crate::{
     authorization::Authorizer,
     http::problem::{GenericValidation, Problem, ProblemType, ValidationProblem},
-    worlds::{CreateWorldError, UrlSlug, UrlSlugParseError, WorldData, WorldsService},
+    worlds::{
+        endpoints::model::WorldResponse, CreateWorldError, UrlSlug, UrlSlugParseError, WorldData,
+        WorldsService,
+    },
 };
 use rocket::{http::Status, post, State};
 use rocket_contrib::json::Json;
@@ -23,7 +26,7 @@ pub fn create_world(
     worlds_service: State<WorldsService>,
     body: Json<CreateWorldRequest>,
     authorizer: Authorizer,
-) -> Result<String, Problem> {
+) -> Result<WorldResponse, Problem> {
     let owner = authorizer.authorize().authorized().finish()?;
 
     let name = body.name();
@@ -46,7 +49,7 @@ pub fn create_world(
                 url_slug: url_slug.clone(),
                 owner: owner.clone(),
             })?;
-            todo!()
+            Ok(WorldResponse(new_world))
         }
         (_, _, None) => {
             tracing::error!("No authenticated user");

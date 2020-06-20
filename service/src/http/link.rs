@@ -6,6 +6,7 @@ use std::fmt::{Display, Formatter};
 pub struct LinkRel(&'static str);
 
 impl LinkRel {
+    pub const AUTHOR: LinkRel = LinkRel("author");
     pub const RELATED: LinkRel = LinkRel("related");
     pub const SELF: LinkRel = LinkRel("self");
 }
