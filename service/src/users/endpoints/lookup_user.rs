@@ -14,7 +14,7 @@ use rocket::{get, http::Status, State};
 /// # Returns
 /// If the user is return the details.
 /// If the user is not registered then an RFC-7807 problem response indicating this.
-#[tracing::instrument(name = "GET /usernames/{id}", skip(users_service))]
+#[tracing::instrument(name = "GET /users/{id}", skip(users_service))]
 #[get("/users/<id>")]
 pub fn lookup_user(
     users_service: State<UsersService>,

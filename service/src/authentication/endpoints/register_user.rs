@@ -167,10 +167,13 @@ impl From<RegisterError> for Problem {
                 RegisterUserProblemType::DuplicateUsername,
                 Status::UnprocessableEntity,
             ),
-            _ => Problem::new(
-                RegisterUserProblemType::UnknownError,
-                Status::InternalServerError,
-            ),
+            _ => {
+                tracing::warn!(error = ?e, "An unexpected error occurred");
+                Problem::new(
+                    RegisterUserProblemType::UnknownError,
+                    Status::InternalServerError,
+                )
+            }
         }
     }
 }

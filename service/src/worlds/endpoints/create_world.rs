@@ -1,9 +1,9 @@
 use crate::{
     authorization::Authorizer,
-    http::problem::{GenericValidation, Problem, ValidationProblem},
-    worlds::{UrlSlug, UrlSlugParseError, WorldData, WorldsService},
+    http::problem::{GenericValidation, Problem, ProblemType, ValidationProblem},
+    worlds::{CreateWorldError, UrlSlug, UrlSlugParseError, WorldData, WorldsService},
 };
-use rocket::{post, State};
+use rocket::{http::Status, post, State};
 use rocket_contrib::json::Json;
 use serde::Deserialize;
 use str_slug::slug;
@@ -17,7 +17,7 @@ use str_slug::slug;
 ///
 /// # Returns
 /// The newly created world details, or a Problem if the creation failed
-#[tracing::instrument(name = "GET /usernames/{id}", skip(worlds_service))]
+#[tracing::instrument(name = "POST /worlds", skip(worlds_service))]
 #[post("/worlds", data = "<body>")]
 pub fn create_world(
     worlds_service: State<WorldsService>,
@@ -40,14 +40,12 @@ pub fn create_world(
     match (&name, &url_slug, &owner) {
         (Some(name), Ok(url_slug), Some(owner)) => {
             // Try to create the world
-            let new_world = worlds_service
-                .create_world(WorldData {
-                    name: name.clone(),
-                    description: description.unwrap_or("".to_owned()),
-                    url_slug: url_slug.clone(),
-                    owner: owner.clone(),
-                })
-                .unwrap();
+            let new_world = worlds_service.create_world(WorldData {
+                name: name.clone(),
+                description: description.unwrap_or("".to_owned()),
+                url_slug: url_slug.clone(),
+                owner: owner.clone(),
+            })?;
             todo!()
         }
         (_, _, None) => {
@@ -105,5 +103,50 @@ impl CreateWorldRequest {
             .filter(|v| !v.trim().is_empty())
             .unwrap_or_else(|| slug(self.name.clone().unwrap_or("".to_owned())))
             .parse()
+    }
+}
+
+/// Problem Types that can happen when registering a user
+#[derive(Debug, thiserror::Error)]
+pub enum CreateWorldProblemType {
+    /// An unknown error occurred
+    #[error("An unknown error occurred")]
+    UnknownError,
+
+    #[error("The URL Slug was already present for this user")]
+    DuplicateUrlSlug,
+}
+
+impl ProblemType for CreateWorldProblemType {
+    /// Generate a Type value for the `ProblemType` values.
+    ///
+    /// These are used in the `type` field in the RFC-7807 Problem Response
+    fn error_code(&self) -> &'static str {
+        match self {
+            CreateWorldProblemType::UnknownError => {
+                "tag:multiverse,2020:worlds/problems/unknown_error"
+            }
+            CreateWorldProblemType::DuplicateUrlSlug => {
+                "tag:multiverse,2020:worlds/problems/duplicate_url_slug"
+            }
+        }
+    }
+}
+
+impl From<CreateWorldError> for Problem {
+    fn from(e: CreateWorldError) -> Self {
+        match e {
+            CreateWorldError::DuplicateUrlSlug => Problem::new(
+                CreateWorldProblemType::DuplicateUrlSlug,
+                Status::UnprocessableEntity,
+            ),
+            _ => {
+                tracing::warn!(error = ?e, "An unexpected error occurred");
+                Problem::new(
+                    CreateWorldProblemType::UnknownError,
+                    Status::InternalServerError,
+                )
+            }
+        }
     }
 }

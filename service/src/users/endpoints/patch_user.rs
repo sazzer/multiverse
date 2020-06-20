@@ -20,7 +20,7 @@ use serde::Deserialize;
 /// # Returns
 /// If the user is return the details.
 /// If the user is not registered then an RFC-7807 problem response indicating this.
-#[tracing::instrument(name = "PATCH /usernames/{id}", skip(users_service))]
+#[tracing::instrument(name = "PATCH /users/{id}", skip(users_service))]
 #[patch("/users/<id>", data = "<body>")]
 pub fn patch_user(
     users_service: State<UsersService>,

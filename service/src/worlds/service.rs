@@ -1,6 +1,7 @@
 mod create_world;
 
 use super::repository::WorldRepository;
+pub use create_world::CreateWorldError;
 
 /// Service Layer for dealing with Worlds
 #[derive(Clone)]
