@@ -40,12 +40,14 @@ pub fn create_world(
     match (&name, &url_slug, &owner) {
         (Some(name), Ok(url_slug), Some(owner)) => {
             // Try to create the world
-            worlds_service.create_world(WorldData {
-                name: name.clone(),
-                description: description.unwrap_or("".to_owned()),
-                url_slug: url_slug.clone(),
-                owner: owner.clone(),
-            });
+            let new_world = worlds_service
+                .create_world(WorldData {
+                    name: name.clone(),
+                    description: description.unwrap_or("".to_owned()),
+                    url_slug: url_slug.clone(),
+                    owner: owner.clone(),
+                })
+                .unwrap();
             todo!()
         }
         (_, _, None) => {
