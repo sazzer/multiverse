@@ -1,8 +1,11 @@
 use crate::{
     http::problem::Problem,
-    worlds::{endpoints::model::WorldResponse, WorldID, WorldsService},
+    worlds::{
+        endpoints::{errors::WorldProblemType, model::WorldResponse},
+        WorldID, WorldsService,
+    },
 };
-use rocket::{get, State};
+use rocket::{get, http::Status, State};
 
 /// Handler to get an existing World by ID
 ///
@@ -18,5 +21,8 @@ pub fn get_world(
     id: WorldID,
 ) -> Result<WorldResponse, Problem> {
     tracing::debug!("Looking up world");
-    todo!()
+    worlds_service
+        .find_world_by_id(id)
+        .ok_or_else(|| Problem::new(WorldProblemType::UnknownWorldID, Status::NotFound))
+        .map(|world| WorldResponse(world))
 }

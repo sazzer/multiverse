@@ -1,4 +1,5 @@
 mod create_world;
+mod errors;
 mod get_world;
 pub(crate) mod model;
 
