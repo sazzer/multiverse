@@ -16,7 +16,7 @@ impl From<postgres::Error> for SaveWorldError {
     /// Convert a database error into a SaveWorldError.
     ///
     /// The conversion returns a `DuplicateUrlSlug` iff the error is a `UNIQUE_VIOLATION` and the constraint is
-    /// `key_worlds_owner_slug`. Otherwise it returns an `UnknownError`
+    /// `worlds_owner_url_slug_key`. Otherwise it returns an `UnknownError`
     ///
     /// # Parameters
     /// - `e` - The error to convert
@@ -34,7 +34,7 @@ impl From<postgres::Error> for SaveWorldError {
             result = db_error
                 .and_then(|e| e.constraint().map(|c| c.to_owned()))
                 .map(|constraint| match constraint.as_ref() {
-                    "key_worlds_owner_slug" => SaveWorldError::DuplicateUrlSlug,
+                    "worlds_owner_url_slug_key" => SaveWorldError::DuplicateUrlSlug,
                     _ => {
                         tracing::warn!(
                             "Unexpected unique key constraint violation error: {:?}",
