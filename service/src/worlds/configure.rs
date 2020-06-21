@@ -27,9 +27,10 @@ impl WorldsConfig {
     pub fn configure(&self) -> Arc<dyn Fn(rocket::Rocket) -> rocket::Rocket + Send + Sync> {
         let worlds_service = self.worlds_service.clone();
         Arc::new(move |config| {
-            config
-                .manage(worlds_service.clone())
-                .mount("/", rocket::routes![super::endpoints::create_world])
+            config.manage(worlds_service.clone()).mount(
+                "/",
+                rocket::routes![super::endpoints::create_world, super::endpoints::get_world],
+            )
         })
     }
 }
