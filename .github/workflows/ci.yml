@@ -213,7 +213,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: webapp
-        run: yarn add react-env
+        run: yarn add react-env netlify-cli
 
       - uses: actions/download-artifact@v2
         with:
@@ -229,10 +229,10 @@ jobs:
           npx react-env --dest build
           find build
 
-      - uses: jsmrcaga/action-netlify-deploy@master
-        with:
+      - name: Deploy to Netlify
+        working-directory: webapp
+        env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_DEPLOY_MESSAGE: "Prod deploy: ${{ github.ref }}"
-          NETLIFY_DEPLOY_TO_PROD: true
-          build_directory: webapp/build
+        run: |
+          npx netlify deploy --dir=build --prod --message="Prod deploy: ${{ github.ref }}"
