@@ -1,5 +1,6 @@
 use crate::service::{Seedable, TestService};
 use pretty_assertions::assert_eq;
+use regex::Regex;
 use rocket::{
     http::{Header, Status},
     local::{Client, LocalResponse},
@@ -230,6 +231,35 @@ impl TestHarness {
             let expected_value = value.into();
             let header_value = response.headers.get(&header.into());
             assert_eq!(header_value, Some(&expected_value));
+        })
+    }
+
+    /// Assert that we have a response and that the response has the expected header.
+    /// This variation takes a regular expression to compare to the header value, for when
+    /// exact values can't be provided easily.
+    ///
+    /// # Parameters
+    /// - `header` - The name of the header
+    /// - `value` - The desired value of the header
+    ///
+    /// # Returns
+    /// Self, for chaining
+    pub fn has_header_regex<H, V>(self, header: H, value: V) -> Self
+    where
+        H: Into<String>,
+        V: Into<String>,
+    {
+        let re = Regex::new(value.into().as_ref()).unwrap();
+
+        self.assert_response(|response| {
+            let header_value = response
+                .headers
+                .get(&header.into())
+                .expect("Header was not present");
+            assert!(
+                re.is_match(&header_value),
+                "Header was present but didn't match expected value"
+            );
         })
     }
 
