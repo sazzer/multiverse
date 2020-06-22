@@ -18,6 +18,10 @@ pub struct Link {
     target: String,
     /// The link relation
     rel: LinkRel,
+    /// The title of the link
+    title: Option<String>,
+    /// The anchor of the link
+    anchor: Option<String>,
 }
 
 /// Representation of a set of link headers
@@ -39,6 +43,42 @@ impl Link {
         Self {
             target: target.into(),
             rel,
+            title: None,
+            anchor: None,
+        }
+    }
+
+    /// Specify the Title of the Link
+    ///
+    /// # Parameters
+    /// - `title` - The title of the link
+    ///
+    /// # Returns
+    /// The link
+    pub fn title<T>(self, title: T) -> Self
+    where
+        T: Into<String>,
+    {
+        Self {
+            title: Some(title.into()),
+            ..self
+        }
+    }
+
+    /// Specify the Anchor of the Link
+    ///
+    /// # Parameters
+    /// - `anchor` - The anchor of the link
+    ///
+    /// # Returns
+    /// The link
+    pub fn anchor<T>(self, anchor: T) -> Self
+    where
+        T: Into<String>,
+    {
+        Self {
+            anchor: Some(anchor.into()),
+            ..self
         }
     }
 }
@@ -51,7 +91,15 @@ impl Display for LinkRel {
 
 impl Display for Link {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "<{}>; {}", self.target, self.rel)
+        write!(f, "<{}>", self.target)?;
+        write!(f, "; {}", self.rel)?;
+        if let Some(title) = &self.title {
+            write!(f, "; title=\"{}\"", title)?;
+        }
+        if let Some(anchor) = &self.anchor {
+            write!(f, "; anchor=\"{}\"", anchor)?;
+        }
+        Ok(())
     }
 }
 
@@ -89,6 +137,41 @@ mod tests {
         assert_that!(
             &formatted,
             eq("</example>; rel=\"somethingElse\"".to_owned())
+        );
+    }
+
+    #[test]
+    pub fn test_format_link_with_title() {
+        let link = Link::new("/example", LinkRel::SELF).title("Some Title");
+        let formatted = format!("{}", link);
+
+        assert_that!(
+            &formatted,
+            eq("</example>; rel=\"self\"; title=\"Some Title\"".to_owned())
+        );
+    }
+
+    #[test]
+    pub fn test_format_link_with_anchor() {
+        let link = Link::new("/example", LinkRel::SELF).anchor("#2");
+        let formatted = format!("{}", link);
+
+        assert_that!(
+            &formatted,
+            eq("</example>; rel=\"self\"; anchor=\"#2\"".to_owned())
+        );
+    }
+
+    #[test]
+    pub fn test_format_link_with_title_and_anchor() {
+        let link = Link::new("/example", LinkRel::SELF)
+            .anchor("#2")
+            .title("Some Title");
+        let formatted = format!("{}", link);
+
+        assert_that!(
+            &formatted,
+            eq("</example>; rel=\"self\"; title=\"Some Title\"; anchor=\"#2\"".to_owned())
         );
     }
 
