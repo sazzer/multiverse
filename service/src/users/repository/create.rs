@@ -14,6 +14,7 @@ impl UserRepository {
     ///
     /// # Errors
     /// Any errors that occurred creating the new user
+    #[tracing::instrument(skip(self))]
     pub fn create(&self, user: UserData) -> Result<UserModel, SaveUserError> {
         let id = UserID::default();
         let now = Utc::now();

@@ -15,6 +15,7 @@ impl UserRepository {
     ///
     /// # Errors
     /// Any errors that occurred updating the user
+    #[tracing::instrument(skip(self))]
     pub fn update(&self, id: &UserID, user: UserData) -> Result<UserModel, SaveUserError> {
         let now = Utc::now();
         let version = Uuid::new_v4();

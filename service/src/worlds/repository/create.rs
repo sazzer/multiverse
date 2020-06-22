@@ -14,6 +14,7 @@ impl WorldRepository {
     ///
     /// # Errors
     /// Any errors that occurred creating the new world
+    #[tracing::instrument(skip(self))]
     pub fn create(&self, world: WorldData) -> Result<WorldModel, SaveWorldError> {
         let id = WorldID::default();
         let now = Utc::now();

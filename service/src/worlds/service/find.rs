@@ -10,6 +10,6 @@ impl WorldsService {
     /// # Returns
     /// The World, or `None` if it wasn't found
     pub fn find_world_by_id(&self, id: WorldID) -> Option<WorldModel> {
-        None
+        self.repository.find_world_by_id(id)
     }
 }
