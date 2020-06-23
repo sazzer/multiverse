@@ -29,7 +29,11 @@ impl WorldsConfig {
         Arc::new(move |config| {
             config.manage(worlds_service.clone()).mount(
                 "/",
-                rocket::routes![super::endpoints::create_world, super::endpoints::get_world],
+                rocket::routes![
+                    super::endpoints::create_world,
+                    super::endpoints::get_world,
+                    super::endpoints::search_worlds
+                ],
             )
         })
     }
