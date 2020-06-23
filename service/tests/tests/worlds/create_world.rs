@@ -53,6 +53,7 @@ fn test_create_empty_body() {
 fn test_create_success() {
     let user = SeedUser {
         user_id: uuid::Uuid::parse_str("7da4cb77-8839-4805-b93a-f4c536c8bc85").unwrap(),
+        display_name: "Test User".to_owned(),
         username: "testuser".to_owned(),
         password: hash_password("password"),
         ..SeedUser::default()
@@ -73,7 +74,7 @@ fn test_create_success() {
         .has_header("Content-Type", "application/json")
         .has_header_regex(
             "Link",
-            r#"</users/7da4cb77-8839-4805-b93a-f4c536c8bc85>; rel="author""#,
+            r#"</users/7da4cb77-8839-4805-b93a-f4c536c8bc85>; rel="author"; title="Test User""#,
         )
         .has_header_regex(
             "Link",
@@ -124,6 +125,7 @@ fn test_create_duplicate_url_slug() {
 fn test_create_minimal() {
     let user = SeedUser {
         user_id: uuid::Uuid::parse_str("7da4cb77-8839-4805-b93a-f4c536c8bc85").unwrap(),
+        display_name: "Test User".to_owned(),
         username: "testuser".to_owned(),
         password: hash_password("password"),
         ..SeedUser::default()
@@ -142,7 +144,7 @@ fn test_create_minimal() {
         .has_header("Content-Type", "application/json")
         .has_header_regex(
           "Link",
-          r#"</users/7da4cb77-8839-4805-b93a-f4c536c8bc85>; rel="author""#,
+          r#"</users/7da4cb77-8839-4805-b93a-f4c536c8bc85>; rel="author"; title="Test User""#,
         )
         .has_header_regex(
           "Link",

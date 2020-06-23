@@ -256,10 +256,11 @@ impl TestHarness {
                 .headers
                 .get(&header.into())
                 .expect("Header was not present");
-            assert!(
-                re.is_match(&header_value),
-                "Header was present but didn't match expected value"
-            );
+            if !re.is_match(&header_value) {
+                println!("Expected regex: {}", re);
+                println!("Actual value: {}", header_value);
+                assert!(false, "Header was present but didn't match expected value");
+            }
         })
     }
 

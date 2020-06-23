@@ -22,6 +22,7 @@ fn test_get_unknown_world() {
 fn test_get_known_world() {
     let user = SeedUser {
         user_id: uuid::Uuid::parse_str("7da4cb77-8839-4805-b93a-f4c536c8bc85").unwrap(),
+        display_name: "Test User".to_owned(),
         ..SeedUser::default()
     };
     let world = SeedWorld {
@@ -41,7 +42,7 @@ fn test_get_known_world() {
         .has_header("Content-Type", "application/json")
         .has_header_regex(
             "Link",
-            r#"</users/7da4cb77-8839-4805-b93a-f4c536c8bc85>; rel="author""#,
+            r#"</users/7da4cb77-8839-4805-b93a-f4c536c8bc85>; rel="author"; title="Test User""#,
         )
         .has_header_regex(
             "Link",
