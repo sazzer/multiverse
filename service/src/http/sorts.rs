@@ -27,4 +27,8 @@ where
 
         Ok(SortFieldsRequest(sort_fields))
     }
+
+    fn default() -> Option<Self> {
+        Some(SortFieldsRequest(SortFields(vec![])))
+    }
 }

@@ -19,7 +19,7 @@ pub struct SortField<T> {
 
 /// Set of fields that can be sorted on
 #[derive(Debug, PartialEq)]
-pub struct SortFields<T>(Vec<SortField<T>>);
+pub struct SortFields<T>(pub Vec<SortField<T>>);
 
 #[derive(Debug, PartialEq, thiserror::Error)]
 pub enum ParseSortFieldError {
