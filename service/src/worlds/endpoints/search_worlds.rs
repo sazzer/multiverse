@@ -17,6 +17,8 @@ pub fn search_worlds(
     worlds_service: State<WorldsService>,
     pagination: PaginationRequest,
 ) -> Result<WorldResponse, Problem> {
-    tracing::debug!("Searching worlds");
+    let p: crate::model::Pagination = *pagination;
+
+    tracing::debug!(p = ?p, "Searching worlds");
     todo!()
 }

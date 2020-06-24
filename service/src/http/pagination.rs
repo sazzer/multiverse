@@ -1,21 +1,16 @@
+use crate::model::Pagination;
 use rocket::request::{FromQuery, Query};
-use std::str::FromStr;
+use std::{ops::Deref, str::FromStr};
 
 /// Request details to describe the pagination of a request
 #[derive(Debug)]
-pub struct PaginationRequest {
-    /// The desired offset for the request
-    pub offset: u32,
-    /// The desired count for the request
-    pub count: u32,
-}
+pub struct PaginationRequest(Pagination);
 
-impl Default for PaginationRequest {
-    fn default() -> Self {
-        Self {
-            offset: 0,
-            count: 10,
-        }
+impl Deref for PaginationRequest {
+    type Target = Pagination;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 
@@ -38,7 +33,7 @@ impl<'q> FromQuery<'q> for PaginationRequest {
     /// # Returns
     /// The pagination details
     fn from_query(query: Query<'q>) -> Result<Self, Self::Error> {
-        let mut result = Self::default();
+        let mut result = Pagination::default();
 
         for item in query {
             if item.key == "offset" {
@@ -52,6 +47,6 @@ impl<'q> FromQuery<'q> for PaginationRequest {
             }
         }
 
-        Ok(result)
+        Ok(PaginationRequest(result))
     }
 }
