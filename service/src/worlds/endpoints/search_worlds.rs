@@ -1,6 +1,6 @@
 use crate::{
-    http::{pagination::PaginationRequest, problem::Problem},
-    worlds::{endpoints::model::WorldResponse, WorldsService},
+    http::{pagination::PaginationRequest, problem::Problem, sorts::SortFieldsRequest},
+    worlds::{endpoints::model::WorldResponse, WorldSortField, WorldsService},
 };
 use rocket::{get, State};
 
@@ -12,13 +12,12 @@ use rocket::{get, State};
 /// # Returns
 /// The details of the worlds that matched the search
 #[tracing::instrument(name = "GET /worlds", skip(worlds_service))]
-#[get("/worlds?<pagination..>")]
+#[get("/worlds?<sort>&<pagination..>")]
 pub fn search_worlds(
     worlds_service: State<WorldsService>,
+    sort: Option<SortFieldsRequest<WorldSortField>>,
     pagination: PaginationRequest,
 ) -> Result<WorldResponse, Problem> {
-    let p: crate::model::Pagination = *pagination;
-
-    tracing::debug!(p = ?p, "Searching worlds");
+    tracing::debug!("Searching worlds");
     todo!()
 }
