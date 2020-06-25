@@ -1,6 +1,5 @@
 use crate::{
     http::{pagination::PaginationRequest, problem::Problem, sorts::SortFieldsRequest},
-    model::ParseSortFieldError,
     users::endpoints::model::UserLink,
     worlds::{endpoints::model::WorldResponse, WorldSortField, WorldsService},
 };
@@ -18,7 +17,7 @@ use rocket::{get, State};
 pub fn search_worlds(
     worlds_service: State<WorldsService>,
     owner: Option<UserLink>,
-    sort: Option<Result<SortFieldsRequest<WorldSortField>, ParseSortFieldError>>,
+    sort: SortFieldsRequest<WorldSortField>,
     pagination: PaginationRequest,
 ) -> Result<WorldResponse, Problem> {
     tracing::debug!("Searching worlds");
