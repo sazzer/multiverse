@@ -1,7 +1,9 @@
 mod create_world;
 mod find;
+
 use super::repository::WorldRepository;
 pub use create_world::CreateWorldError;
+pub use find::WorldsFilters;
 
 /// Service Layer for dealing with Worlds
 #[derive(Clone)]

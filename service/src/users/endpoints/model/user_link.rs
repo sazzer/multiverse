@@ -27,6 +27,12 @@ impl Deref for UserLink {
     }
 }
 
+impl From<UserLink> for UserID {
+    fn from(user_link: UserLink) -> Self {
+        user_link.0.clone()
+    }
+}
+
 impl<'v> FromFormValue<'v> for UserLink {
     type Error = &'v RawStr;
 

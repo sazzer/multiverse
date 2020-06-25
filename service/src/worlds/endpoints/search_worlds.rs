@@ -1,7 +1,7 @@
 use crate::{
     http::{pagination::PaginationRequest, problem::Problem, sorts::SortFieldsRequest},
     users::endpoints::model::UserLink,
-    worlds::{endpoints::model::WorldResponse, WorldSortField, WorldsService},
+    worlds::{endpoints::model::WorldResponse, WorldSortField, WorldsFilters, WorldsService},
 };
 use rocket::{get, State};
 
@@ -21,5 +21,14 @@ pub fn search_worlds(
     pagination: PaginationRequest,
 ) -> Result<WorldResponse, Problem> {
     tracing::debug!("Searching worlds");
+
+    worlds_service.search_worlds(
+        &WorldsFilters {
+            owner: owner.map(|link| link.into()),
+            ..Default::default()
+        },
+        &sort,
+        &pagination,
+    );
     todo!()
 }
