@@ -37,11 +37,11 @@ impl<'q> FromQuery<'q> for PaginationRequest {
 
         for item in query {
             if item.key == "offset" {
-                if let Ok(value) = u32::from_str(item.value.as_str()) {
+                if let Ok(value) = u64::from_str(item.value.as_str()) {
                     result.offset = value;
                 }
             } else if item.key == "count" {
-                if let Ok(value) = u32::from_str(item.value.as_str()) {
+                if let Ok(value) = u64::from_str(item.value.as_str()) {
                     result.count = value;
                 }
             }

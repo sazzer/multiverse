@@ -2,9 +2,9 @@
 #[derive(Debug, Copy, Clone)]
 pub struct Pagination {
     /// The desired offset for the request
-    pub offset: u32,
+    pub offset: u64,
     /// The desired count for the request
-    pub count: u32,
+    pub count: u64,
 }
 
 impl Default for Pagination {

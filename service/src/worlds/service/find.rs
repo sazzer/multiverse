@@ -39,7 +39,6 @@ impl WorldsService {
         sorts: &SortFields<WorldSortField>,
         pagination: &Pagination,
     ) -> Page<WorldModel> {
-        tracing::debug!(filters = ?filters, sorts = ?sorts, pagination = ?pagination, "Searching worlds");
-        todo!()
+        self.repository.search_worlds(filters, sorts, pagination)
     }
 }

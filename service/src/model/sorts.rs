@@ -21,6 +21,12 @@ pub struct SortField<T> {
 #[derive(Debug, PartialEq)]
 pub struct SortFields<T>(pub Vec<SortField<T>>);
 
+impl<T> SortFields<T> {
+    pub fn iter(&self) -> impl std::iter::Iterator<Item = &SortField<T>> {
+        self.0.iter()
+    }
+}
+
 #[derive(Debug, PartialEq, thiserror::Error)]
 pub enum ParseSortFieldError {
     #[error("The specified field was unknown: {0}")]

@@ -22,7 +22,7 @@ pub fn search_worlds(
 ) -> Result<WorldResponse, Problem> {
     tracing::debug!("Searching worlds");
 
-    worlds_service.search_worlds(
+    let worlds = worlds_service.search_worlds(
         &WorldsFilters {
             owner: owner.map(|link| link.into()),
             ..Default::default()
@@ -30,5 +30,8 @@ pub fn search_worlds(
         &sort,
         &pagination,
     );
+
+    tracing::debug!(worlds = ?worlds, "Found worlds");
+
     todo!()
 }
