@@ -7,6 +7,7 @@ pub struct LinkRel(&'static str);
 
 impl LinkRel {
     pub const AUTHOR: LinkRel = LinkRel("author");
+    pub const ITEM: LinkRel = LinkRel("item");
     pub const RELATED: LinkRel = LinkRel("related");
     pub const SELF: LinkRel = LinkRel("self");
 }

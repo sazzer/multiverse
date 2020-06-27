@@ -84,9 +84,8 @@ impl WorldRepository {
             .map(|rows| rows.iter().map(|row| self.parse_row(row)).collect())
             .expect("Failed to select worlds matching query");
 
-        let total = if records.is_empty()
-            || pagination.offset + records.len() as u64 == pagination.count
-        {
+        let num_records = records.len() as u64;
+        let total = if records.is_empty() || pagination.offset + num_records == pagination.count {
             // We can't correctly calculate the total number of records so query for them
             let count_query = format!("SELECT COUNT(*)::INTEGER AS c FROM worlds {}", where_clause);
             let count: i32 = connection
@@ -96,7 +95,7 @@ impl WorldRepository {
             tracing::debug!(count = ?count, "Count of matching worlds from database");
             count as u64
         } else {
-            pagination.offset + pagination.count
+            pagination.offset + num_records
         };
 
         Page {
