@@ -66,6 +66,7 @@ impl WorldRepository {
             })
             .collect();
         sort_clauses.push("worlds.updated DESC".to_owned());
+        sort_clauses.push("worlds.world_id ASC".to_owned());
         let sort_clause = format!("ORDER BY {}", sort_clauses.join(", "));
 
         let mut connection = self
