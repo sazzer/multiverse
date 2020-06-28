@@ -38,7 +38,7 @@ fn test_patch_wrong_user() {
         .build();
 
     run_test()
-        .seed(user)
+        .seed(&user)
         .authenticate("testuser", "password")
         .patch(url, json!({}))
         .has_status(Status::Forbidden)
@@ -65,7 +65,7 @@ fn test_patch_user_no_changes() {
         .build();
 
     run_test()
-        .seed(user.clone())
+        .seed(&user.clone())
         .authenticate("testuser", "password")
         .patch(&url, json!({}))
         .has_status(Status::Ok)
@@ -108,7 +108,7 @@ fn test_patch_user_changes_all() {
         .build();
 
     run_test()
-        .seed(user.clone())
+        .seed(&user.clone())
         .authenticate("testuser", "password")
         .patch(
             &url,
@@ -161,7 +161,7 @@ fn test_patch_user_changes_no_password() {
         .build();
 
     run_test()
-        .seed(user.clone())
+        .seed(&user.clone())
         .authenticate("testuser", "password")
         .patch(
             url,
@@ -211,7 +211,7 @@ fn test_patch_user_change_password() {
         .build();
 
     run_test()
-        .seed(user.clone())
+        .seed(&user.clone())
         .authenticate("testuser", "password")
         .patch(
             url,
@@ -259,7 +259,7 @@ fn test_patch_user_change_password_no_old() {
         .build();
 
     run_test()
-        .seed(user.clone())
+        .seed(&user.clone())
         .authenticate("testuser", "password")
         .patch(
             url,
@@ -306,7 +306,7 @@ fn test_patch_user_change_password_wrong_old() {
         .build();
 
     run_test()
-        .seed(user.clone())
+        .seed(&user.clone())
         .authenticate("testuser", "password")
         .patch(
             url,
@@ -354,7 +354,7 @@ fn test_patch_user_invalid() {
         .build();
 
     run_test()
-        .seed(user.clone())
+        .seed(&user.clone())
         .authenticate("testuser", "password")
         .patch(
             url,
@@ -413,7 +413,7 @@ fn test_patch_clear_avatar_url() {
         .build();
 
     run_test()
-        .seed(user.clone())
+        .seed(&user.clone())
         .authenticate("testuser", "password")
         .patch(url, json!({ "avatar_url": null }))
         .has_status(Status::Ok)

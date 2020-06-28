@@ -42,7 +42,7 @@ fn test_login_empty_body() {
 #[test]
 fn test_login_invalid_password() {
     run_test()
-        .seed(SeedUser {
+        .seed(&SeedUser {
             username: "testuser".to_owned(),
             password: hash_password("password"),
             ..SeedUser::default()
@@ -66,7 +66,7 @@ fn test_login_invalid_password() {
 #[test]
 fn test_login_missing_password() {
     run_test()
-        .seed(SeedUser {
+        .seed(&SeedUser {
             username: "testuser".to_owned(),
             password: hash_password("password"),
             ..SeedUser::default()
@@ -89,7 +89,7 @@ fn test_login_missing_password() {
 #[test]
 fn test_login_success() {
     run_test()
-        .seed(SeedUser {
+        .seed(&SeedUser {
             user_id: Uuid::parse_str("c23462c2-7096-4677-9663-231cd9bca08a").unwrap(),
             username: "testuser".to_owned(),
             password: hash_password("password"),

@@ -36,7 +36,7 @@ fn test_lookup_known_user_unauthenticated() {
         .build();
 
     run_test()
-        .seed(user)
+        .seed(&user)
         .get(&url)
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")
@@ -61,7 +61,7 @@ fn test_lookup_known_user_authenticated() {
         .build();
 
     run_test()
-        .seed(user)
+        .seed(&user)
         .authenticate("testuser", "password")
         .get(&url)
         .has_status(Status::Ok)

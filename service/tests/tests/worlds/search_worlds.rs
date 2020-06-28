@@ -96,8 +96,7 @@ fn test_list_no_worlds_with_offset() {
 fn test_list_one_world() {
     let data = TestData::default();
     run_test()
-        .seed(data.user1)
-        .seed(data.world1)
+        .seed_many(&[&data.user1, &data.world1])
         .get("/worlds")
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")
@@ -124,8 +123,7 @@ fn test_list_one_world() {
 fn test_list_one_world_offset() {
     let data = TestData::default();
     run_test()
-        .seed(data.user1)
-        .seed(data.world1)
+        .seed_many(&[&data.user1, &data.world1])
         .get("/worlds?offset=5")
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")
@@ -143,8 +141,7 @@ fn test_list_one_world_offset() {
 fn test_list_one_count_zero() {
     let data = TestData::default();
     run_test()
-        .seed(data.user1)
-        .seed(data.world1)
+        .seed_many(&[&data.user1, &data.world1])
         .get("/worlds?count=0")
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")
@@ -162,8 +159,7 @@ fn test_list_one_count_zero() {
 fn test_list_one_world_matching_owner() {
     let data = TestData::default();
     run_test()
-        .seed(data.user1)
-        .seed(data.world1)
+        .seed_many(&[&data.user1, &data.world1])
         .get("/worlds?owner=/users/00000000-0000-0000-0001-000000000001")
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")
@@ -190,8 +186,7 @@ fn test_list_one_world_matching_owner() {
 fn test_list_one_world_not_matching_owner() {
     let data = TestData::default();
     run_test()
-        .seed(data.user1)
-        .seed(data.world1)
+        .seed_many(&[&data.user1, &data.world1])
         .get("/worlds?owner=/users/00000000-0000-0000-0001-000000000099")
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")
@@ -209,10 +204,7 @@ fn test_list_one_world_not_matching_owner() {
 fn test_list_many_worlds() {
     let data = TestData::default();
     run_test()
-        .seed(data.user1)
-        .seed(data.world1)
-        .seed(data.world2)
-        .seed(data.world3)
+        .seed_many(&[&data.user1, &data.world1, &data.world2, &data.world3])
         .get("/worlds")
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")

@@ -40,7 +40,7 @@ fn test_lookup_known_username(username: &str) {
         .build();
 
     run_test()
-        .seed(SeedUser {
+        .seed(&SeedUser {
             username: username.to_owned(),
             ..SeedUser::default()
         })

@@ -75,9 +75,10 @@ impl TestService {
     ///
     /// # Returns
     /// The data that was seeded
-    pub fn seed<D>(&self, data: D) -> D
+    pub fn seed<D>(&self, data: &D)
     where
         D: Seedable,
+        D: ?Sized,
     {
         tracing::debug!(data = ?data, "Inserting seed data into database");
 
@@ -87,7 +88,5 @@ impl TestService {
         let updates = connection.execute(sql, binds.as_slice()).unwrap();
 
         tracing::debug!(rows = ?updates, "Inserted seed data into database");
-
-        data
     }
 }

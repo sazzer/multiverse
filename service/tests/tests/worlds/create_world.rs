@@ -27,7 +27,7 @@ fn test_create_empty_body() {
     };
 
     run_test()
-        .seed(user)
+        .seed(&user)
         .authenticate("testuser", "password")
         .post("/worlds", json!({}))
         .has_status(Status::UnprocessableEntity)
@@ -60,7 +60,7 @@ fn test_create_success() {
     };
 
     run_test()
-        .seed(user)
+        .seed(&user)
         .authenticate("testuser", "password")
         .post(
             "/worlds",
@@ -101,8 +101,8 @@ fn test_create_duplicate_url_slug() {
     };
 
     run_test()
-        .seed(user)
-        .seed(world)
+        .seed(&user)
+        .seed(&world)
         .authenticate("testuser", "password")
         .post(
             "/worlds",
@@ -132,7 +132,7 @@ fn test_create_minimal() {
     };
 
     run_test()
-        .seed(user)
+        .seed(&user)
         .authenticate("testuser", "password")
         .post(
             "/worlds",

@@ -35,8 +35,8 @@ fn test_get_known_world() {
     };
 
     run_test()
-        .seed(user)
-        .seed(world)
+        .seed(&user)
+        .seed(&world)
         .get("/worlds/d6c124d5-1060-48ef-aeb8-e591a8261c2b")
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")

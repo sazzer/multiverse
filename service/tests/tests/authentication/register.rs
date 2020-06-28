@@ -185,7 +185,7 @@ fn test_register_success_full_data() {
 #[test]
 fn test_register_duplicate_username() {
     run_test()
-        .seed(SeedUser {
+        .seed(&SeedUser {
             username: "testuser".to_owned(),
             display_name: "Old Display Name".to_owned(),
             email_address: "old@example.com".to_owned(),

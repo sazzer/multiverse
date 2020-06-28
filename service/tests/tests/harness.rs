@@ -71,12 +71,26 @@ impl TestHarness {
     ///
     /// # Returns
     /// Self, for chaining
-    pub fn seed<D>(self, data: D) -> Self
+    pub fn seed<D>(self, data: &D) -> Self
     where
         D: Seedable,
     {
         self.service.seed(data);
 
+        self
+    }
+
+    /// Add some seed data into the database being used for this test
+    ///
+    /// # Parameters
+    /// - `data` - The data to add
+    ///
+    /// # Returns
+    /// Self, for chaining
+    pub fn seed_many(self, data: &[&dyn Seedable]) -> Self {
+        for &d in data {
+            self.service.seed(d);
+        }
         self
     }
 
