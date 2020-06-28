@@ -2,12 +2,11 @@ use super::{to_json, WorldLink};
 use crate::{
     http::link::{Link, LinkRel, Links},
     model::Page,
-    users::{endpoints::model::UserLink, UsersService},
     worlds::WorldModel,
 };
 use rocket::{
     http::hyper::header::{CacheControl, CacheDirective},
-    response, Request, State,
+    response, Request,
 };
 use rocket_contrib::json::Json;
 use serde_json::{json, Value};
