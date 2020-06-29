@@ -6,7 +6,7 @@ use std::fmt::{Display, Formatter};
 use uuid::Uuid;
 
 /// The ID of a User
-#[derive(Debug, PartialEq, Clone, Serialize, Deserialize, FromSql)]
+#[derive(Debug, PartialEq, Clone, Serialize, Deserialize, FromSql, Eq, Hash)]
 pub struct UserID(Uuid);
 
 impl UserID {

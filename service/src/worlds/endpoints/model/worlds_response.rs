@@ -2,14 +2,17 @@ use super::{to_json, WorldLink};
 use crate::{
     http::link::{Link, LinkRel, Links},
     model::Page,
+    users::{endpoints::model::UserLink, UserID, UserModel, UsersService},
     worlds::WorldModel,
 };
+use itertools::*;
 use rocket::{
     http::hyper::header::{CacheControl, CacheDirective},
-    response, Request,
+    response, Request, State,
 };
 use rocket_contrib::json::Json;
 use serde_json::{json, Value};
+use std::collections::HashMap;
 
 /// API Model representing a World
 #[derive(Debug)]
@@ -17,6 +20,20 @@ pub struct WorldsResponse(pub Page<WorldModel>);
 
 impl<'r> response::Responder<'r> for WorldsResponse {
     fn respond_to(self, req: &Request) -> response::Result<'r> {
+        let users_service = req.guard::<State<UsersService>>().unwrap();
+
+        let users: HashMap<UserID, UserModel> = self
+            .0
+            .entries
+            .iter()
+            .map(|world| &world.data.owner)
+            .unique()
+            .map(|user_id| users_service.find_user_by_id(user_id))
+            .filter(|user| user.is_some())
+            .map(|user| user.unwrap())
+            .map(|user| (user.identity.id.clone(), user))
+            .collect();
+
         let worlds: Vec<Value> = self.0.entries.iter().map(|world| to_json(&world)).collect();
 
         let response_body = json!({
@@ -27,7 +44,7 @@ impl<'r> response::Responder<'r> for WorldsResponse {
           }
         });
 
-        let world_links: Vec<Link> = self
+        let mut world_links: Vec<Link> = self
             .0
             .entries
             .iter()
@@ -37,6 +54,29 @@ impl<'r> response::Responder<'r> for WorldsResponse {
                 Link::new(link, LinkRel::ITEM).anchor(format!("#/entries/{}", index))
             })
             .collect();
+        let user_links: Vec<Link> = self
+            .0
+            .entries
+            .iter()
+            .map(|world| &world.data.owner)
+            .map(|owner| users.get(&owner))
+            .enumerate()
+            .filter(|(_, user)| user.is_some())
+            .map(|(index, user)| (index, user.unwrap()))
+            .map(|(index, user)| {
+                (
+                    index,
+                    UserLink::new(user.identity.id.clone()),
+                    user.data.display_name.clone(),
+                )
+            })
+            .map(|(index, link, title)| {
+                Link::new(link, LinkRel::AUTHOR)
+                    .anchor(format!("#/entries/{}", index))
+                    .title(title)
+            })
+            .collect();
+        world_links.extend(user_links);
 
         response::Response::build()
             .merge(Json(response_body).respond_to(req).unwrap())

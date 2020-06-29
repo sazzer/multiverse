@@ -217,20 +217,34 @@ macro_rules! test_list_many_worlds {
 
         let mut worlds = HashMap::new();
         worlds.insert("world1", json!({
-          "name": "First World",
-          "description": "This is a test world",
-          "url_slug": "first-world"
+          "name": data.world1.name,
+          "description": data.world1.description,
+          "url_slug": data.world1.url_slug
         }));
         worlds.insert("world2", json!({
-          "name": "Second World",
-          "description": "This is a test world",
-          "url_slug": "second-world"
+          "name": data.world2.name,
+          "description": data.world2.description,
+          "url_slug": data.world2.url_slug
         }));
         worlds.insert("world3", json!({
-          "name": "Fourth World",
-          "description": "This is a test world",
-          "url_slug": "fourth-world"
+          "name": data.world3.name,
+          "description": data.world3.description,
+          "url_slug": data.world3.url_slug
         }));
+
+        let mut user_names = HashMap::new();
+        user_names.insert(data.user1.user_id, &data.user1.display_name);
+        user_names.insert(data.user2.user_id, &data.user2.display_name);
+
+        let mut authors = HashMap::new();
+        authors.insert("world1", data.world1.owner);
+        authors.insert("world2", data.world2.owner);
+        authors.insert("world3", data.world3.owner);
+
+        let mut author_names = HashMap::new();
+        author_names.insert("world1", user_names[&data.world1.owner]);
+        author_names.insert("world2", user_names[&data.world2.owner]);
+        author_names.insert("world3", user_names[&data.world3.owner]);
 
         run_test()
             .seed_many(&[
@@ -254,6 +268,18 @@ macro_rules! test_list_many_worlds {
             .has_header_regex(
                 "Link",
                 format!(r#"</worlds/{}>; rel="item"; anchor="\#/entries/2""#, data.$w3.world_id),
+            )
+            .has_header_regex(
+                "Link",
+                format!(r#"</users/{}>; rel="author"; title="{}"; anchor="\#/entries/0""#, authors[stringify!($w1)], author_names[stringify!($w1)]),
+            )
+            .has_header_regex(
+                "Link",
+                format!(r#"</users/{}>; rel="author"; title="{}"; anchor="\#/entries/1""#, authors[stringify!($w2)], author_names[stringify!($w2)]),
+            )
+            .has_header_regex(
+                "Link",
+                format!(r#"</users/{}>; rel="author"; title="{}"; anchor="\#/entries/2""#, authors[stringify!($w3)], author_names[stringify!($w3)]),
             )
             .has_json_body(json!({
               "entries": [worlds[stringify!($w1)], worlds[stringify!($w2)], worlds[stringify!($w3)]],
