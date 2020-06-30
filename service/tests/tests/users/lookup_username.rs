@@ -41,10 +41,16 @@ fn test_lookup_known_username(username: &str) {
 
     run_test()
         .seed(&SeedUser {
+            user_id: "e22ecfe0-bf55-42fb-9308-e1104b97a4d7".parse().unwrap(),
             username: username.to_owned(),
+            display_name: "Test User".to_owned(),
             ..SeedUser::default()
         })
         .get(url)
         .has_status(Status::NoContent)
-        .has_header("Cache-Control", "private, max-age=3600");
+        .has_header("Cache-Control", "private, max-age=3600")
+        .has_header_regex(
+            "Link",
+            r#"</users/e22ecfe0-bf55-42fb-9308-e1104b97a4d7>; rel="related"; title="Test User""#,
+        );
 }

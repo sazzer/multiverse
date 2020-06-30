@@ -1,6 +1,9 @@
-use super::errors::UserProblemType;
+use super::{errors::UserProblemType, model::UserLink};
 use crate::{
-    http::problem::Problem,
+    http::{
+        link::{Link, LinkRel, Links},
+        problem::Problem,
+    },
     users::{Username, UsersService},
 };
 use rocket::{
@@ -30,13 +33,18 @@ pub fn lookup_username(
     users_service
         .find_user_by_username(&username)
         .ok_or_else(|| Problem::new(UserProblemType::UnknownUsername, Status::NotFound))
-        .map(|_| {
+        .map(|user| {
             Response::build()
                 .status(Status::NoContent)
                 .header(CacheControl(vec![
                     CacheDirective::Private,
                     CacheDirective::MaxAge(3600),
                 ]))
+                .header(Links(vec![Link::new(
+                    UserLink::new(user.identity.id),
+                    LinkRel::RELATED,
+                )
+                .title(user.data.display_name)]))
                 .finalize()
         })
 }
