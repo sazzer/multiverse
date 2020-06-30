@@ -22,15 +22,16 @@ impl<'r> response::Responder<'r> for WorldsResponse {
     fn respond_to(self, req: &Request) -> response::Result<'r> {
         let users_service = req.guard::<State<UsersService>>().unwrap();
 
-        let users: HashMap<UserID, UserModel> = self
+        let user_ids: Vec<&UserID> = self
             .0
             .entries
             .iter()
             .map(|world| &world.data.owner)
             .unique()
-            .map(|user_id| users_service.find_user_by_id(user_id))
-            .filter(|user| user.is_some())
-            .map(|user| user.unwrap())
+            .collect();
+        let users: HashMap<UserID, UserModel> = users_service
+            .find_users_by_id(&user_ids[..])
+            .into_iter()
             .map(|user| (user.identity.id.clone(), user))
             .collect();
 

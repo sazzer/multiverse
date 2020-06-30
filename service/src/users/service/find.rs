@@ -12,6 +12,20 @@ impl UsersService {
         self.repository.find_user_by_id(id)
     }
 
+    /// Find all of the users that have one of the given collection of IDs
+    ///
+    /// # Parameters
+    /// - `ids` - The IDs to look up
+    ///
+    /// # Returns
+    /// The users that were found. May be empty if no users with the given IDs were found.
+    pub fn find_users_by_id(&self, ids: &[&UserID]) -> Vec<UserModel> {
+        match ids {
+            &[] => vec![],
+            _ => self.repository.find_users_by_id(ids),
+        }
+    }
+
     /// Find a user by it's username
     ///
     /// # Parameters
