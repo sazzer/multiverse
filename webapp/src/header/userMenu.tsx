@@ -40,6 +40,14 @@ export const UserMenu = () => {
             {t("header.userMenu.profile")}
           </Link>
           <div className="dropdown-divider" role="separator"></div>
+          <Link
+            to="/profile/worlds/new"
+            className="dropdown-item"
+            role="menuitem"
+          >
+            {t("header.userMenu.newWorld")}
+          </Link>
+          <div className="dropdown-divider" role="separator"></div>
           <button className="dropdown-item" onClick={onLogout} role="menuitem">
             {t("header.userMenu.logout")}
           </button>

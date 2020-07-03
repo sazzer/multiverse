@@ -12,6 +12,7 @@
     "toggleNavigation": "Toggle Navigation",
     "userMenu": {
       "profile": "User Profile",
+      "newWorld": "New World",
       "logout": "Log Out"
     }
   },
@@ -125,6 +126,9 @@
       "errors": {
         "invalidPassword": "The old password was incorrect"
       }
+    },
+    "worlds": {
+      "label": "Worlds"
     }
   }
 }
