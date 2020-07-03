@@ -167,7 +167,7 @@ fn test_list_one_count_zero() {
 fn test_list_one_world_matching_owner() {
     let data = TestData::default();
     run_test()
-        .seed_many(&[&data.user1, &data.world1])
+        .seed_many(&[&data.user1, &data.user2, &data.world1, &data.world3])
         .get("/worlds?owner=/users/00000000-0000-0000-0001-000000000001")
         .has_status(Status::Ok)
         .has_header("Content-Type", "application/json")
@@ -186,6 +186,78 @@ fn test_list_one_world_matching_owner() {
           "pagination": {
             "offset": 0,
             "total": 1
+          }
+        }));
+}
+
+#[test]
+fn test_list_one_world_matching_url_slug() {
+    let data = TestData::default();
+    run_test()
+        .seed_many(&[&data.user1, &data.world1, &data.world2])
+        .get("/worlds?url_slug=first-world")
+        .has_status(Status::Ok)
+        .has_header("Content-Type", "application/json")
+        .has_header_regex(
+            "Link",
+            r#"</worlds/00000000-0000-0000-0002-000000000001>; rel="item"; anchor="\#/entries/0""#,
+        )
+        .has_json_body(json!({
+          "entries": [
+            {
+              "name": "First World",
+              "description": "This is a test world",
+              "url_slug": "first-world"
+            }
+          ],
+          "pagination": {
+            "offset": 0,
+            "total": 1
+          }
+        }));
+}
+
+#[test]
+fn test_list_one_world_matching_url_slug_and_owner() {
+    let data = TestData::default();
+    run_test()
+        .seed_many(&[&data.user1, &data.user2, &data.world1, &data.world3])
+        .get("/worlds?owner=/users/00000000-0000-0000-0001-000000000001&url_slug=first-world")
+        .has_status(Status::Ok)
+        .has_header("Content-Type", "application/json")
+        .has_header_regex(
+            "Link",
+            r#"</worlds/00000000-0000-0000-0002-000000000001>; rel="item"; anchor="\#/entries/0""#,
+        )
+        .has_json_body(json!({
+          "entries": [
+            {
+              "name": "First World",
+              "description": "This is a test world",
+              "url_slug": "first-world"
+            }
+          ],
+          "pagination": {
+            "offset": 0,
+            "total": 1
+          }
+        }));
+}
+
+#[test]
+fn test_list_world_not_matching_url_slug_and_owner() {
+    let data = TestData::default();
+    run_test()
+        .seed_many(&[&data.user1, &data.user2, &data.world1, &data.world3])
+        .get("/worlds?owner=/users/00000000-0000-0000-0001-000000000001&url_slug=fourth-world")
+        .has_status(Status::Ok)
+        .has_header("Content-Type", "application/json")
+        .has_header("Link", "")
+        .has_json_body(json!({
+          "entries": [],
+          "pagination": {
+            "offset": 0,
+            "total": 0
           }
         }));
 }
@@ -307,5 +379,4 @@ test_list_many_worlds! {
   test_list_many_worlds_owner_ascending: "/worlds?sort=+owner" -> (world1,world2,world3),
   test_list_many_worlds_owner_descending: "/worlds?sort=-owner" -> (world3,world1,world2),
   test_list_many_worlds_owner_default: "/worlds?sort=owner" -> (world1,world2,world3),
-
 }

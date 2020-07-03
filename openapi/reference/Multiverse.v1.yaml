@@ -357,6 +357,13 @@ paths:
           in: query
           name: count
           description: The maximum number of records to return
+        - schema:
+            type: string
+          in: query
+          name: url_slug
+          description: |-
+            Only match worlds that have this URL Slug.
+            Generally this only makes sense if an owner is provided as well, but this is not mandatory.
       description: Perform a search against existing worlds
 components:
   schemas:
@@ -488,15 +495,11 @@ components:
         offset:
           type: integer
           minimum: 0
-        count:
-          type: integer
-          minimum: 0
         total:
           type: integer
           minimum: 0
       required:
         - offset
-        - count
         - total
   securitySchemes:
     Access Token:

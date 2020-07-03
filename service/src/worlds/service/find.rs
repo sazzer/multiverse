@@ -10,6 +10,9 @@ use crate::{
 pub struct WorldsFilters {
     /// Only include worlds owned by this user
     pub owner: Option<UserID>,
+
+    /// Only include worlds that have this URL Slug
+    pub url_slug: Option<String>,
 }
 
 impl WorldsService {

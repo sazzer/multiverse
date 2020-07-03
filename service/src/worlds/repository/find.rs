@@ -38,6 +38,10 @@ impl WorldRepository {
             binds.push(owner);
             where_clauses.push(format!("owner_id = ${}", binds.len()));
         }
+        if let Some(url_slug) = &filters.url_slug {
+            binds.push(url_slug);
+            where_clauses.push(format!("url_slug = ${}", binds.len()));
+        }
         let where_clause = if where_clauses.is_empty() {
             "".to_owned()
         } else {
