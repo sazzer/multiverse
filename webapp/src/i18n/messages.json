@@ -128,7 +128,25 @@
       }
     },
     "worlds": {
-      "label": "Worlds"
+      "label": "Worlds",
+      "new": {
+        "label": "New World",
+        "submit": "Create World",
+        "success": "New world created",
+        "name": {
+          "label": "Name",
+          "errors": {
+            "required": "Please enter a name",
+            "pattern": "$t(profile.worlds.new.name.errors.required)"
+          }
+        },
+        "description": {
+          "label": "Description"
+        },
+        "slug": {
+          "label": "URL Slug"
+        }
+      }
     }
   }
 }
