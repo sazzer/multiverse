@@ -126,9 +126,10 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ userLink }) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmitHandler)}
-      aria-label={t("profile.password.label")}
+      aria-labelledby="passwordFormLabel"
     >
       <fieldset disabled={state.state === "SAVING"}>
+        <h3 id="passwordFormLabel">{t("profile.password.label")}</h3>
         <Input
           id="oldPassword"
           i18n="profile.password.oldPassword"

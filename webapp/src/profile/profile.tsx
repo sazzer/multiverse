@@ -122,9 +122,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmitHandler)}
-      aria-label={t("profile.profile.label")}
+      aria-labelledby="profileFormLabel"
     >
       <fieldset disabled={state.state === "SAVING"}>
+        <h3 id="profileFormLabel">{t("profile.profile.label")}</h3>
         <Input
           id="username"
           i18n="profile.profile.username"
