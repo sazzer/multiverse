@@ -12,6 +12,8 @@ export interface InputProps {
   autoFocus?: boolean;
   readOnly?: boolean;
   inputProps?: { [key: string]: any };
+  describedBy?: string;
+  postElement?: () => any;
 }
 
 export const Input: React.FC<InputProps> = (props) => {
@@ -28,7 +30,7 @@ export const Input: React.FC<InputProps> = (props) => {
         required={props.required}
         aria-required={!!props.required}
         aria-invalid={props.error ? "true" : "false"}
-        aria-describedby={`${props.id}-error`}
+        aria-describedby={`${props.id}-error ${props.describedBy || ""}`}
         autoFocus={props.autoFocus}
         readOnly={props.readOnly}
         {...props.inputProps}
@@ -38,6 +40,7 @@ export const Input: React.FC<InputProps> = (props) => {
           {t(`${props.i18n}.errors.${props.error.type}`)}
         </div>
       )}
+      {props.postElement && props.postElement()}
     </div>
   );
 };

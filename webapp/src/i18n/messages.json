@@ -144,7 +144,8 @@
           "label": "Description"
         },
         "slug": {
-          "label": "URL Slug"
+          "label": "URL Slug",
+          "description": "If not specified, a setting of \"{{slug}}\" will be used."
         }
       }
     }

@@ -19,7 +19,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
-            aria-describedby="username-error"
+            aria-describedby="username-error "
             aria-invalid="false"
             aria-required="false"
             class="form-control "
@@ -47,7 +47,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
-            aria-describedby="name-error"
+            aria-describedby="name-error "
             aria-invalid="false"
             aria-required="false"
             class="form-control "
@@ -75,7 +75,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
-            aria-describedby="username-error"
+            aria-describedby="username-error "
             aria-invalid="false"
             aria-required="false"
             class="form-control "
@@ -103,7 +103,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
-            aria-describedby="username-error"
+            aria-describedby="username-error "
             aria-invalid="false"
             aria-required="false"
             class="form-control "
@@ -132,7 +132,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
-            aria-describedby="username-error"
+            aria-describedby="username-error "
             aria-invalid="false"
             aria-required="false"
             class="form-control "
@@ -160,7 +160,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
-            aria-describedby="username-error"
+            aria-describedby="username-error "
             aria-invalid="false"
             aria-required="true"
             class="form-control "
@@ -193,7 +193,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
-            aria-describedby="username-error"
+            aria-describedby="username-error "
             aria-invalid="true"
             aria-required="false"
             class="form-control is-invalid"
@@ -232,7 +232,7 @@ describe("Rendering an input", () => {
             Username
           </label>
           <input
-            aria-describedby="username-error"
+            aria-describedby="username-error "
             aria-invalid="false"
             aria-required="false"
             class="form-control "

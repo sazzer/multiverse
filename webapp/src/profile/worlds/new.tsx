@@ -2,6 +2,7 @@ import { Button, Input } from "../../components/form";
 import React, { useReducer } from "react";
 
 import { Spinner } from "../../components/spinner";
+import slugify from "slugify";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useUser } from "../../currentUser";
@@ -39,9 +40,10 @@ const NewWorldForm: React.FC = () => {
   const { t } = useTranslation();
   const [state, dispatch] = useReducer(reducer, { state: "INITIAL" });
 
-  const { register, handleSubmit, errors } = useForm<NewWorldForm>({
+  const { register, handleSubmit, errors, watch } = useForm<NewWorldForm>({
     defaultValues: {},
   });
+  const watchName = watch("name");
 
   const onSubmitHandler = (data: NewWorldForm) => {
     dispatch({ action: "SAVING" });
@@ -84,6 +86,17 @@ const NewWorldForm: React.FC = () => {
           error={errors.slug}
           inputProps={{
             ref: register({}),
+          }}
+          describedBy="slugDefault"
+          postElement={() => {
+            return (
+              <div id="slugDefault">
+                {watchName &&
+                  t("profile.worlds.new.slug.description", {
+                    slug: slugify(watchName, { lower: true }),
+                  })}
+              </div>
+            );
           }}
         />
 
