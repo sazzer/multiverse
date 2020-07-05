@@ -11,10 +11,13 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
-          class=""
           for="username"
         >
           Username
+          <span
+            aria-hidden="true"
+            class=""
+          />
         </label>
         <input
           aria-describedby="username-error "
@@ -36,10 +39,13 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
-          class=""
           for="name"
         >
           Username
+          <span
+            aria-hidden="true"
+            class=""
+          />
         </label>
         <input
           aria-describedby="name-error "
@@ -61,10 +67,13 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
-          class=""
           for="username"
         >
           Username
+          <span
+            aria-hidden="true"
+            class=""
+          />
         </label>
         <input
           aria-describedby="username-error "
@@ -86,10 +95,13 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
-          class=""
           for="username"
         >
           Username
+          <span
+            aria-hidden="true"
+            class=""
+          />
         </label>
         <input
           aria-describedby="username-error "
@@ -112,10 +124,13 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
-          class=""
           for="username"
         >
           Username
+          <span
+            aria-hidden="true"
+            class=""
+          />
         </label>
         <input
           aria-describedby="username-error "
@@ -137,10 +152,13 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
-          class="multiverse-required"
           for="username"
         >
           Username
+          <span
+            aria-hidden="true"
+            class="multiverse-required"
+          />
         </label>
         <input
           aria-describedby="username-error "
@@ -167,10 +185,13 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
-          class=""
           for="username"
         >
           Username
+          <span
+            aria-hidden="true"
+            class=""
+          />
         </label>
         <input
           aria-describedby="username-error "
@@ -203,10 +224,13 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
-          class=""
           for="username"
         >
           Username
+          <span
+            aria-hidden="true"
+            class=""
+          />
         </label>
         <input
           aria-describedby="username-error "

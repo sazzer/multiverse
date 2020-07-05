@@ -23,8 +23,9 @@ export const Input: React.FC<InputProps> = (props) => {
   const labelClass = props.required ? "multiverse-required" : "";
   return (
     <>
-      <label htmlFor={props.id} className={labelClass}>
+      <label htmlFor={props.id}>
         {t(`${props.i18n}.label`)}
+        <span className={labelClass} aria-hidden="true"></span>
       </label>
       <input
         type={props.type || "text"}

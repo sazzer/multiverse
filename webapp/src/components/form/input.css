@@ -1,4 +1,4 @@
-form label.multiverse-required:after {
+form label span.multiverse-required:after {
   color: red;
   content: " *";
 }
