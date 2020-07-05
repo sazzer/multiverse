@@ -1,0 +1,4 @@
+form label.multiverse-required:after {
+  color: red;
+  content: " *";
+}

@@ -11,6 +11,7 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
+          class=""
           for="username"
         >
           Username
@@ -35,6 +36,7 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
+          class=""
           for="name"
         >
           Username
@@ -59,6 +61,7 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
+          class=""
           for="username"
         >
           Username
@@ -83,6 +86,7 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
+          class=""
           for="username"
         >
           Username
@@ -108,6 +112,7 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
+          class=""
           for="username"
         >
           Username
@@ -132,6 +137,7 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
+          class="multiverse-required"
           for="username"
         >
           Username
@@ -161,6 +167,7 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
+          class=""
           for="username"
         >
           Username
@@ -196,6 +203,7 @@ describe("Rendering an input", () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <label
+          class=""
           for="username"
         >
           Username

@@ -1,3 +1,5 @@
+import "./input.css";
+
 import { FieldError } from "react-hook-form";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -18,9 +20,12 @@ export interface InputProps {
 export const Input: React.FC<InputProps> = (props) => {
   const { t } = useTranslation();
 
+  const labelClass = props.required ? "multiverse-required" : "";
   return (
     <>
-      <label htmlFor={props.id}>{t(`${props.i18n}.label`)}</label>
+      <label htmlFor={props.id} className={labelClass}>
+        {t(`${props.i18n}.label`)}
+      </label>
       <input
         type={props.type || "text"}
         className={`form-control ${props.error ? "is-invalid" : ""}`}
