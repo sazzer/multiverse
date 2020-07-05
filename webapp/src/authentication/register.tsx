@@ -88,55 +88,64 @@ export const Register: React.FC<RegisterProps> = ({
       <h2 id="authenticationHeader">{t("authentication.register.title")}</h2>
 
       <fieldset disabled={loading}>
-        <Input
-          id="username"
-          i18n="authentication.username"
-          required
-          readOnly
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
-        <Input
-          id="email_address"
-          i18n="authentication.email_address"
-          error={errors.email_address}
-          type="email"
-          required
-          autoFocus
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
-        <Input
-          id="display_name"
-          i18n="authentication.display_name"
-          error={errors.display_name}
-          inputProps={{
-            ref: register(),
-          }}
-        />
-        <Input
-          id="password"
-          i18n="authentication.password"
-          type="password"
-          error={errors.password}
-          required
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
-        <Input
-          id="password2"
-          i18n="authentication.password2"
-          type="password"
-          error={errors.password2}
-          required
-          inputProps={{
-            ref: register({ required: true }),
-          }}
-        />
-
+        <div className="form-group">
+          <Input
+            id="username"
+            i18n="authentication.username"
+            required
+            readOnly
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Input
+            id="email_address"
+            i18n="authentication.email_address"
+            error={errors.email_address}
+            type="email"
+            required
+            autoFocus
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Input
+            id="display_name"
+            i18n="authentication.display_name"
+            error={errors.display_name}
+            inputProps={{
+              ref: register(),
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Input
+            id="password"
+            i18n="authentication.password"
+            type="password"
+            error={errors.password}
+            required
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Input
+            id="password2"
+            i18n="authentication.password2"
+            type="password"
+            error={errors.password2}
+            required
+            inputProps={{
+              ref: register({ required: true }),
+            }}
+          />
+        </div>
         <div className="btn-group form-group">
           <Button
             label="authentication.register.submit"

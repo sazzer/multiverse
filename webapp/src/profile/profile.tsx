@@ -126,36 +126,41 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
     >
       <fieldset disabled={state.state === "SAVING"}>
         <h3 id="profileFormLabel">{t("profile.profile.label")}</h3>
-        <Input
-          id="username"
-          i18n="profile.profile.username"
-          required
-          readOnly
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
-        <Input
-          id="email_address"
-          i18n="profile.profile.email_address"
-          error={errors.email_address}
-          type="email"
-          required
-          autoFocus
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
-        <Input
-          id="display_name"
-          i18n="profile.profile.display_name"
-          error={errors.display_name}
-          required
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
-
+        <div className="form-group">
+          <Input
+            id="username"
+            i18n="profile.profile.username"
+            required
+            readOnly
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Input
+            id="email_address"
+            i18n="profile.profile.email_address"
+            error={errors.email_address}
+            type="email"
+            required
+            autoFocus
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Input
+            id="display_name"
+            i18n="profile.profile.display_name"
+            error={errors.display_name}
+            required
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
         <div className="btn-group form-group">
           <Button
             label="profile.profile.submit"

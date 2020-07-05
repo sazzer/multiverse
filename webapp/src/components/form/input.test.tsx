@@ -10,24 +10,20 @@ describe("Rendering an input", () => {
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
-        <div
-          class="form-group"
+        <label
+          for="username"
         >
-          <label
-            for="username"
-          >
-            Username
-          </label>
-          <input
-            aria-describedby="username-error "
-            aria-invalid="false"
-            aria-required="false"
-            class="form-control "
-            id="username"
-            name="username"
-            type="text"
-          />
-        </div>
+          Username
+        </label>
+        <input
+          aria-describedby="username-error "
+          aria-invalid="false"
+          aria-required="false"
+          class="form-control "
+          id="username"
+          name="username"
+          type="text"
+        />
       </div>
     `);
   });
@@ -38,24 +34,20 @@ describe("Rendering an input", () => {
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
-        <div
-          class="form-group"
+        <label
+          for="name"
         >
-          <label
-            for="name"
-          >
-            Username
-          </label>
-          <input
-            aria-describedby="name-error "
-            aria-invalid="false"
-            aria-required="false"
-            class="form-control "
-            id="name"
-            name="username"
-            type="text"
-          />
-        </div>
+          Username
+        </label>
+        <input
+          aria-describedby="name-error "
+          aria-invalid="false"
+          aria-required="false"
+          class="form-control "
+          id="name"
+          name="username"
+          type="text"
+        />
       </div>
     `);
   });
@@ -66,24 +58,20 @@ describe("Rendering an input", () => {
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
-        <div
-          class="form-group"
+        <label
+          for="username"
         >
-          <label
-            for="username"
-          >
-            Username
-          </label>
-          <input
-            aria-describedby="username-error "
-            aria-invalid="false"
-            aria-required="false"
-            class="form-control "
-            id="username"
-            name="username"
-            type="email"
-          />
-        </div>
+          Username
+        </label>
+        <input
+          aria-describedby="username-error "
+          aria-invalid="false"
+          aria-required="false"
+          class="form-control "
+          id="username"
+          name="username"
+          type="email"
+        />
       </div>
     `);
   });
@@ -94,25 +82,21 @@ describe("Rendering an input", () => {
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
-        <div
-          class="form-group"
+        <label
+          for="username"
         >
-          <label
-            for="username"
-          >
-            Username
-          </label>
-          <input
-            aria-describedby="username-error "
-            aria-invalid="false"
-            aria-required="false"
-            class="form-control "
-            id="username"
-            name="username"
-            readonly=""
-            type="text"
-          />
-        </div>
+          Username
+        </label>
+        <input
+          aria-describedby="username-error "
+          aria-invalid="false"
+          aria-required="false"
+          class="form-control "
+          id="username"
+          name="username"
+          readonly=""
+          type="text"
+        />
       </div>
     `);
   });
@@ -123,24 +107,20 @@ describe("Rendering an input", () => {
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
-        <div
-          class="form-group"
+        <label
+          for="username"
         >
-          <label
-            for="username"
-          >
-            Username
-          </label>
-          <input
-            aria-describedby="username-error "
-            aria-invalid="false"
-            aria-required="false"
-            class="form-control "
-            id="username"
-            name="username"
-            type="text"
-          />
-        </div>
+          Username
+        </label>
+        <input
+          aria-describedby="username-error "
+          aria-invalid="false"
+          aria-required="false"
+          class="form-control "
+          id="username"
+          name="username"
+          type="text"
+        />
       </div>
     `);
   });
@@ -151,25 +131,21 @@ describe("Rendering an input", () => {
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
-        <div
-          class="form-group"
+        <label
+          for="username"
         >
-          <label
-            for="username"
-          >
-            Username
-          </label>
-          <input
-            aria-describedby="username-error "
-            aria-invalid="false"
-            aria-required="true"
-            class="form-control "
-            id="username"
-            name="username"
-            required=""
-            type="text"
-          />
-        </div>
+          Username
+        </label>
+        <input
+          aria-describedby="username-error "
+          aria-invalid="false"
+          aria-required="true"
+          class="form-control "
+          id="username"
+          name="username"
+          required=""
+          type="text"
+        />
       </div>
     `);
   });
@@ -184,30 +160,26 @@ describe("Rendering an input", () => {
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
-        <div
-          class="form-group"
+        <label
+          for="username"
         >
-          <label
-            for="username"
-          >
-            Username
-          </label>
-          <input
-            aria-describedby="username-error "
-            aria-invalid="true"
-            aria-required="false"
-            class="form-control is-invalid"
-            id="username"
-            name="username"
-            type="text"
-          />
-          <div
-            class="invalid-feedback"
-            id="username-error"
-            role="alert"
-          >
-            Please enter a username
-          </div>
+          Username
+        </label>
+        <input
+          aria-describedby="username-error "
+          aria-invalid="true"
+          aria-required="false"
+          class="form-control is-invalid"
+          id="username"
+          name="username"
+          type="text"
+        />
+        <div
+          class="invalid-feedback"
+          id="username-error"
+          role="alert"
+        >
+          Please enter a username
         </div>
       </div>
     `);
@@ -223,25 +195,21 @@ describe("Rendering an input", () => {
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
-        <div
-          class="form-group"
+        <label
+          for="username"
         >
-          <label
-            for="username"
-          >
-            Username
-          </label>
-          <input
-            aria-describedby="username-error "
-            aria-invalid="false"
-            aria-required="false"
-            class="form-control "
-            data-answer="42"
-            id="username"
-            name="username"
-            type="text"
-          />
-        </div>
+          Username
+        </label>
+        <input
+          aria-describedby="username-error "
+          aria-invalid="false"
+          aria-required="false"
+          class="form-control "
+          data-answer="42"
+          id="username"
+          name="username"
+          type="text"
+        />
       </div>
     `);
   });

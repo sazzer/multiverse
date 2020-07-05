@@ -130,37 +130,43 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ userLink }) => {
     >
       <fieldset disabled={state.state === "SAVING"}>
         <h3 id="passwordFormLabel">{t("profile.password.label")}</h3>
-        <Input
-          id="oldPassword"
-          i18n="profile.password.oldPassword"
-          type="password"
-          error={errors.oldPassword}
-          required
-          autoFocus
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
-        <Input
-          id="password"
-          i18n="profile.password.password"
-          type="password"
-          error={errors.password}
-          required
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
-        <Input
-          id="password2"
-          i18n="profile.password.password2"
-          type="password"
-          error={errors.password2}
-          required
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
+        <div className="form-group">
+          <Input
+            id="oldPassword"
+            i18n="profile.password.oldPassword"
+            type="password"
+            error={errors.oldPassword}
+            required
+            autoFocus
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Input
+            id="password"
+            i18n="profile.password.password"
+            type="password"
+            error={errors.password}
+            required
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Input
+            id="password2"
+            i18n="profile.password.password2"
+            type="password"
+            error={errors.password2}
+            required
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
 
         <div className="btn-group form-group">
           <Button

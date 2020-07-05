@@ -55,17 +55,18 @@ export const StartAuthentication: React.FC<StartAuthProps> = ({ onSubmit }) => {
       <h2 id="authenticationHeader">{t("authentication.start.title")}</h2>
 
       <fieldset disabled={loading}>
-        <Input
-          id="username"
-          i18n="authentication.username"
-          error={errors.username}
-          required
-          autoFocus
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
-
+        <div className="form-group">
+          <Input
+            id="username"
+            i18n="authentication.username"
+            error={errors.username}
+            required
+            autoFocus
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
         <div className="btn-group form-group">
           <Button
             label="authentication.start.submit"

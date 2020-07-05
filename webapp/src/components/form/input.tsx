@@ -20,7 +20,7 @@ export const Input: React.FC<InputProps> = (props) => {
   const { t } = useTranslation();
 
   return (
-    <div className="form-group">
+    <>
       <label htmlFor={props.id}>{t(`${props.i18n}.label`)}</label>
       <input
         type={props.type || "text"}
@@ -41,6 +41,6 @@ export const Input: React.FC<InputProps> = (props) => {
         </div>
       )}
       {props.postElement && props.postElement()}
-    </div>
+    </>
   );
 };

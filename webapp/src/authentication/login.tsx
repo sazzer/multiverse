@@ -70,27 +70,30 @@ export const Login: React.FC<LoginProps> = ({
       <h2 id="authenticationHeader">{t("authentication.login.title")}</h2>
 
       <fieldset disabled={loading}>
-        <Input
-          id="username"
-          i18n="authentication.username"
-          required
-          readOnly
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
-        <Input
-          id="password"
-          i18n="authentication.password"
-          type="password"
-          error={errors.password}
-          required
-          autoFocus
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
-
+        <div className="form-group">
+          <Input
+            id="username"
+            i18n="authentication.username"
+            required
+            readOnly
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <Input
+            id="password"
+            i18n="authentication.password"
+            type="password"
+            error={errors.password}
+            required
+            autoFocus
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
         <div className="btn-group form-group">
           <Button
             label="authentication.login.submit"

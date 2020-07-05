@@ -59,49 +59,55 @@ const NewWorldForm: React.FC = () => {
     >
       <fieldset disabled={state.state === "SAVING"}>
         <h3 id="newWorldFormLabel">{t("profile.worlds.new.label")}</h3>
-        <Input
-          id="name"
-          i18n="profile.worlds.new.name"
-          type="text"
-          error={errors.name}
-          required
-          autoFocus
-          inputProps={{
-            ref: register({ required: true, pattern: /[^\s]/ }),
-          }}
-        />
+        <div className="form-group">
+          <Input
+            id="name"
+            i18n="profile.worlds.new.name"
+            type="text"
+            error={errors.name}
+            required
+            autoFocus
+            inputProps={{
+              ref: register({ required: true, pattern: /[^\s]/ }),
+            }}
+          />
+        </div>
 
-        <Input
-          id="description"
-          i18n="profile.worlds.new.description"
-          type="text"
-          error={errors.description}
-          inputProps={{
-            ref: register({ required: !hasDefaultSlug }),
-          }}
-        />
+        <div className="form-group">
+          <Input
+            id="description"
+            i18n="profile.worlds.new.description"
+            type="text"
+            error={errors.description}
+            inputProps={{
+              ref: register({ required: !hasDefaultSlug }),
+            }}
+          />
+        </div>
 
-        <Input
-          id="slug"
-          i18n="profile.worlds.new.slug"
-          type="text"
-          error={errors.slug}
-          required={!hasDefaultSlug}
-          inputProps={{
-            ref: register({}),
-          }}
-          describedBy="slugDefault"
-          postElement={() => {
-            return (
-              <div id="slugDefault">
-                {hasDefaultSlug &&
-                  t("profile.worlds.new.slug.description", {
-                    slug: defaultSlug,
-                  })}
-              </div>
-            );
-          }}
-        />
+        <div className="form-group">
+          <Input
+            id="slug"
+            i18n="profile.worlds.new.slug"
+            type="text"
+            error={errors.slug}
+            required={!hasDefaultSlug}
+            inputProps={{
+              ref: register({}),
+            }}
+            describedBy="slugDefault"
+            postElement={() => {
+              return (
+                <div id="slugDefault">
+                  {hasDefaultSlug &&
+                    t("profile.worlds.new.slug.description", {
+                      slug: defaultSlug,
+                    })}
+                </div>
+              );
+            }}
+          />
+        </div>
 
         <div className="btn-group form-group">
           <Button
