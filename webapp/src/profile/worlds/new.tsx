@@ -43,7 +43,9 @@ const NewWorldForm: React.FC = () => {
   const { register, handleSubmit, errors, watch } = useForm<NewWorldForm>({
     defaultValues: {},
   });
-  const watchName = watch("name");
+  const watchName = watch("name") || "";
+  const defaultSlug = slugify(watchName, { lower: true });
+  const hasDefaultSlug = defaultSlug.trim().length > 0;
 
   const onSubmitHandler = (data: NewWorldForm) => {
     dispatch({ action: "SAVING" });
@@ -75,7 +77,7 @@ const NewWorldForm: React.FC = () => {
           type="text"
           error={errors.description}
           inputProps={{
-            ref: register({}),
+            ref: register({ required: !hasDefaultSlug }),
           }}
         />
 
@@ -84,6 +86,7 @@ const NewWorldForm: React.FC = () => {
           i18n="profile.worlds.new.slug"
           type="text"
           error={errors.slug}
+          required={!hasDefaultSlug}
           inputProps={{
             ref: register({}),
           }}
@@ -91,9 +94,9 @@ const NewWorldForm: React.FC = () => {
           postElement={() => {
             return (
               <div id="slugDefault">
-                {watchName &&
+                {hasDefaultSlug &&
                   t("profile.worlds.new.slug.description", {
-                    slug: slugify(watchName, { lower: true }),
+                    slug: defaultSlug,
                   })}
               </div>
             );
