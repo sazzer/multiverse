@@ -97,12 +97,12 @@ const NewWorldForm: React.FC = () => {
             }}
             describedBy="slugDefault"
           />
-          <div id="slugDefault">
+          <small id="slugDefault" className="form-text text-muted">
             {hasDefaultSlug &&
               t("profile.worlds.new.slug.description", {
                 slug: defaultSlug,
               })}
-          </div>
+          </small>
         </div>
 
         <div className="btn-group form-group">
