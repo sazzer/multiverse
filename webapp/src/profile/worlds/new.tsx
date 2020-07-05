@@ -96,17 +96,13 @@ const NewWorldForm: React.FC = () => {
               ref: register({}),
             }}
             describedBy="slugDefault"
-            postElement={() => {
-              return (
-                <div id="slugDefault">
-                  {hasDefaultSlug &&
-                    t("profile.worlds.new.slug.description", {
-                      slug: defaultSlug,
-                    })}
-                </div>
-              );
-            }}
           />
+          <div id="slugDefault">
+            {hasDefaultSlug &&
+              t("profile.worlds.new.slug.description", {
+                slug: defaultSlug,
+              })}
+          </div>
         </div>
 
         <div className="btn-group form-group">

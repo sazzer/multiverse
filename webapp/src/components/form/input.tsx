@@ -13,7 +13,6 @@ export interface InputProps {
   readOnly?: boolean;
   inputProps?: { [key: string]: any };
   describedBy?: string;
-  postElement?: () => any;
 }
 
 export const Input: React.FC<InputProps> = (props) => {
@@ -40,7 +39,6 @@ export const Input: React.FC<InputProps> = (props) => {
           {t(`${props.i18n}.errors.${props.error.type}`)}
         </div>
       )}
-      {props.postElement && props.postElement()}
     </>
   );
 };
