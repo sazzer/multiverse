@@ -1,6 +1,6 @@
 import { User } from "../../data/user";
 
-describe("Registering a new user", () => {
+describe("Authenticating an existing user", () => {
   beforeEach(() => {
     cy.seedData(
       new User()

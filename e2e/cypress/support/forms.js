@@ -14,8 +14,16 @@ chai.Assertion.addMethod("errorMessage", function (expectedError) {
   new chai.Assertion(target).to.have.error();
 
   const describedBy = target.attr("aria-describedby");
-  const describedByElem = Cypress.$(`#${describedBy}[role="alert"]`);
-  new chai.Assertion(describedByElem).to.exist;
-  new chai.Assertion(describedByElem).to.be.visible;
-  new chai.Assertion(describedByElem).to.have.text(expectedError);
+  if (describedBy) {
+    const selector = describedBy
+      .split(" ")
+      .map((value) => value.trim())
+      .filter((value) => value.length > 0)
+      .map((value) => `#${value}[role="alert"]`)
+      .join(",");
+    const describedByElem = Cypress.$(selector);
+    new chai.Assertion(describedByElem).to.exist;
+    new chai.Assertion(describedByElem).to.be.visible;
+    new chai.Assertion(describedByElem).to.have.text(expectedError);
+  }
 });
