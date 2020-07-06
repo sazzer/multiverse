@@ -1,4 +1,4 @@
-import { Button, Input } from "../../components/form";
+import { Button, Input, Textarea } from "../../components/form";
 import React, { useReducer } from "react";
 
 import { Spinner } from "../../components/spinner";
@@ -74,13 +74,12 @@ const NewWorldForm: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <Input
+          <Textarea
             id="description"
             i18n="profile.worlds.new.description"
-            type="text"
             error={errors.description}
-            inputProps={{
-              ref: register({ required: !hasDefaultSlug }),
+            textareaProps={{
+              ref: register({}),
             }}
           />
         </div>
@@ -93,7 +92,7 @@ const NewWorldForm: React.FC = () => {
             error={errors.slug}
             required={!hasDefaultSlug}
             inputProps={{
-              ref: register({}),
+              ref: register({ required: !hasDefaultSlug }),
             }}
             describedBy="slugDefault"
           />

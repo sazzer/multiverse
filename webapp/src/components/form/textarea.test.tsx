@@ -1,11 +1,11 @@
-import { Input } from "./input";
 import React from "react";
+import { Textarea } from "./textarea";
 import { render } from "@testing-library/react";
 
-describe("Rendering an input", () => {
-  test("Simple text input", () => {
+describe("Rendering an textarea", () => {
+  test("Simple text textarea", () => {
     const { container } = render(
-      <Input i18n="authentication.username" id="username" />
+      <Textarea i18n="authentication.username" id="username" />
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
@@ -18,22 +18,22 @@ describe("Rendering an input", () => {
             class=""
           />
         </label>
-        <input
+        <textarea
           aria-describedby="username-error "
           aria-invalid="false"
           aria-required="false"
           class="form-control "
           id="username"
           name="username"
-          type="text"
+          rows="5"
         />
       </div>
     `);
   });
 
-  test("Input with a different ID and Name", () => {
+  test("Textarea with a different ID and Name", () => {
     const { container } = render(
-      <Input i18n="authentication.username" id="name" name="username" />
+      <Textarea i18n="authentication.username" id="name" name="username" />
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
@@ -46,22 +46,22 @@ describe("Rendering an input", () => {
             class=""
           />
         </label>
-        <input
+        <textarea
           aria-describedby="name-error "
           aria-invalid="false"
           aria-required="false"
           class="form-control "
           id="name"
           name="username"
-          type="text"
+          rows="5"
         />
       </div>
     `);
   });
 
-  test("Email Input", () => {
+  test("Textarea specifying number of rows", () => {
     const { container } = render(
-      <Input i18n="authentication.username" id="username" type="email" />
+      <Textarea i18n="authentication.username" id="username" rows={10} />
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
@@ -74,22 +74,22 @@ describe("Rendering an input", () => {
             class=""
           />
         </label>
-        <input
+        <textarea
           aria-describedby="username-error "
           aria-invalid="false"
           aria-required="false"
           class="form-control "
           id="username"
           name="username"
-          type="email"
+          rows="10"
         />
       </div>
     `);
   });
 
-  test("Readonly Input", () => {
+  test("Readonly Textarea", () => {
     const { container } = render(
-      <Input i18n="authentication.username" id="username" readOnly />
+      <Textarea i18n="authentication.username" id="username" readOnly />
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
@@ -102,7 +102,7 @@ describe("Rendering an input", () => {
             class=""
           />
         </label>
-        <input
+        <textarea
           aria-describedby="username-error "
           aria-invalid="false"
           aria-required="false"
@@ -110,15 +110,15 @@ describe("Rendering an input", () => {
           id="username"
           name="username"
           readonly=""
-          type="text"
+          rows="5"
         />
       </div>
     `);
   });
 
-  test("Autofocus Input", () => {
+  test("Autofocus Textarea", () => {
     const { container } = render(
-      <Input i18n="authentication.username" id="username" autoFocus />
+      <Textarea i18n="authentication.username" id="username" autoFocus />
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
@@ -131,22 +131,22 @@ describe("Rendering an input", () => {
             class=""
           />
         </label>
-        <input
+        <textarea
           aria-describedby="username-error "
           aria-invalid="false"
           aria-required="false"
           class="form-control "
           id="username"
           name="username"
-          type="text"
+          rows="5"
         />
       </div>
     `);
   });
 
-  test("Required Input", () => {
+  test("Required Textarea", () => {
     const { container } = render(
-      <Input i18n="authentication.username" id="username" required />
+      <Textarea i18n="authentication.username" id="username" required />
     );
     expect(container).toMatchInlineSnapshot(`
       <div>
@@ -159,7 +159,7 @@ describe("Rendering an input", () => {
             class="multiverse-required"
           />
         </label>
-        <input
+        <textarea
           aria-describedby="username-error "
           aria-invalid="false"
           aria-required="true"
@@ -167,15 +167,15 @@ describe("Rendering an input", () => {
           id="username"
           name="username"
           required=""
-          type="text"
+          rows="5"
         />
       </div>
     `);
   });
 
-  test("Erroring Input", () => {
+  test("Erroring Textarea", () => {
     const { container } = render(
-      <Input
+      <Textarea
         i18n="authentication.username"
         id="username"
         error={{ type: "required" }}
@@ -192,14 +192,14 @@ describe("Rendering an input", () => {
             class=""
           />
         </label>
-        <input
+        <textarea
           aria-describedby="username-error "
           aria-invalid="true"
           aria-required="false"
           class="form-control is-invalid"
           id="username"
           name="username"
-          type="text"
+          rows="5"
         />
         <div
           class="invalid-feedback"
@@ -214,10 +214,10 @@ describe("Rendering an input", () => {
 
   test("Additional Props", () => {
     const { container } = render(
-      <Input
+      <Textarea
         i18n="authentication.username"
         id="username"
-        inputProps={{ "data-answer": 42 }}
+        textareaProps={{ "data-answer": 42 }}
       />
     );
     expect(container).toMatchInlineSnapshot(`
@@ -231,7 +231,7 @@ describe("Rendering an input", () => {
             class=""
           />
         </label>
-        <input
+        <textarea
           aria-describedby="username-error "
           aria-invalid="false"
           aria-required="false"
@@ -239,7 +239,7 @@ describe("Rendering an input", () => {
           data-answer="42"
           id="username"
           name="username"
-          type="text"
+          rows="5"
         />
       </div>
     `);
