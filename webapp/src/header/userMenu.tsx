@@ -28,6 +28,9 @@ export const UserMenu = () => {
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
+          aria-label={t("header.userMenu.label", {
+            user: user.displayName,
+          })}
         >
           {user.displayName}
         </button>
