@@ -25,12 +25,54 @@ interface NewWorldState {
 }
 
 /**
+ * Action to indicate we are going to start saving the form
+ */
+interface SavingAction {
+  /** The name of the action */
+  action: "SAVING";
+}
+
+/**
+ * Action to indicate that we successfully saved the form
+ */
+interface SavedAction {
+  /** The name of the action */
+  action: "SAVED";
+}
+
+/**
+ * Action to indicate that we unsuccessfully saved the form
+ */
+interface ErrorAction {
+  /** The name of the action */
+  action: "ERROR";
+  /** The error message */
+  message: string;
+}
+
+/**
  * Reducer to convert the current state into the new one
  * @param state The current state
  * @param action The action to process
  */
-function reducer(state: NewWorldState, action: any): NewWorldState {
+function reducer(
+  state: NewWorldState,
+  action: SavingAction | SavedAction | ErrorAction
+): NewWorldState {
   switch (action.action) {
+    case "SAVING":
+      return {
+        state: "SAVING",
+      };
+    case "SAVED":
+      return {
+        state: "SAVED",
+      };
+    case "ERROR":
+      return {
+        state: "ERROR",
+        error: action.message,
+      };
     default:
       return state;
   }
@@ -49,6 +91,12 @@ const NewWorldForm: React.FC = () => {
 
   const onSubmitHandler = (data: NewWorldForm) => {
     dispatch({ action: "SAVING" });
+    setTimeout(() => {
+      dispatch({
+        action: "ERROR",
+        message: "Oops",
+      });
+    }, 2000);
     console.log(data);
   };
 
