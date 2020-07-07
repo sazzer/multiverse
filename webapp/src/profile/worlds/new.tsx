@@ -1,11 +1,17 @@
 import { Button, Input, Textarea } from "../../components/form";
+import { DuplicateUrlSlugError, createWorld } from "../../api/worlds";
 import React, { useReducer } from "react";
 
 import { Spinner } from "../../components/spinner";
+import UrlTemplate from "url-template";
 import slugify from "slugify";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useUser } from "../../currentUser";
+
+/** The URL Template to use to redirect the user after creating a world */
+const REDIRECT_TEMPLATE = UrlTemplate.parse("/u/{username}/w/{slug}");
 
 /**
  * The shape of the data for the New World form
@@ -63,10 +69,12 @@ function reducer(
     case "SAVING":
       return {
         state: "SAVING",
+        error: undefined,
       };
     case "SAVED":
       return {
         state: "SAVED",
+        error: undefined,
       };
     case "ERROR":
       return {
@@ -78,11 +86,18 @@ function reducer(
   }
 }
 
-const NewWorldForm: React.FC = () => {
+interface NewWorldFormProps {
+  username: string;
+}
+
+const NewWorldForm: React.FC<NewWorldFormProps> = ({ username }) => {
   const { t } = useTranslation();
   const [state, dispatch] = useReducer(reducer, { state: "INITIAL" });
+  const history = useHistory();
 
-  const { register, handleSubmit, errors, watch } = useForm<NewWorldForm>({
+  const { register, handleSubmit, errors, watch, setError } = useForm<
+    NewWorldForm
+  >({
     defaultValues: {},
   });
   const watchName = watch("name") || "";
@@ -91,13 +106,35 @@ const NewWorldForm: React.FC = () => {
 
   const onSubmitHandler = (data: NewWorldForm) => {
     dispatch({ action: "SAVING" });
-    setTimeout(() => {
-      dispatch({
-        action: "ERROR",
-        message: "Oops",
+    const slug = data.slug || defaultSlug;
+    createWorld({
+      name: data.name,
+      description: data.description,
+      slug,
+    })
+      .then(() => {
+        dispatch({ action: "SAVED" });
+        history.push(
+          REDIRECT_TEMPLATE.expand({
+            username,
+            slug,
+          })
+        );
+      })
+      .catch((e) => {
+        if (e instanceof DuplicateUrlSlugError) {
+          dispatch({
+            action: "ERROR",
+            message: t("profile.worlds.new.errors.failed"),
+          });
+          setError("slug", "duplicateUrlSlug");
+        } else {
+          dispatch({
+            action: "ERROR",
+            message: t("page.errors.unexpected"),
+          });
+        }
       });
-    }, 2000);
-    console.log(data);
   };
 
   return (
@@ -175,7 +212,7 @@ const NewWorldForm: React.FC = () => {
 };
 
 export const NewWorldView: React.FC = () => {
-  const { userLink } = useUser();
+  const { user } = useUser();
 
-  return userLink == null ? <Spinner /> : <NewWorldForm />;
+  return user == null ? <Spinner /> : <NewWorldForm username={user.username} />;
 };

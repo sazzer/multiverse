@@ -146,7 +146,13 @@
         },
         "slug": {
           "label": "URL Slug",
-          "description": "If not specified, a setting of \"{{slug}}\" will be used."
+          "description": "If not specified, a setting of \"{{slug}}\" will be used.",
+          "errors": {
+            "duplicateUrlSlug": "You already have a world with this URL Slug"
+          }
+        },
+        "errors": {
+          "failed": "An error occurred creating the new world"
         }
       }
     }
