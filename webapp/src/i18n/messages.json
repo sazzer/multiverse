@@ -4,6 +4,12 @@
     "spinner": {
       "label": "Loading..."
     },
+    "pagination": {
+      "label": "Page navigation",
+      "next": "Goto next page",
+      "previous": "Goto previous page",
+      "page": "Goto page {{page}}"
+    },
     "errors": {
       "unexpected": "An unexpected error occurred"
     }

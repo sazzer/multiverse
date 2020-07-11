@@ -1,0 +1,4053 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rendering a paginator 1 pages On page 1 1`] = `<div />`;
+
+exports[`Rendering a paginator 2 pages On page 1 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 2 pages On page 2 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 3 pages On page 1 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 3 pages On page 2 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 3 pages On page 3 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 4 pages On page 1 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 4 pages On page 2 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 4 pages On page 3 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 4 pages On page 4 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 5 pages On page 1 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 5 pages On page 2 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 5 pages On page 3 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 5 pages On page 4 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 5 pages On page 5 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 6 pages On page 1 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 6 pages On page 2 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 6 pages On page 3 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 6 pages On page 4 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 6 pages On page 5 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 6 pages On page 6 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 7 pages On page 1 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 7 pages On page 2 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 7 pages On page 3 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 7 pages On page 4 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 7 pages On page 5 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 7"
+          class="page-link"
+        >
+          7
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 7 pages On page 6 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 7"
+          class="page-link"
+        >
+          7
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 7 pages On page 7 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 7"
+          class="page-link"
+        >
+          7
+        </button>
+      </li>
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 8 pages On page 1 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 8 pages On page 2 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 8 pages On page 3 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 8 pages On page 4 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 8 pages On page 5 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 7"
+          class="page-link"
+        >
+          7
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 8 pages On page 6 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 7"
+          class="page-link"
+        >
+          7
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 8"
+          class="page-link"
+        >
+          8
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 8 pages On page 7 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 7"
+          class="page-link"
+        >
+          7
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 8"
+          class="page-link"
+        >
+          8
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 8 pages On page 8 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 7"
+          class="page-link"
+        >
+          7
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 8"
+          class="page-link"
+        >
+          8
+        </button>
+      </li>
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 9 pages On page 1 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 9 pages On page 2 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 9 pages On page 3 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 1"
+          class="page-link"
+        >
+          1
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 9 pages On page 4 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 2"
+          class="page-link"
+        >
+          2
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 9 pages On page 5 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 3"
+          class="page-link"
+        >
+          3
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 7"
+          class="page-link"
+        >
+          7
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 9 pages On page 6 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 4"
+          class="page-link"
+        >
+          4
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 7"
+          class="page-link"
+        >
+          7
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 8"
+          class="page-link"
+        >
+          8
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 9 pages On page 7 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 7"
+          class="page-link"
+        >
+          7
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 8"
+          class="page-link"
+        >
+          8
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 9"
+          class="page-link"
+        >
+          9
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 9 pages On page 8 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 7"
+          class="page-link"
+        >
+          7
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 8"
+          class="page-link"
+        >
+          8
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 9"
+          class="page-link"
+        >
+          9
+        </button>
+      </li>
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator 9 pages On page 9 1`] = `
+<div>
+  <nav
+    aria-label="Page navigation"
+  >
+    <ul
+      class="pagination"
+    >
+      <li
+        class="page-item "
+      >
+        <button
+          aria-label="Goto previous page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            «
+          </span>
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 5"
+          class="page-link"
+        >
+          5
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 6"
+          class="page-link"
+        >
+          6
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 7"
+          class="page-link"
+        >
+          7
+        </button>
+      </li>
+      <li
+        aria-current="false"
+        class="page-item "
+      >
+        <button
+          aria-label="Goto page 8"
+          class="page-link"
+        >
+          8
+        </button>
+      </li>
+      <li
+        aria-current="true"
+        class="page-item active"
+      >
+        <button
+          aria-label="Goto page 9"
+          class="page-link"
+        >
+          9
+        </button>
+      </li>
+      <li
+        class="page-item disabled"
+      >
+        <button
+          aria-label="Goto next page"
+          class="page-link"
+        >
+          <span
+            aria-hidden="true"
+          >
+            »
+          </span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div>
+`;
+
+exports[`Rendering a paginator No pages 1`] = `<div />`;
