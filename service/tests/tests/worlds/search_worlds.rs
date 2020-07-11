@@ -79,6 +79,7 @@ fn test_list_no_worlds() {
           "entries": [],
           "pagination": {
             "offset": 0,
+            "count": 10,
             "total": 0
           }
         }));
@@ -95,6 +96,7 @@ fn test_list_no_worlds_with_offset() {
           "entries": [],
           "pagination": {
             "offset": 5,
+            "count": 10,
             "total": 0
           }
         }));
@@ -122,6 +124,7 @@ fn test_list_one_world() {
           ],
           "pagination": {
             "offset": 0,
+            "count": 10,
             "total": 1
           }
         }));
@@ -140,6 +143,7 @@ fn test_list_one_world_offset() {
           "entries": [],
           "pagination": {
             "offset": 5,
+            "count": 10,
             "total": 1
           }
         }));
@@ -158,6 +162,7 @@ fn test_list_one_count_zero() {
           "entries": [],
           "pagination": {
             "offset": 0,
+            "count": 0,
             "total": 1
           }
         }));
@@ -185,6 +190,7 @@ fn test_list_one_world_matching_owner() {
           ],
           "pagination": {
             "offset": 0,
+            "count": 10,
             "total": 1
           }
         }));
@@ -212,6 +218,7 @@ fn test_list_one_world_matching_url_slug() {
           ],
           "pagination": {
             "offset": 0,
+            "count": 10,
             "total": 1
           }
         }));
@@ -239,6 +246,7 @@ fn test_list_one_world_matching_url_slug_and_owner() {
           ],
           "pagination": {
             "offset": 0,
+            "count": 10,
             "total": 1
           }
         }));
@@ -257,6 +265,7 @@ fn test_list_world_not_matching_url_slug_and_owner() {
           "entries": [],
           "pagination": {
             "offset": 0,
+            "count": 10,
             "total": 0
           }
         }));
@@ -275,6 +284,7 @@ fn test_list_one_world_not_matching_owner() {
           "entries": [],
           "pagination": {
             "offset": 0,
+            "count": 10,
             "total": 0
           }
         }));
@@ -357,6 +367,7 @@ macro_rules! test_list_many_worlds {
               "entries": [worlds[stringify!($w1)], worlds[stringify!($w2)], worlds[stringify!($w3)]],
               "pagination": {
                 "offset": 0,
+                "count": 10,
                 "total": 3
               }
             }));

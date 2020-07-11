@@ -41,6 +41,7 @@ impl<'r> response::Responder<'r> for WorldsResponse {
           "entries": worlds,
           "pagination": {
             "offset": self.0.offset,
+            "count": self.0.count,
             "total": self.0.total
           }
         });

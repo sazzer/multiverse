@@ -106,6 +106,7 @@ impl WorldRepository {
         Page {
             entries: records,
             offset: pagination.offset,
+            count: pagination.count,
             total,
         }
     }

@@ -327,7 +327,7 @@ paths:
                     entries: []
                     pagination:
                       offset: 0
-                      count: 0
+                      count: 10
                       total: 0
       operationId: get-worlds
       parameters:
@@ -498,9 +498,13 @@ components:
         total:
           type: integer
           minimum: 0
+        count:
+          type: integer
+          minimum: 0
       required:
         - offset
         - total
+        - count
   securitySchemes:
     Access Token:
       name: Authorization
