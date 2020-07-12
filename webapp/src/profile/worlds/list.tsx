@@ -1,6 +1,7 @@
+import React, { useState } from "react";
+
 import { Link } from "react-router-dom";
 import { Pagination } from "../../components/pagination";
-import React from "react";
 
 const WorldView: React.FC = () => {
   return (
@@ -20,23 +21,22 @@ const WorldView: React.FC = () => {
   );
 };
 
-const pageTests: any[] = [];
-const total = 15;
-for (let p = 0; p < total; ++p) {
-  pageTests.push(
-    <Pagination
-      key={p}
-      current={p}
-      total={total}
-      onClick={(p) => console.log(p)}
-    />
-  );
-}
-
 export const ListWorldsView: React.FC = () => {
+  const [page, setPage] = useState(0);
   return (
     <div>
-      {pageTests}
+      <div className="row">
+        <div className="col-12 col-md-9">
+          <Pagination current={page} total={7} onClick={setPage} />
+        </div>
+        <div className="col-12 col-md-3 text-md-right">
+          <select className="custom-select" aria-label="Sort worlds by">
+            <option>Name</option>
+            <option>Created</option>
+            <option>Updated</option>
+          </select>
+        </div>
+      </div>
       <div className="list-group list-group-flush">
         <WorldView />
         <WorldView />

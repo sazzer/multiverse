@@ -5,10 +5,10 @@ import landingPicture from "./landing.jpg";
 export default () => {
   return (
     <div className="row">
-      <div className="col-12 col-md-3 order-sm-3">
+      <div className="col-12 col-lg-3 order-lg-3">
         <Authentication />
       </div>
-      <div className="col-12 col-md-9">
+      <div className="col-12 col-lg-9">
         <h2>Avaelia</h2>
         <img
           src={landingPicture}

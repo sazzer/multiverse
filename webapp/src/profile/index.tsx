@@ -17,14 +17,14 @@ export const Profile: React.FC = () => {
         {t("profile.title", { name: user?.displayName })}
       </h2>
       <div className="row" aria-labelledby="profilePageLabel">
-        <div className="col-12 col-md-9 order-sm-3">
+        <div className="col-12 col-lg-9 order-lg-3">
           <Switch>
             <Route path="/profile/password" component={PasswordView} />
             <Route path="/profile/worlds" component={WorldsProfileSection} />
             <Route path="/profile" component={ProfileView} />
           </Switch>
         </div>
-        <div className="col-12 col-md-3" role="navigation">
+        <div className="col-12 col-lg-3" role="navigation">
           <ul className="nav nav-pills flex-column">
             <li className="nav-item">
               <NavLink to="/profile" exact className="nav-link">
