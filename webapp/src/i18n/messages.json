@@ -10,6 +10,7 @@
       "previous": "Goto previous page",
       "page": "Goto page {{page}}"
     },
+    "pageCount": "{{first}} to {{last}} of {{total}}",
     "errors": {
       "unexpected": "An unexpected error occurred"
     }

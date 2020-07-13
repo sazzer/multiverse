@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
+import { PageCount } from "../../components/pageCount";
 import { Pagination } from "../../components/pagination";
 
 const WorldView: React.FC = () => {
@@ -8,6 +9,7 @@ const WorldView: React.FC = () => {
     <Link
       to="/u/sazzer/w/testing"
       className="list-group-item list-group-item-action"
+      role="listitem"
     >
       <div className="d-flex w-100 justify-content-between">
         <h5 className="mb-1">List group item heading</h5>
@@ -24,7 +26,7 @@ const WorldView: React.FC = () => {
 export const ListWorldsView: React.FC = () => {
   const [page, setPage] = useState(0);
   return (
-    <div>
+    <main aria-label="My Worlds">
       <div className="row">
         <div className="col-12 col-md-9">
           <Pagination current={page} total={7} onClick={setPage} />
@@ -37,13 +39,16 @@ export const ListWorldsView: React.FC = () => {
           </select>
         </div>
       </div>
-      <div className="list-group list-group-flush">
+      <div className="list-group list-group-flush" role="list">
         <WorldView />
         <WorldView />
         <WorldView />
         <WorldView />
         <WorldView />
       </div>
-    </div>
+      <div>
+        <PageCount offset={0} thisPage={5} total={20} />
+      </div>
+    </main>
   );
 };
