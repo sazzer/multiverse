@@ -5,53 +5,67 @@ import { PageCount } from "../../components/pageCount";
 import { Pagination } from "../../components/pagination";
 import { Spinner } from "../../components/spinner";
 import { useUser } from "../../currentUser";
+import type { WorldsSortField, PagedResults } from "../../api/worlds/search";
+import type { World } from "../../api/worlds";
+import { searchWorlds } from "../../api/worlds";
 
-const WorldListItem: React.FC = () => {
+/** The number of items in a single page */
+const PAGE_SIZE = 6;
+
+interface WorldListItemProps {
+  world: World;
+}
+
+const WorldListItem: React.FC<WorldListItemProps> = ({ world }) => {
   return (
     <Link
-      to="/u/sazzer/w/testing"
+      to={`/u/${"sazzer"}/w/${world.slug}`}
       className="list-group-item list-group-item-action"
       role="listitem"
     >
       <div className="d-flex w-100 justify-content-between">
-        <h5 className="mb-1">List group item heading</h5>
-        <small>3 days ago</small>
+        <h5 className="mb-1">{world.name}</h5>
       </div>
-      <p className="mb-1">
-        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
-        risus varius blandit.
-      </p>
+      <p className="mb-1">{world.description}</p>
     </Link>
   );
 };
 
-type WorldsSort = "name" | "created" | "updated";
-
 interface WorldsListProps {
+  worlds: PagedResults<World>;
   page: number;
   onPageChange: (page: number) => any;
-  sort: WorldsSort;
-  onSortChange: (sort: WorldsSort) => any;
+  sort: WorldsSortField;
+  onSortChange: (sort: WorldsSortField) => any;
 }
 
 const WorldsList: React.FC<WorldsListProps> = ({
+  worlds,
   page,
   onPageChange,
   sort,
   onSortChange,
 }) => {
+  const worldEntries = worlds.entries.map((world, index) => (
+    <WorldListItem key={index} world={world} />
+  ));
+
   return (
     <main aria-label="My Worlds">
       <div className="row">
         <div className="col-12 col-md-9">
-          <Pagination current={page} total={7} onClick={onPageChange} />
+          <Pagination
+            current={page}
+            total={worlds.pagination.total / worlds.pagination.count}
+            onClick={onPageChange}
+          />
         </div>
         <div className="col-12 col-md-3 text-md-right">
           <select
             className="custom-select"
             aria-label="Sort worlds by"
             value={sort}
-            onChange={(e) => onSortChange(e.target.value as WorldsSort)}
+            onChange={(e) => onSortChange(e.target.value as WorldsSortField)}
           >
             <option value="name">Name</option>
             <option value="created">Created</option>
@@ -60,14 +74,23 @@ const WorldsList: React.FC<WorldsListProps> = ({
         </div>
       </div>
       <div className="list-group list-group-flush" role="list">
-        <WorldListItem />
-        <WorldListItem />
-        <WorldListItem />
-        <WorldListItem />
-        <WorldListItem />
+        {worldEntries}
       </div>
       <div>
-        <PageCount offset={0} thisPage={5} total={20} />
+        <div className="row align-items-center">
+          <div className="col-12 col-md-9">
+            <PageCount
+              offset={worlds.pagination.offset}
+              thisPage={worlds.entries.length}
+              total={worlds.pagination.total}
+            />
+          </div>
+          <div className="col-12 col-md-3 text-md-right">
+            <Link to="/profile/worlds/new" className="btn btn-primary">
+              New World
+            </Link>
+          </div>
+        </div>
       </div>
     </main>
   );
@@ -76,16 +99,32 @@ const WorldsList: React.FC<WorldsListProps> = ({
 export const ListWorldsView: React.FC = () => {
   const { userLink } = useUser();
   const [page, setPage] = useState(0);
-  const [sort, setSort] = useState<WorldsSort>("name");
+  const [sort, setSort] = useState<WorldsSortField>("name");
+  const [worlds, setWorlds] = useState<PagedResults<World> | null>(null);
 
   useEffect(() => {
-    console.log("Searching worlds", userLink, page, sort);
+    setWorlds(null);
+    searchWorlds(
+      {
+        owner: userLink,
+      },
+      {
+        offset: page * PAGE_SIZE,
+        count: PAGE_SIZE,
+      },
+      [
+        {
+          field: sort,
+        },
+      ]
+    ).then(setWorlds);
   }, [userLink, page, sort]);
 
-  return userLink == null ? (
+  return userLink == null || worlds == null ? (
     <Spinner />
   ) : (
     <WorldsList
+      worlds={worlds}
       page={page}
       onPageChange={setPage}
       sort={sort}
