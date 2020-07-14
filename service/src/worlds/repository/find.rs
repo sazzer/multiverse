@@ -90,8 +90,9 @@ impl WorldRepository {
             .expect("Failed to select worlds matching query");
 
         let num_records = records.len() as u64;
-        let total = if records.is_empty() || pagination.offset + num_records == pagination.count {
-            // We can't correctly calculate the total number of records so query for them
+        let total = if records.is_empty() || num_records == pagination.count {
+            // If we got zero records back, we don't know how many there are in the database
+            // If we got back exactly the number we asked for, we don't know how many thre are in the database
             let count_query = format!("SELECT COUNT(*)::INTEGER AS c FROM worlds {}", where_clause);
             let count: i32 = connection
                 .query_one(count_query.as_str(), &binds[..])

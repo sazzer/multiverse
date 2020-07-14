@@ -131,6 +131,74 @@ fn test_list_one_world() {
 }
 
 #[test]
+fn test_list_first_of_three_worlds() {
+    let data = TestData::default();
+    run_test()
+        .seed_many(&[
+            &data.user1,
+            &data.user2,
+            &data.world1,
+            &data.world2,
+            &data.world3,
+        ])
+        .get("/worlds?offset=0&count=1")
+        .has_status(Status::Ok)
+        .has_header("Content-Type", "application/json")
+        .has_header_regex(
+            "Link",
+            r#"</worlds/00000000-0000-0000-0002-000000000001>; rel="item"; anchor="\#/entries/0""#,
+        )
+        .has_json_body(json!({
+          "entries": [
+            {
+              "name": "First World",
+              "description": "This is a test world",
+              "url_slug": "first-world"
+            }
+          ],
+          "pagination": {
+            "offset": 0,
+            "count": 1,
+            "total": 3
+          }
+        }));
+}
+
+#[test]
+fn test_list_second_of_three_worlds() {
+    let data = TestData::default();
+    run_test()
+        .seed_many(&[
+            &data.user1,
+            &data.user2,
+            &data.world1,
+            &data.world2,
+            &data.world3,
+        ])
+        .get("/worlds?offset=1&count=1")
+        .has_status(Status::Ok)
+        .has_header("Content-Type", "application/json")
+        .has_header_regex(
+            "Link",
+            r#"</worlds/00000000-0000-0000-0002-000000000002>; rel="item"; anchor="\#/entries/0""#,
+        )
+        .has_json_body(json!({
+          "entries": [
+            {
+              "name": "Second World",
+              "description": "This is a test world",
+              "url_slug": "second-world"
+            }
+          ],
+          "pagination": {
+            "offset": 1,
+            "count": 1,
+            "total": 3
+          }
+        }));
+}
+
+#[test]
 fn test_list_one_world_offset() {
     let data = TestData::default();
     run_test()
